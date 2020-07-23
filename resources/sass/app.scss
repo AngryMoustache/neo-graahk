@@ -1,0 +1,34 @@
+:root {
+    --color-primary: #6D6AB1;
+    --color-primary-light: #ABA9E0;
+    --color-primary-dark: #44436F;
+    --color-bg-primary: #131012;
+    --color-bg-secondary: #262425;
+    --color-white: #EDF2F7;
+}
+
+@tailwind base;
+
+body {
+    background-color: var(--color-bg-secondary);
+    color: var(--color-white);
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
+}
+
+@import 'main';
+@import 'sidebar';
+@import 'card';
+@import 'sets';
+
+input:invalid, textarea:invalid, select:invalid {
+    box-shadow: none;
+}
+
+::-moz-selection {
+    background: #dcd7fe;
+}
+
+::selection {
+    background: #dcd7fe;
+}

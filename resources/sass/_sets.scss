@@ -1,0 +1,11 @@
+.set-cards {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 1rem;
+    justify-content: space-between;
+
+    .card {
+        width: calc(20% - 1rem);
+    }
+}

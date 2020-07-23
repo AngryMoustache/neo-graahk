@@ -1,0 +1,36 @@
+nav {
+    width: 300px;
+    min-height: 100vh;
+    background: var(--color-bg-primary);
+
+    h1 {
+        text-align: center;
+        padding: 2rem 0;
+        margin-bottom: 1.5rem;
+        font-size: 3rem;
+        font-weight: 600;
+        background: var(--color-primary-dark);
+    }
+
+    ul {
+        li {
+            a {
+                width: 100%;
+                display: inline-block;
+                text-align: center;
+                padding: 1rem 1rem 2rem;
+                font-size: 1.3rem;
+                opacity: .8;
+                transition: all .1s;
+
+                i {
+                    padding-right: 1.5rem;
+                }
+
+                &:hover {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
