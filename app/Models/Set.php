@@ -17,11 +17,16 @@ class Set extends Model
 
     public function cards()
     {
-        return $this->hasMany(Card::class);
+        return $this->belongsToMany(Card::class);
     }
 
     public function attachment()
     {
         return $this->belongsTo(Attachment::class);
+    }
+
+    public function getIconAttribute()
+    {
+        return asset("img/set-icons/{$this->code}.svg");
     }
 }

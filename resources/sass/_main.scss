@@ -3,6 +3,12 @@ body .wrapper {
 }
 
 main {
-    width: calc(100% - 350px);
+    width: calc(100% - 300px);
     padding: 1rem;
+
+    .container {
+        background: var(--color-bg-container);
+        padding: 2rem;
+        margin-bottom: 1rem;
+    }
 }

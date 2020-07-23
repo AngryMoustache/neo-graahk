@@ -1,11 +1,45 @@
-.set-cards {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    margin: 1rem;
-    justify-content: space-between;
+.set-overview {
+    .set {
+        &-header {
+            width: 100%;
+            overflow: auto;
 
-    .card {
-        width: calc(20% - 1rem);
+            &-image {
+                background: var(--color-white);
+                float: left;
+                width: 100px;
+                height: 100px;
+            }
+
+            &-data {
+                float: left;
+                width: calc(100% - 100px);
+                height: 100px;
+                padding-left: 1rem;
+                padding-top: 0.5rem;
+                background: var(--color-bg-secondary);
+
+                h2 {
+                    font-size: 2rem;
+                    font-weight: bold;
+                }
+
+                h3 {
+                    font-size: 1.5rem;
+                }
+            }
+        }
+
+        &-cards {
+            width: 100%;
+            overflow: auto;
+            padding: 1rem;
+
+            .card-list-item {
+                &-modal {
+                    // display: none;
+                }
+            }
+        }
     }
 }

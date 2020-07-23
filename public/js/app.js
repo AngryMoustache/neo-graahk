@@ -31945,7 +31945,9 @@ __webpack_require__.r(__webpack_exports__);
       var compressor = kompressor || 1;
 
       var resizer = function resizer() {
-        el.style.fontSize = Math.max(Math.min(el.clientWidth / (compressor * 10), parseFloat(settings.maxFontSize)), parseFloat(settings.minFontSize)) + 'px';
+        var size = Math.max(Math.min(el.clientWidth / (compressor * 10), parseFloat(settings.maxFontSize)), parseFloat(settings.minFontSize));
+        el.style.fontSize = size + 'px';
+        el.style.lineHeight = size * (3 / 2.6) + 'px';
       }; // Call once to set.
 
 
