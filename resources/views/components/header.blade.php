@@ -9,5 +9,11 @@
             route="{{ route('collection.index') }}"
             text="Collection"
         />
+        @if (optional(auth()->user())->admin)
+            <x-nav.item
+                route="{{ route('admin.index') }}"
+                text="Admin"
+            />
+        @endif
     </ul>
 </nav>
