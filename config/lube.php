@@ -2,7 +2,9 @@
 
 return [
     'resources' => [
-        'sets',
+        'attachments',
         'cards',
+        'sets',
+        'users',
     ]
 ];

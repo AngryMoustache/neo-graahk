@@ -1,4 +1,4 @@
-<div class="{{ $field->divClass ?? 'col-6' }}">
+<div class="{{ $field->divClass ?? 'form-row' }}">
     @include('lube.fields.label')
 
     <input
@@ -9,6 +9,8 @@
         placeholder="{{ $field->getLabel() }}"
         value="{{ $field->getValue() }}"
     >
+</div>
 
+<div class="form-error">
     @include('lube.fields.error')
 </div>

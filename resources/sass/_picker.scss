@@ -1,0 +1,117 @@
+.attachment-picker {
+    margin-left: 1rem;
+
+    &-buttons {
+        margin-bottom: 1rem;
+
+        .button {
+            margin-right: .5rem;
+            display: inline-block;
+        }
+    }
+
+    &-preview {
+        img {
+            width: 100px;
+        }
+    }
+
+    &-selecting-modal {
+        .modal-attachments-list {
+            display: flex;
+            flex-wrap: wrap;
+            height: calc(100vh - 50px - 13rem);
+
+            &-item {
+                width: calc(50% - .25rem);
+                display: flex;
+                margin-bottom: .5rem;
+                margin-right: .5rem;
+                transition: all .1s;
+
+                &:nth-child(2n) {
+                    margin-right: 0;
+                }
+
+                &:hover {
+                    background: var(--color-bg-container);
+                    cursor: pointer;
+                }
+
+                img {
+                    width: 56px;
+                    height: 56px;
+                }
+
+                span {
+                    display: inline-block;
+                    padding: 1rem;
+                }
+            }
+        }
+    }
+
+    &-dropzone,
+    &-dropzone input,
+    &-dropzone-preview {
+        width: 100% !important;
+        height: 300px;
+        display: block;
+    }
+
+    &-dropzone input,
+    &-dropzone-dropper,
+    &-dropzone-preview {
+        position: absolute;
+        top: 0; bottom: 0;
+        left: 0; right: 0;
+    }
+
+    .attachment-picker-dropzone-preview {
+        background-size: cover;
+        background-position: center;
+        opacity: .5;
+    }
+
+    &-dropzone {
+        margin-bottom: 1rem;
+        position: relative;
+
+        &-preview {
+            pointer-events: none;
+        }
+
+        &-dropper {
+            border: 3px dashed rgba(white, .5);
+            top: 1rem; bottom: 1rem;
+            left: 1rem; right: 1rem;
+            pointer-events: none;
+
+            &-text {
+                width: 100%;
+                height: calc(300px - 2rem);
+                text-align: center;
+                pointer-events: none;
+                display: flex;
+                align-items: center;
+
+                h3 {
+                    width: 100%;
+                    color: rgba(white, .7);
+                    font-size: 1.5rem;
+                    font-weight: 600;
+                }
+
+                i {
+                    margin-right: .5rem;
+                }
+            }
+        }
+
+        input {
+            opacity: 0;
+            margin: 0;
+            padding: 0;
+        }
+    }
+}

@@ -3,10 +3,10 @@
 namespace App\Lube\Forms;
 
 use App\Lube\Fields\Button;
+use App\Lube\Fields\CheckboxField;
 use App\Lube\Fields\TextField;
-use App\Lube\Forms\Form;
 
-class SetForm extends Form
+class UserForm extends Form
 {
     public function fields()
     {
@@ -18,11 +18,10 @@ class SetForm extends Form
             TextField::make('name')
                 ->rules('required'),
 
-            TextField::make('slug')
+            TextField::make('email')
                 ->rules('required'),
 
-            TextField::make('code')
-                ->rules('required'),
+            CheckboxField::make('admin'),
 
             Button::make('Submit')
         ];

@@ -1,4 +1,4 @@
-<div class="{{ $field->divClass ?? 'col-6' }}">
+<div class="{{ $field->divClass ?? 'form-row' }}">
     @include('lube.fields.label')
 
     <textarea
@@ -7,6 +7,8 @@
         name="{{ $field->getName() }}"
         placeholder="{{ $field->getLabel() }}"
     ></textarea>
+</div>
 
+<div class="form-error">
     @include('lube.fields.error')
 </div>

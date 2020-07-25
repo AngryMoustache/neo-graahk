@@ -1,17 +1,26 @@
 @extends('layout')
 
 @section('content')
-    <h2>Editing {{ $label }}</h2>
-    <form
-        method="POST"
-        action="{{ route("lube.$routeBase.update", ['id' => session('item')->id]) }}"
-    >
-        @csrf
+    <div class="tab-container lube">
+        <x-lube.tabs />
 
-        @method('PATCH')
+        <div class="container-header">
+            <h2 class="container-header-title">Editing {{ $label }}</h2>
+        </div>
 
-        @foreach($form->fields as $field)
-            {{ optional($field)->render() }}
-        @endforeach
-    </form>
+        <form
+            class="lube-form"
+            method="POST"
+            action="{{ route("lube.$routeBase.update", ['id' => session('item')->id]) }}"
+            enctype="multipart/form-data"
+        >
+            @csrf
+
+            @method('PATCH')
+
+            @foreach($form->fields as $field)
+                {{ optional($field)->render() }}
+            @endforeach
+        </form>
+    </div>
 @endsection

@@ -13,4 +13,10 @@ class SetsController extends LubeController
 
     public $label = 'Set';
     public $labelPlural = 'Sets';
+
+    public $searchable = [
+        'name',
+        'code',
+        'slug'
+    ];
 }

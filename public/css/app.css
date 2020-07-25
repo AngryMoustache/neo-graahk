@@ -6,6 +6,11 @@
   --color-bg-secondary: #262425;
   --color-bg-container: #1f1c1d;
   --color-white: #EDF2F7;
+  --color-placeholder: #504B4D;
+  --color-button-red: #791515;
+  --color-button-red-hover: #A61F1F;
+  --color-button-green: #49753F;
+  --color-button-green-hover: #60B34D;
 }
 
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
@@ -616,19 +621,90 @@ main {
   padding: 1rem;
 }
 
-main .container {
-  background: var(--color-bg-container);
+main .container,
+main .tab-container {
+  position: relative;
   padding: 2rem;
   margin-bottom: 1rem;
+  background: var(--color-bg-container);
 }
 
-nav {
+main .container-header,
+main .tab-container-header {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: auto;
+}
+
+main .container-header-title,
+main .tab-container-header-title {
+  font-size: 2rem;
+  padding-bottom: 1rem;
+  float: left;
+}
+
+main .container-header-buttons,
+main .tab-container-header-buttons {
+  float: right;
+}
+
+main .container-header-buttons .button,
+main .tab-container-header-buttons .button {
+  display: block;
+  padding: 0.6rem 2rem 0.4rem;
+  font-weight: 700;
+  float: right;
+  margin-left: 1rem;
+}
+
+main .container-header-buttons .button i,
+main .tab-container-header-buttons .button i {
+  margin-right: 0.5rem;
+}
+
+main .container .border-top,
+main .tab-container .border-top {
+  padding-top: 2rem;
+  margin-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+main .tab-container {
+  margin-top: 2.5rem;
+}
+
+main .tab-container-tabs {
+  position: absolute;
+  top: -2.5rem;
+  left: 0;
+}
+
+main .tab-container-tabs a {
+  display: block;
+  float: left;
+  padding: 0.6rem 1rem 0.3rem;
+  border-bottom: 0.1rem solid var(--color-bg-container);
+  margin: 0;
+  background: var(--color-bg-container);
+  opacity: 0.5;
+  transition: all 0.2s;
+}
+
+main .tab-container-tabs a:hover, main .tab-container-tabs a.active {
+  opacity: 1;
+}
+
+main .tab-container-tabs a.active {
+  border-color: var(--color-primary);
+}
+
+nav.main-nav {
   width: 300px;
   min-height: 100vh;
   background: var(--color-bg-primary);
 }
 
-nav h1 {
+nav.main-nav h1 {
   text-align: center;
   padding: 2rem 0;
   margin-bottom: 1.5rem;
@@ -637,7 +713,7 @@ nav h1 {
   background: var(--color-primary-dark);
 }
 
-nav ul li a {
+nav.main-nav ul li a {
   width: 100%;
   display: inline-block;
   text-align: center;
@@ -647,11 +723,11 @@ nav ul li a {
   transition: all 0.1s;
 }
 
-nav ul li a i {
+nav.main-nav ul li a i {
   padding-right: 1.5rem;
 }
 
-nav ul li a:hover {
+nav.main-nav ul li a:hover {
   opacity: 1;
 }
 
@@ -837,6 +913,361 @@ nav ul li a:hover {
   width: 100%;
   overflow: auto;
   padding: 1rem;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-container {
+  background: var(--color-bg-secondary);
+  margin: 5rem auto;
+  width: 50%;
+  max-height: calc(100vh - 10rem);
+  padding: 1rem;
+  position: relative;
+}
+
+.modal-container-header h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.modal-container-header a {
+  cursor: pointer;
+  position: absolute;
+  top: 1.3rem;
+  right: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.modal-container-body {
+  overflow-y: auto;
+}
+
+.lube ::-moz-placeholder {
+  color: var(--color-placeholder);
+}
+
+.lube :-ms-input-placeholder {
+  color: var(--color-placeholder);
+}
+
+.lube ::-ms-input-placeholder {
+  color: var(--color-placeholder);
+}
+
+.lube ::placeholder {
+  color: var(--color-placeholder);
+}
+
+.lube :-ms-input-placeholder {
+  color: var(--color-placeholder);
+}
+
+.lube ::-ms-input-placeholder {
+  color: var(--color-placeholder);
+}
+
+.lube-form .form-error {
+  padding-top: 0.5rem;
+  width: calc(100% - 200px - 1rem);
+  margin-left: calc(200px + 1rem);
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+  color: darkred;
+}
+
+.lube-form .form-row {
+  padding-bottom: 1rem;
+  display: flex;
+}
+
+.lube-form .form-row label {
+  width: 200px;
+  padding: 0.5rem;
+  display: inline-block;
+}
+
+.lube input {
+  padding: 0.5rem;
+  width: calc(100% - 200px - 1rem);
+  margin-left: 1rem;
+  background: var(--color-bg-secondary);
+}
+
+.lube input[type=checkbox] {
+  width: 20px;
+  height: 20px;
+  margin: 0.5rem;
+  margin-left: calc(200px + 1.5rem);
+}
+
+.lube input[type=checkbox] + label {
+  width: initial;
+}
+
+.lube input[type=submit],
+.lube .button {
+  display: block;
+  min-width: 100px;
+  text-align: center;
+  margin-left: 0;
+  cursor: pointer;
+  background-color: var(--color-primary-dark);
+  transition: all 0.2s;
+  padding: 0.6rem 2rem 0.4rem;
+}
+
+.lube input[type=submit]:hover,
+.lube .button:hover {
+  background-color: var(--color-primary);
+}
+
+.lube input[type=submit] {
+  width: 200px;
+}
+
+.lube-above-table {
+  overflow: auto;
+  margin-bottom: 2rem;
+}
+
+.lube-above-table .lube-search input {
+  margin: 0;
+  width: 300px;
+  float: left;
+}
+
+.lube-above-table-buttons .button {
+  display: block;
+  padding: 0.6rem 2rem 0.4rem;
+  font-weight: 700;
+  float: right;
+  margin-left: 1rem;
+}
+
+.lube-index, .lube-show {
+  width: 100%;
+}
+
+.lube-index td, .lube-show td {
+  padding: 1rem;
+}
+
+.lube-index thead, .lube-show thead {
+  background: var(--color-primary-dark);
+  font-weight: bold;
+}
+
+.lube-index thead tr td, .lube-show thead tr td {
+  padding-bottom: 0.8rem;
+}
+
+.lube-index tbody tr, .lube-show tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.lube-index tbody tr:last-of-type, .lube-show tbody tr:last-of-type {
+  border: 0;
+}
+
+.lube-index tbody img, .lube-show tbody img {
+  width: 7rem;
+}
+
+.lube-index tbody .lube-index-icon, .lube-show tbody .lube-index-icon {
+  padding: 0;
+  width: 3rem;
+}
+
+.lube-index tbody .lube-index-icon a, .lube-show tbody .lube-index-icon a {
+  display: block;
+  padding: 1rem;
+}
+
+.lube-index tfoot, .lube-show tfoot {
+  background: var(--color-primary-dark);
+}
+
+.lube-index tfoot td, .lube-show tfoot td {
+  padding: 0;
+}
+
+.lube-index tfoot nav, .lube-show tfoot nav {
+  text-align: center;
+}
+
+.lube-index tfoot nav ul li, .lube-show tfoot nav ul li {
+  display: inline-block;
+}
+
+.lube-index tfoot nav ul li a,
+.lube-index tfoot nav ul li span, .lube-show tfoot nav ul li a,
+.lube-show tfoot nav ul li span {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+}
+
+.lube-index tfoot nav ul li span, .lube-show tfoot nav ul li span {
+  opacity: 0.5;
+}
+
+.lube-show td:first-of-type {
+  width: 250px;
+}
+
+.lube-show tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lube .lube-delete {
+  margin-top: 2rem;
+}
+
+.lube .lube-delete a {
+  display: inline-block;
+  font-weight: 600;
+}
+
+.button-accept {
+  width: 150px !important;
+  margin-right: 1rem;
+  background-color: var(--color-button-green) !important;
+}
+
+.button-accept:hover {
+  background-color: var(--color-button-green-hover) !important;
+}
+
+.button-decline {
+  width: 130px;
+  margin-right: 1rem;
+  background-color: var(--color-button-red) !important;
+}
+
+.button-decline:hover {
+  background-color: var(--color-button-red-hover) !important;
+}
+
+.attachment-picker {
+  margin-left: 1rem;
+}
+
+.attachment-picker-buttons {
+  margin-bottom: 1rem;
+}
+
+.attachment-picker-buttons .button {
+  margin-right: 0.5rem;
+  display: inline-block;
+}
+
+.attachment-picker-preview img {
+  width: 100px;
+}
+
+.attachment-picker-selecting-modal .modal-attachments-list {
+  display: flex;
+  flex-wrap: wrap;
+  height: calc(100vh - 50px - 13rem);
+}
+
+.attachment-picker-selecting-modal .modal-attachments-list-item {
+  width: calc(50% - .25rem);
+  display: flex;
+  margin-bottom: 0.5rem;
+  margin-right: 0.5rem;
+  transition: all 0.1s;
+}
+
+.attachment-picker-selecting-modal .modal-attachments-list-item:nth-child(2n) {
+  margin-right: 0;
+}
+
+.attachment-picker-selecting-modal .modal-attachments-list-item:hover {
+  background: var(--color-bg-container);
+  cursor: pointer;
+}
+
+.attachment-picker-selecting-modal .modal-attachments-list-item img {
+  width: 56px;
+  height: 56px;
+}
+
+.attachment-picker-selecting-modal .modal-attachments-list-item span {
+  display: inline-block;
+  padding: 1rem;
+}
+
+.attachment-picker-dropzone, .attachment-picker-dropzone input, .attachment-picker-dropzone-preview {
+  width: 100% !important;
+  height: 300px;
+  display: block;
+}
+
+.attachment-picker-dropzone input, .attachment-picker-dropzone-dropper, .attachment-picker-dropzone-preview {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.attachment-picker .attachment-picker-dropzone-preview {
+  background-size: cover;
+  background-position: center;
+  opacity: 0.5;
+}
+
+.attachment-picker-dropzone {
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.attachment-picker-dropzone-preview {
+  pointer-events: none;
+}
+
+.attachment-picker-dropzone-dropper {
+  border: 3px dashed rgba(255, 255, 255, 0.5);
+  top: 1rem;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  pointer-events: none;
+}
+
+.attachment-picker-dropzone-dropper-text {
+  width: 100%;
+  height: calc(300px - 2rem);
+  text-align: center;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+.attachment-picker-dropzone-dropper-text h3 {
+  width: 100%;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.attachment-picker-dropzone-dropper-text i {
+  margin-right: 0.5rem;
+}
+
+.attachment-picker-dropzone input {
+  opacity: 0;
+  margin: 0;
+  padding: 0;
 }
 
 input:invalid, textarea:invalid, select:invalid {

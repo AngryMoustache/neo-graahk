@@ -7,28 +7,42 @@ use Illuminate\Http\Request;
 
 class LubeController extends Controller
 {
+    public $paginate = 10;
+    public $searchable = [];
+
     public function index()
     {
-        $columns = collect((new $this->form)->fieldStack());
-        $columns = $columns->mapWithKeys(function ($field) {
-            $name = $field->getName();
-            return [$name => str_replace('_', ' ', ucfirst($name))];
-        })->toArray();
+        $fields = $this->getFields();
 
-        $items = $this->model::paginate(25);
+        $items = $this->model::query();
+
+        if ($search = request()->input('search')) {
+            foreach ($this->searchable as $searchField) {
+                $items = $items->orWhere($searchField, 'LIKE', "%$search%");
+            }
+        }
+
+        $items = $items->paginate($this->paginate)
+            ->onEachSide(1);
+
         return view('lube.index', [
             'routeBase' => $this->routeBase,
             'items' => $items,
-            'columns' => $columns,
+            'fields' => $fields,
             'label' => $this->label,
-            'labelPlural' => $this->labelPlural
+            'labelPlural' => $this->labelPlural,
+            'search' => $search ?? ''
         ]);
     }
 
     public function show($id)
     {
+        $fields = $this->getFields();
+
         $item = $this->model::find($id);
+
         return view('lube.show', [
+            'fields' => $fields,
             'routeBase' => $this->routeBase,
             'item' => $item,
             'label' => $this->label,
@@ -50,6 +64,8 @@ class LubeController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate((new $this->form)->validation());
+
         $data = $request->except('_token');
         $item = $this->model::create($data);
         return redirect(route("lube.{$this->routeBase}.show", ['id' => $item->id]));
@@ -69,6 +85,8 @@ class LubeController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate((new $this->form)->validation());
+
         $data = $request->except('_token');
         $item = $this->model::find($id);
         $item->update($data);
@@ -78,7 +96,24 @@ class LubeController extends Controller
     public function delete($id)
     {
         $item = $this->model::find($id);
+
+        return view('lube.delete', [
+            'routeBase' => $this->routeBase,
+            'label' => $this->label,
+            'labelPlural' => $this->labelPlural,
+            'item' => $item
+        ]);
+    }
+
+    public function deleteCommit($id)
+    {
+        $item = $this->model::find($id);
         $item->delete();
         return redirect(route("lube.{$this->routeBase}.index"));
+    }
+
+    public function getFields()
+    {
+        return collect((new $this->form)->fieldStack());
     }
 }

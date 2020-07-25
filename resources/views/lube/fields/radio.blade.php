@@ -1,4 +1,4 @@
-<div class="{{ $field->divClass ?? 'col-6' }} form-group required">
+<div class="{{ $field->divClass ?? 'form-row' }} form-group required">
      @foreach ($field->options as $value => $label)
         <label class="flex items-center select-none" for="{{ $field->getName() . '.' . $loop->index }}">
             <input
@@ -11,6 +11,8 @@
             {{ $label }}
         </label>
     @endforeach
+</div>
 
+<div class="form-error">
     @include('lube.fields.error')
 </div>

@@ -1,3 +1,3 @@
-<div class="{{ $field->divClass ?? 'col-6' }}">
+<div class="{{ $field->divClass ?? 'form-row' }} border-top">
     <input type="submit">
 </div>

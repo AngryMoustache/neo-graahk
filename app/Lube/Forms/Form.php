@@ -66,9 +66,9 @@ abstract class Form
         $fields->each(function(Field $value) use (&$rules, $skipChecks) {
             if ($skipChecks || $value->conditionalCheck()) {
                 if ($value->containsFile) {
-                    $rules->put('files.' . $value->getName(), $value->rules ?? '');
+                    $rules->put($value->getName(), $value->rules ?? '');
                 } else {
-                    $rules->put('fields.' . $value->getName(), $value->rules ?? '');
+                    $rules->put($value->getName(), $value->rules ?? '');
                 }
             }
         });

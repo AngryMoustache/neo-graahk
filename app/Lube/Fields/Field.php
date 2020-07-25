@@ -10,9 +10,22 @@ class Field
 
     public $uniqueId;
 
+    public $hideOnForms = false;
+    public $hideOnIndex = false;
+    public $hideOnShow = false;
+
     public function render()
     {
-        return view($this->component, [
+        if ($this->hideOnForms === false) {
+            return view($this->component, [
+                'field' => $this
+            ]);
+        }
+    }
+
+    public function renderShow()
+    {
+        return view($this->showComponent, [
             'field' => $this
         ]);
     }
@@ -71,9 +84,10 @@ class Field
         return $name;
     }
 
-    public function getValue($doConditionalChecks = false)
+    public function getValue()
     {
-        return optional(session('item'))->{$this->getName()}
+        return optional($this->item)->{$this->getName()}
+            ?? optional(session('item'))->{$this->getName()}
             ?? $this->value
             ?? $this->default
             ?? null;

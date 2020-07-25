@@ -12,13 +12,19 @@ class Attachment extends Model
     protected $fillable = [
         'original_name',
         'alt_name',
-        'path',
+        'disk',
     ];
 
     public function getPath($format = null)
     {
         $url = $this->id . '/' . ($format ? $format . '-' : '') . $this->original_name;
         return Storage::disk($this->disk)->path($url);
+    }
+
+    public function path()
+    {
+        return Storage::disk($this->disk)
+            ->url($this->id . '/' . $this->original_name);
     }
 
     public function format($format)
@@ -35,5 +41,32 @@ class Attachment extends Model
 
         $url = $this->id . '/' . ($format ? $format . '-' : '') . $this->original_name;
         return Storage::disk($this->disk)->url($url);
+    }
+
+    public static function lubeUpload($file)
+    {
+        if (!is_file($file->getRealPath())) {
+            return null;
+        }
+
+        $original = $file->getClientOriginalName();
+
+        if ($reupload = Attachment::where('original_name', $original)->first()) {
+            return $reupload;
+        }
+
+        $attachment = self::create([
+            'original_name' => $original,
+            'alt_name' => $original,
+            'disk' => 'public'
+        ]);
+
+        Storage::putFileAs(
+            "public/attachments/{$attachment->id}/",
+            $file->getRealPath(),
+            $file->getClientOriginalName()
+        );
+
+        return $attachment;
     }
 }

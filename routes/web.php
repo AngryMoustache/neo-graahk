@@ -17,6 +17,7 @@ foreach (config('lube.resources', []) as $resource) {
     Route::post("/admin/$resource/store", "$controller@store")->name("lube.$resource.store");
     Route::patch("/admin/$resource/{id}", "$controller@update")->name("lube.$resource.update");
     Route::get("/admin/$resource/{id}/delete", "$controller@delete")->name("lube.$resource.delete");
+    Route::delete("/admin/$resource/{id}/delete", "$controller@deleteCommit")->name("lube.$resource.delete");
 }
 
 Auth::routes();

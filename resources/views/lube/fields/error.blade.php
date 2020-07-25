@@ -1,3 +1,3 @@
-@error(($field->containsFile ? 'files.' : 'fields.') . $field->getName())
-    <span class="form-error">{{ $message }}</span>
+@error($field->getName())
+    <span class="error">{{ $message }}</span>
 @enderror

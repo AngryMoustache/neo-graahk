@@ -1,4 +1,4 @@
-<nav>
+<nav class="main-nav">
     <h1>GRAAHK</h1>
     <ul>
         <x-nav.item

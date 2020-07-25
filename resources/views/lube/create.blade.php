@@ -1,15 +1,24 @@
 @extends('layout')
 
 @section('content')
-    <h2>Creating new {{ $label }}</h2>
-    <form
-        method="POST"
-        action="{{ route("lube.$routeBase.store") }}"
-    >
-        @csrf
+    <div class="tab-container lube">
+        <x-lube.tabs />
 
-        @foreach($form->fields as $field)
-            {{ optional($field)->render() }}
-        @endforeach
-    </form>
+        <div class="container-header">
+            <h2 class="container-header-title">Creating {{ $label }}</h2>
+        </div>
+
+        <form
+            class="lube-form"
+            method="POST"
+            action="{{ route("lube.$routeBase.store") }}"
+            enctype="multipart/form-data"
+        >
+            @csrf
+
+            @foreach($form->fields as $field)
+                {{ optional($field)->render() }}
+            @endforeach
+        </form>
+    </div>
 @endsection

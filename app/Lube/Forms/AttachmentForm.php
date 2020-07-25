@@ -3,10 +3,10 @@
 namespace App\Lube\Forms;
 
 use App\Lube\Fields\Button;
+use App\Lube\Fields\FileField;
 use App\Lube\Fields\TextField;
-use App\Lube\Forms\Form;
 
-class SetForm extends Form
+class AttachmentForm extends Form
 {
     public function fields()
     {
@@ -15,13 +15,11 @@ class SetForm extends Form
                 ->hideOnForms()
                 ->label('ID'),
 
-            TextField::make('name')
+            FileField::make('image')
                 ->rules('required'),
 
-            TextField::make('slug')
-                ->rules('required'),
-
-            TextField::make('code')
+            TextField::make('alt_name')
+                ->label('Alternative name')
                 ->rules('required'),
 
             Button::make('Submit')

@@ -10,6 +10,7 @@
         <script src="https://kit.fontawesome.com/989b502037.js" crossorigin="anonymous"></script>
         <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
         @stack('scripts')
+        <livewire:styles>
     </head>
     <body>
         <div class="wrapper">
@@ -18,5 +19,6 @@
             <x-footer />
         </div>
         <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+        <livewire:scripts>
     </body>
 </html>

@@ -6,9 +6,75 @@ main {
     width: calc(100% - 300px);
     padding: 1rem;
 
-    .container {
-        background: var(--color-bg-container);
+    .container,
+    .tab-container {
+        position: relative;
         padding: 2rem;
         margin-bottom: 1rem;
+        background: var(--color-bg-container);
+
+        &-header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(white, .2);
+            overflow: auto;
+
+            &-title {
+                font-size: 2rem;
+                padding-bottom: 1rem;
+                float: left;
+            }
+
+            &-buttons {
+                float: right;
+
+                .button {
+                    display: block;
+                    padding: .6rem 2rem .4rem;
+                    font-weight: 700;
+                    float: right;
+                    margin-left: 1rem;
+
+                    i {
+                        margin-right: .5rem;
+                    }
+                }
+            }
+        }
+
+        .border-top {
+            padding-top: 2rem;
+            margin-top: 1rem;
+            border-top: 1px solid rgba(white, .2);
+        }
+    }
+
+    .tab-container {
+        margin-top: 2.5rem;
+
+        &-tabs {
+            position: absolute;
+            top: -2.5rem;
+            left: 0;
+
+            a {
+                display: block;
+                float: left;
+                padding: .6rem 1rem .3rem;
+                border-bottom: .1rem solid var(--color-bg-container);
+                margin: 0;
+                background: var(--color-bg-container);
+                opacity: .5;
+                transition: all .2s;
+
+                &:hover,
+                &.active {
+                    opacity: 1;
+                }
+
+                &.active {
+                    border-color: var(--color-primary);
+                }
+            }
+        }
     }
 }

@@ -6,6 +6,13 @@
     --color-bg-secondary: #262425;
     --color-bg-container: #1f1c1d;
     --color-white: #EDF2F7;
+    --color-placeholder: #504B4D;
+
+    --color-button-red: #791515;
+    --color-button-red-hover: #A61F1F;
+
+    --color-button-green: #49753F;
+    --color-button-green-hover: #60B34D;
 }
 
 @tailwind base;
@@ -17,10 +24,16 @@ body {
     font-weight: 300;
 }
 
+// FE
 @import 'main';
 @import 'sidebar';
 @import 'card';
 @import 'sets';
+@import 'modal';
+
+// CMS
+@import 'lube';
+@import 'picker';
 
 input:invalid, textarea:invalid, select:invalid {
     box-shadow: none;

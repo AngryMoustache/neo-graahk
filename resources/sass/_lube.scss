@@ -1,0 +1,197 @@
+.lube {
+    ::placeholder { color: var(--color-placeholder); }
+    :-ms-input-placeholder { color: var(--color-placeholder); }
+    ::-ms-input-placeholder { color: var(--color-placeholder); }
+
+    &-form {
+        .form-error {
+            padding-top: .5rem;
+            width: calc(100% - 200px - 1rem);
+            margin-left: calc(200px + 1rem);
+            margin-top: -1rem;
+            margin-bottom: 1rem;
+            color: darkred;
+        }
+
+        .form-row {
+            padding-bottom: 1rem;
+            display: flex;
+
+            label {
+                width: 200px;
+                padding: .5rem;
+                display: inline-block;
+            }
+        }
+    }
+
+    input {
+        padding: .5rem;
+        width: calc(100% - 200px - 1rem);
+        margin-left: 1rem;
+        background: var(--color-bg-secondary);
+    }
+
+    input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        margin: .5rem;
+        margin-left: calc(200px + 1.5rem);
+
+        & + label {
+            width: initial;
+        }
+    }
+
+    input[type="submit"],
+    .button {
+        display: block;
+        min-width: 100px;
+        text-align: center;
+        margin-left: 0;
+        cursor: pointer;
+        background-color: var(--color-primary-dark);
+        transition: all .2s;
+        padding: .6rem 2rem .4rem;
+
+        &:hover {
+            background-color: var(--color-primary);
+        }
+    }
+
+    input[type="submit"] {
+        width: 200px;
+    }
+
+    &-above-table {
+        overflow: auto;
+        margin-bottom: 2rem;
+
+        .lube-search {
+            input {
+                margin: 0;
+                width: 300px;
+                float: left;
+            }
+        }
+
+        &-buttons {
+            .button {
+                display: block;
+                padding: .6rem 2rem .4rem;
+                font-weight: 700;
+                float: right;
+                margin-left: 1rem;
+            }
+        }
+    }
+
+    &-index,
+    &-show {
+        width: 100%;
+
+        td {
+            padding: 1rem;
+        }
+
+        thead {
+            background: var(--color-primary-dark);
+            font-weight: bold;
+
+            tr td {
+                padding-bottom: 0.8rem;
+            }
+        }
+
+        tbody {
+            tr {
+                border-bottom: 1px solid rgba(white, 0.2);
+            }
+
+            tr:last-of-type {
+                border: 0;
+            }
+
+            img {
+                width: 7rem;
+            }
+
+            .lube-index-icon {
+                padding: 0;
+                width: 3rem;
+
+                a {
+                    display: block;
+                    padding: 1rem;
+                }
+            }
+        }
+
+        tfoot {
+            background: var(--color-primary-dark);
+
+            td {
+                padding: 0;
+            }
+
+            nav {
+                text-align: center;
+
+                ul {
+                    li {
+                        display: inline-block;
+
+                        a,
+                        span {
+                            display: inline-block;
+                            padding: .5rem 1rem;
+                        }
+
+                        span {
+                            opacity: .5;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &-show {
+        td:first-of-type {
+            width: 250px;
+        }
+
+        tbody {
+            tr {
+                border-bottom: 1px solid rgba(white, 0.1);
+            }
+        }
+    }
+
+    .lube-delete {
+        margin-top: 2rem;
+
+        a {
+            display: inline-block;
+            font-weight: 600;
+        }
+    }
+}
+
+.button-accept {
+    width: 150px !important;
+    margin-right: 1rem;
+    background-color: var(--color-button-green) !important;
+    &:hover {
+        background-color: var(--color-button-green-hover) !important;
+    }
+}
+
+.button-decline {
+    width: 130px;
+    margin-right: 1rem;
+    background-color: var(--color-button-red) !important;
+    &:hover {
+        background-color: var(--color-button-red-hover) !important;
+    }
+}
