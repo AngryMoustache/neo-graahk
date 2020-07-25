@@ -11,8 +11,22 @@
     }
 
     &-preview {
+        overflow: auto;
+
         img {
             width: 100px;
+            float: left;
+        }
+
+        h3 {
+            float: left;
+            padding: 1rem;
+            padding-top: 40px;
+            cursor: pointer;
+
+            i {
+                margin-right: .5rem;
+            }
         }
     }
 

@@ -1,0 +1,56 @@
+.lube-habtm {
+    margin-left: 1rem;
+    width: calc(100% - 200px - 1rem);
+
+    &-table {
+        overflow: auto;
+
+        &-column {
+            float: left;
+
+            &-left,
+            &-right {
+                width: calc(40% - 25px);
+                height: 290px;
+                background: var(--color-bg-secondary);
+                overflow-y: scroll;
+                border: 1px solid rgba(white, .1);
+
+                &::-webkit-scrollbar { width: 5px; }
+                &::-webkit-scrollbar-track { background: #f1f1f1; }
+                &::-webkit-scrollbar-thumb { background: #888; }
+                &::-webkit-scrollbar-thumb:hover { background: #555; }
+
+                table {
+                    width: 100%;
+
+                    tr {
+                        width: 100%;
+                        display: inline-block;
+                        padding: .5rem 1rem;
+                        border-bottom: 1px solid rgba(white, .1);
+                        cursor: pointer;
+
+                        &:last-child {
+                            border: 0;
+                        }
+
+                        &:hover {
+                            background: var(--color-bg-container);
+                        }
+
+                        td:first-child {
+                            padding-right: 1rem;
+                        }
+                    }
+                }
+            }
+
+            &-middle {
+                width: 50px;
+                text-align: center;
+                padding-top: 135px;
+            }
+        }
+    }
+}

@@ -7,6 +7,9 @@
     <div class="attachment-picker-preview">
         @if ($item)
             <img src="{{ $item }}">
+            <h3 wire:click="resetImage">
+                <i class="fas fa-times"></i> Remove
+            </h3>
         @else
             <p>No attachment selected</p>
         @endif

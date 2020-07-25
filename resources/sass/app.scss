@@ -34,6 +34,7 @@ body {
 // CMS
 @import 'lube';
 @import 'picker';
+@import 'habtm';
 
 input:invalid, textarea:invalid, select:invalid {
     box-shadow: none;

@@ -13,4 +13,13 @@ class CardsController extends LubeController
 
     public $label = 'Card';
     public $labelPlural = 'Cards';
+
+    public $searchable = [
+        'name',
+        'slug'
+    ];
+
+    public $slugs = [
+        'name' => 'slug'
+    ];
 }

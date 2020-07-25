@@ -1015,7 +1015,7 @@ nav.main-nav ul li a:hover {
 
 .lube input[type=submit],
 .lube .button {
-  display: block;
+  display: inline-block;
   min-width: 100px;
   text-align: center;
   margin-left: 0;
@@ -1169,8 +1169,24 @@ nav.main-nav ul li a:hover {
   display: inline-block;
 }
 
+.attachment-picker-preview {
+  overflow: auto;
+}
+
 .attachment-picker-preview img {
   width: 100px;
+  float: left;
+}
+
+.attachment-picker-preview h3 {
+  float: left;
+  padding: 1rem;
+  padding-top: 40px;
+  cursor: pointer;
+}
+
+.attachment-picker-preview h3 i {
+  margin-right: 0.5rem;
 }
 
 .attachment-picker-selecting-modal .modal-attachments-list {
@@ -1268,6 +1284,73 @@ nav.main-nav ul li a:hover {
   opacity: 0;
   margin: 0;
   padding: 0;
+}
+
+.lube-habtm {
+  margin-left: 1rem;
+  width: calc(100% - 200px - 1rem);
+}
+
+.lube-habtm-table {
+  overflow: auto;
+}
+
+.lube-habtm-table-column {
+  float: left;
+}
+
+.lube-habtm-table-column-left, .lube-habtm-table-column-right {
+  width: calc(40% - 25px);
+  height: 290px;
+  background: var(--color-bg-secondary);
+  overflow-y: scroll;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lube-habtm-table-column-left::-webkit-scrollbar, .lube-habtm-table-column-right::-webkit-scrollbar {
+  width: 5px;
+}
+
+.lube-habtm-table-column-left::-webkit-scrollbar-track, .lube-habtm-table-column-right::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.lube-habtm-table-column-left::-webkit-scrollbar-thumb, .lube-habtm-table-column-right::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+.lube-habtm-table-column-left::-webkit-scrollbar-thumb:hover, .lube-habtm-table-column-right::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.lube-habtm-table-column-left table, .lube-habtm-table-column-right table {
+  width: 100%;
+}
+
+.lube-habtm-table-column-left table tr, .lube-habtm-table-column-right table tr {
+  width: 100%;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+.lube-habtm-table-column-left table tr:last-child, .lube-habtm-table-column-right table tr:last-child {
+  border: 0;
+}
+
+.lube-habtm-table-column-left table tr:hover, .lube-habtm-table-column-right table tr:hover {
+  background: var(--color-bg-container);
+}
+
+.lube-habtm-table-column-left table tr td:first-child, .lube-habtm-table-column-right table tr td:first-child {
+  padding-right: 1rem;
+}
+
+.lube-habtm-table-column-middle {
+  width: 50px;
+  text-align: center;
+  padding-top: 135px;
 }
 
 input:invalid, textarea:invalid, select:invalid {

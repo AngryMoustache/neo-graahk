@@ -59,6 +59,12 @@ class AttachmentPicker extends Component
         }
     }
 
+    public function resetImage()
+    {
+        $this->item = null;
+        $this->picked = null;
+    }
+
     public function render()
     {
         if ($this->item) {

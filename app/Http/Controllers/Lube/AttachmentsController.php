@@ -15,6 +15,11 @@ class AttachmentsController extends LubeController
     public $label = 'Attachment';
     public $labelPlural = 'Attachments';
 
+    public $searchable = [
+        'original_name',
+        'alt_name'
+    ];
+
     public function store(Request $request)
     {
         $request->validate((new $this->form)->validation());

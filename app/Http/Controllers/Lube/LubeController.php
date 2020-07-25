@@ -4,11 +4,15 @@ namespace App\Http\Controllers\Lube;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class LubeController extends Controller
 {
     public $paginate = 10;
     public $searchable = [];
+    public $slugs = [];
+    public $habtms = [];
+    public $idField = 'id';
 
     public function index()
     {
@@ -67,7 +71,10 @@ class LubeController extends Controller
         $request->validate((new $this->form)->validation());
 
         $data = $request->except('_token');
+        $data = $this->setSlugs($data);
+
         $item = $this->model::create($data);
+
         return redirect(route("lube.{$this->routeBase}.show", ['id' => $item->id]));
     }
 
@@ -88,8 +95,13 @@ class LubeController extends Controller
         $request->validate((new $this->form)->validation());
 
         $data = $request->except('_token');
+        $data = $this->setSlugs($data);
+
         $item = $this->model::find($id);
         $item->update($data);
+
+        $data = $this->setHabtm($item, $data);
+
         return redirect(route("lube.{$this->routeBase}.show", ['id' => $id]));
     }
 
@@ -115,5 +127,36 @@ class LubeController extends Controller
     public function getFields()
     {
         return collect((new $this->form)->fieldStack());
+    }
+
+    public function setSlugs($data)
+    {
+        foreach ($this->slugs as $title => $slug) {
+            if (empty($data[$slug])) {
+                $newSlug = Str::slug($data[$title]);
+
+                // Duplication check
+                $otherSlugs = $this->model::where($slug, 'LIKE', "$newSlug%")
+                    ->where($this->idField, '!=', $data[$this->idField])
+                    ->get();
+
+                if ($otherSlugs->isNotEmpty()) {
+                    $newSlug .= "-{$otherSlugs->count()}";
+                }
+
+                $data[$slug] = $newSlug;
+            }
+        }
+
+        return $data;
+    }
+
+    public function setHabtm($item, $data)
+    {
+        foreach ($this->habtms as $relation) {
+            $item->{$relation}()->sync(json_decode($data[$relation]));
+        }
+
+        return $data;
     }
 }

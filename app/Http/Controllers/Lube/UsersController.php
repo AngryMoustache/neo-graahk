@@ -15,4 +15,8 @@ class UsersController extends LubeController
 
     public $label = 'User';
     public $labelPlural = 'Users';
+
+    public $searchable = [
+        'name'
+    ];
 }

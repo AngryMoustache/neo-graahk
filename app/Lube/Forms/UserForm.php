@@ -4,6 +4,7 @@ namespace App\Lube\Forms;
 
 use App\Lube\Fields\Button;
 use App\Lube\Fields\CheckboxField;
+use App\Lube\Fields\IdField;
 use App\Lube\Fields\TextField;
 
 class UserForm extends Form
@@ -11,8 +12,7 @@ class UserForm extends Form
     public function fields()
     {
         return [
-            TextField::make('id')
-                ->hideOnForms()
+            IdField::make('id')
                 ->label('ID'),
 
             TextField::make('name')
