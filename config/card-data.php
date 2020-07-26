@@ -5,6 +5,12 @@ return [
     'triggers' => [
         'enterField',
         'leaveField',
+        'anyDudeEnterField',
+        'selfDudeEnterField',
+        'opponentDudeEnterField',
+        'anyDudeDeath',
+        'selfDudeDeath',
+        'opponentDudeDeath',
     ],
 
     // Events
@@ -13,7 +19,10 @@ return [
             'amount' => '',
             'target' => [
                 'any',
-                'dude'
+                'dude',
+                'self',
+                'player',
+                'opponent'
             ]
         ],
 
