@@ -5,8 +5,11 @@ namespace App\Lube\Forms;
 use App\Lube\Fields\AttachmentField;
 use App\Lube\Fields\Button;
 use App\Lube\Fields\CardDataField;
+use App\Lube\Fields\CardStatsField;
+use App\Lube\Fields\HabtmField;
 use App\Lube\Fields\IdField;
 use App\Lube\Fields\TextField;
+use App\Models\Set;
 
 class CardForm extends Form
 {
@@ -29,8 +32,15 @@ class CardForm extends Form
                 ->hideOnIndex()
                 ->rules('required'),
 
+            CardStatsField::make('stats'),
+
             CardDataField::make('data')
-                ->rules('required'),
+                ->hideOnIndex(),
+
+            HabtmField::make('sets')
+                ->relatedItems(Set::get())
+                ->label('Sets')
+                ->itemLabelKey('name'),
 
             Button::make('Submit')
         ];

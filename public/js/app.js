@@ -31804,7 +31804,7 @@ for (var i = 0; i < cardCosts.length; i++) {
 }
 
 for (var _i = 0; _i < cardNames.length; _i++) {
-  window.fitText(cardNames[_i], 1);
+  window.fitText(cardNames[_i], 1.3);
 }
 
 for (var _i2 = 0; _i2 < cardPowers.length; _i2++) {
@@ -31947,7 +31947,7 @@ __webpack_require__.r(__webpack_exports__);
       var resizer = function resizer() {
         var size = Math.max(Math.min(el.clientWidth / (compressor * 10), parseFloat(settings.maxFontSize)), parseFloat(settings.minFontSize));
         el.style.fontSize = size + 'px';
-        el.style.lineHeight = size * (3 / 2.6) + 'px';
+        el.style.lineHeight = size * (3 / 2.4) + 'px';
       }; // Call once to set.
 
 

@@ -37,7 +37,7 @@
       var resizer = function () {
         var size = Math.max(Math.min(el.clientWidth / (compressor*10), parseFloat(settings.maxFontSize)), parseFloat(settings.minFontSize))
         el.style.fontSize = size + 'px';
-        el.style.lineHeight = (size * (3/2.6)) + 'px';
+        el.style.lineHeight = (size * (3/2.4)) + 'px';
       };
 
       // Call once to set.

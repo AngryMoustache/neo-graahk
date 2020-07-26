@@ -1,0 +1,39 @@
+.lube-card-stats {
+    margin-left: 1rem;
+    width: calc(100% - 200px - 1rem);
+    overflow: auto;
+
+    select {
+        width: 300px;
+        margin: 0;
+    }
+
+    &-show {
+        width: 100%;
+
+        td:first-of-type {
+            width: 150px;
+        }
+
+        td {
+            padding: .5rem;
+            width: calc(150% - 100px);
+        }
+    }
+
+    &-fields {
+        &-field {
+            margin-top: 1rem;
+            display: flex;
+
+            label {
+                width: 150px;
+            }
+
+            input {
+                width: calc(100% - 300px);
+                margin-left: 0 !important;
+            }
+        }
+    }
+}

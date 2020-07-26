@@ -1,20 +1,20 @@
 <div class="{{ $field->divClass ?? 'form-row' }}">
-    @include('lube.fields.label')
+    <div class="form-input">
+        @include('lube.fields.label')
 
-    <select
-        class="{{ $field->class }}"
-        id="{{ $field->getName() }}"
-        name="{{ $field->getName() }}"
-    >
-        <option value="">{{ __('form.select an option') }}</option>
-        @foreach ($field->options as $key => $value)
-            <option value="{{ $field->useValueAsKeys ? $value : $key  }}">
-                {{ $value }}
-            </option>
-        @endforeach
-    </select>
-</div>
+        <select
+            class="{{ $field->class }}"
+            id="{{ $field->getName() }}"
+            name="{{ $field->getName() }}"
+        >
+            <option value="">{{ __('form.select an option') }}</option>
+            @foreach ($field->options as $key => $value)
+                <option value="{{ $field->useValueAsKeys ? $value : $key  }}">
+                    {{ $value }}
+                </option>
+            @endforeach
+        </select>
+    </div>
 
-<div class="form-error">
     @include('lube.fields.error')
 </div>

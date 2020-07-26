@@ -22,4 +22,9 @@ class CardsController extends LubeController
     public $slugs = [
         'name' => 'slug'
     ];
+
+    public $habtms = [
+        'sets'
+    ];
+
 }

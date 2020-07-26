@@ -1,8 +1,10 @@
 <div class="attachment-picker">
-    <div class="attachment-picker-buttons">
-        <a class="button" wire:click.prevent="openSelectingModal">Select image</a>
-        <a class="button" wire:click.prevent="openUploadingModal">Upload image</a>
-    </div>
+    @if (!$item)
+        <div class="attachment-picker-buttons">
+            <a class="button" wire:click.prevent="openSelectingModal">Select image</a>
+            <a class="button" wire:click.prevent="openUploadingModal">Upload image</a>
+        </div>
+    @endif
 
     <div class="attachment-picker-preview">
         @if ($item)

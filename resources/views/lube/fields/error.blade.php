@@ -1,3 +1,5 @@
 @error($field->getName())
-    <span class="error">{{ $message }}</span>
+    <div class="form-error">
+        <span class="error">{{ $message }}</span>
+    </div>
 @enderror

@@ -18,24 +18,39 @@ class CardText
         $text = Str::of('');
         $json = collect($json);
 
-        $json->each(function ($trigger, $key) use (&$text) {
+        $json->each(function ($trigger) use (&$text) {
+            if (!optional($trigger)['trigger'] || !optional($trigger)['events']) {
+                return false;
+            }
+
             // Trigger
-            $text = $text->append(config("card-text.$key"));
+            $text = $text->append(config("card-text.{$trigger['trigger']}"));
 
-            // Event
+            // Events
             $count = 0;
-            $trigger = collect($trigger);
-            $trigger->each(function ($event, $key) use (&$text, &$count, $trigger) {
+            $trigger = collect($trigger['events']);
+            $trigger->each(function ($event) use (&$text, &$count, $trigger) {
                 $count++;
+                $key = $event['event'] ?? null;
+                $parameters = $event['parameters'] ?? null;
 
-                if (optional($event)->operator) {
+                if ($parameters) {
                     if ($count > 1) {
                         $text = $text->append(', then ');
                     }
 
-                    $newText = config("card-text.$key.$event->operator");
-                    $newText = Str::of($newText)->replace('%s', $event->amount ?? '');
-                    $text = $text->append($newText);
+                    foreach ($parameters as $pKey => $parameter) {
+                        if (config("card-text.$key.$parameter")) {
+                            $newText = config("card-text.$key.$parameter");
+                            while (Str::contains($newText, '%')) {
+                                preg_match('/%\w+/', $newText, $param);
+                                $newText = Str::of($newText)
+                                    ->replace($param, $parameters[ltrim($param[0], '%')] ?? '');
+                            }
+
+                            $text = $text->append($newText);
+                        }
+                    }
                 }
 
                 if ($count >= $trigger->count()) {

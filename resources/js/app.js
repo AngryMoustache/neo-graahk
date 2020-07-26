@@ -23,7 +23,7 @@ for (let i = 0; i < cardCosts.length; i++) {
 }
 
 for (let i = 0; i < cardNames.length; i++) {
-  window.fitText(cardNames[i], 1)
+  window.fitText(cardNames[i], 1.3)
 }
 
 for (let i = 0; i < cardPowers.length; i++) {

@@ -7,7 +7,7 @@ use Livewire\Component;
 class HabtmField extends Component
 {
     public $fieldName;
-    public $selected;
+    public $selected = [];
     public $parsedValue;
     public $unselected;
 
@@ -15,9 +15,11 @@ class HabtmField extends Component
     {
         $this->fieldName = $field->getName();
 
-        $this->selected = $field->getValue()
-            ->pluck($field->itemLabelKey ?? 'id', 'id')
-            ->toArray();
+        if ($field->getValue()) {
+            $this->selected = $field->getValue()
+                ->pluck($field->itemLabelKey ?? 'id', 'id')
+                ->toArray();
+        }
 
         $this->unselected = $field->relatedItems
             ->pluck($field->itemLabelKey ?? 'id', 'id')

@@ -4,28 +4,33 @@
     ::-ms-input-placeholder { color: var(--color-placeholder); }
 
     &-form {
-        .form-error {
-            padding-top: .5rem;
-            width: calc(100% - 200px - 1rem);
-            margin-left: calc(200px + 1rem);
-            margin-top: -1rem;
-            margin-bottom: 1rem;
-            color: darkred;
-        }
-
         .form-row {
             padding-bottom: 1rem;
-            display: flex;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(white, 0.1);
 
             label {
                 width: 200px;
                 padding: .5rem;
                 display: inline-block;
             }
+
+            .form-input {
+                width: 100%;
+            display: flex;
+            }
+
+            .form-error {
+                padding-top: .5rem;
+                width: calc(100% - 200px - 1rem);
+                margin-left: calc(200px + 1rem);
+                color: darkred;
+            }
         }
+
     }
 
-    input {
+    input, select {
         padding: .5rem;
         width: calc(100% - 200px - 1rem);
         margin-left: 1rem;

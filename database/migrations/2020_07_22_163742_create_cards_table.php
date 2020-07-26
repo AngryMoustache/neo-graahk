@@ -19,7 +19,7 @@ class CreateCardsTable extends Migration
             $table->string('slug');
             $table->foreignId('attachment_id')->constrained();
             $table->foreignId('set_id')->constrained();
-            $table->longText('data');
+            $table->longText('data')->nullable();
             $table->timestamps();
         });
     }

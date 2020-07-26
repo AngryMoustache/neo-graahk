@@ -7,16 +7,17 @@ return [
 
     // Events
     'dealDamage' => [
-        'any' => 'deal %s damage to any target',
-        'dude' => 'deal %s damage to a dude'
+        'any' => 'deal %amount damage to any target',
+        'dude' => 'deal %amount damage to a dude'
     ],
 
     'heal' => [
-        'any' => 'heal any target for %s',
-        'dude' => 'heal a dude for %s'
+        'any' => 'heal any target for %amount',
+        'dude' => 'heal a dude for %amount'
     ],
 
     'kill' => [
-        'self' => 'this kills itself'
+        'self' => 'this kills itself',
+        'dude' => 'this kills a target dude'
     ],
 ];

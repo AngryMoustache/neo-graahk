@@ -11,11 +11,13 @@ class Card extends Model
         'name',
         'slug',
         'data',
+        'stats',
         'set_id',
         'attachment_id',
     ];
 
     public $casts = [
+        'stats' => 'object',
         'data' => 'object'
     ];
 
@@ -26,7 +28,9 @@ class Card extends Model
     public function __get($key)
     {
         return $this->getAttribute($key) ??
-            $this->data->$key ?? null;
+            json_decode($this->stats)->{$key} ??
+            json_decode($this->data)->{$key} ??
+            null;
     }
 
     public function originalSet()
@@ -70,6 +74,7 @@ class Card extends Model
             return null;
         }
 
+        Cache::flush();
         $value = Cache::rememberForever("cardExpUser{$user}Card{$this->id}", function () {
             $exp = optional($this->experience)->experience;
             foreach (config('rarities') as $rarityName => $rarityExp) {
@@ -90,7 +95,7 @@ class Card extends Model
             return $this->maskedText;
         }
 
-        return CardText::parse(optional($this->data)->text);
+        return CardText::parse(json_decode($this->data, true));
     }
 
 }

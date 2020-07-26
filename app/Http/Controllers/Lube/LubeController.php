@@ -74,6 +74,7 @@ class LubeController extends Controller
         $data = $this->setSlugs($data);
 
         $item = $this->model::create($data);
+        $data = $this->setHabtm($item, $data);
 
         return redirect(route("lube.{$this->routeBase}.show", ['id' => $item->id]));
     }

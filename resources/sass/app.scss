@@ -35,6 +35,8 @@ body {
 @import 'lube';
 @import 'picker';
 @import 'habtm';
+@import 'card-data';
+@import 'card-stats';
 
 input:invalid, textarea:invalid, select:invalid {
     box-shadow: none;

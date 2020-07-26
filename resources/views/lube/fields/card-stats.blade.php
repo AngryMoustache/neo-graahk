@@ -2,7 +2,7 @@
     <div class="form-input">
         @include('lube.fields.label')
 
-        @livewire('card-data-field', ['field' => $field])
+        @livewire('card-stats-field', ['field' => $field])
     </div>
 
     @include('lube.fields.error')
