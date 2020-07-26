@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Spatie\Image\Image;
 
 class Attachment extends Model
@@ -32,6 +33,11 @@ class Attachment extends Model
         $path = $this->getPath();
         $formatPath = $this->getPath($format);
         $formatClass = 'App\\Formats\\' . ucfirst($format);
+
+        if (in_array(Str::afterLast($path, '.'), ['svg', 'gif'])) {
+            $url = $this->id . '/' . $this->original_name;
+            return Storage::disk($this->disk)->url($url);
+        }
 
         if (!is_file($formatPath)) {
             $image = Image::load($path);

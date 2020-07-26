@@ -30,7 +30,13 @@
 
         &-body {
             overflow-y: auto;
-            height: calc(100vh - 50px - 13rem);
+            height: calc(100vh - 50px - 16rem);
+        }
+
+        &-footer {
+            a {
+                width: 100%;
+            }
         }
     }
 }

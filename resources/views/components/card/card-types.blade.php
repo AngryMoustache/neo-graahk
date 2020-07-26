@@ -1,4 +1,4 @@
 <span>
-    @if ($rarity = $card->getRarity()) {{ $rarity }} - @endif
+    @if ($rarity) {{ $rarity }} - @endif
     {{ "$card->tribe $card->type" }}
 </span>

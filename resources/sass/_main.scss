@@ -6,6 +6,25 @@ main {
     width: calc(100% - 300px);
     padding: 1rem;
 
+    .button {
+        display: inline-block;
+        min-width: 100px;
+        text-align: center;
+        margin-left: 0;
+        cursor: pointer;
+        background-color: var(--color-primary-dark);
+        transition: all .2s;
+        padding: .6rem 2rem .4rem;
+
+        &:hover {
+            background-color: var(--color-primary);
+        }
+
+        i {
+            margin-right: .5rem;
+        }
+    }
+
     .container,
     .tab-container {
         position: relative;

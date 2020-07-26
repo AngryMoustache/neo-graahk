@@ -5,7 +5,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'StaticController@home')->name('static.home');
-Route::get('/collection', 'CollectionController@index')->name('collection.index');
+Route::get('/decks', 'DeckController@index')->name('decks.index');
+Route::get('/decks/{deck}', 'DeckController@edit')->name('decks.edit');
+Route::get('/decks/{deck}/duplicate', 'DeckController@duplicate')->name('decks.duplicate');
+Route::get('/decks/{deck}/delete', 'DeckController@delete')->name('decks.delete');
 
 Route::get('/admin', 'AdminController@index')->name('admin.index');
 

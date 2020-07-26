@@ -29,13 +29,16 @@ class CardForm extends Form
             AttachmentField::make('attachment_id')
                 ->label('Card image')
                 ->format('card')
-                ->hideOnIndex()
                 ->rules('required'),
 
             CardStatsField::make('stats'),
 
             CardDataField::make('data')
                 ->hideOnIndex(),
+
+            TextField::make('masked_text')
+                ->hideOnIndex()
+                ->label('Masked text'),
 
             HabtmField::make('sets')
                 ->relatedItems(Set::get())

@@ -12,6 +12,7 @@ class Card extends Model
         'slug',
         'data',
         'stats',
+        'masked_text',
         'set_id',
         'attachment_id',
     ];
@@ -67,16 +68,23 @@ class Card extends Model
         return optional($this->experience)->experience;
     }
 
+    public function getTextAttribute()
+    {
+        if ($this->masked_text) {
+            return $this->masked_text;
+        }
+
+        return CardText::parse(json_decode($this->data, true));
+    }
+
     public function getRarity()
     {
         $user = optional(auth()->user())->id;
-        if (!$user) {
-            return null;
-        }
+        if (!$user) { return null;}
 
         Cache::flush();
         $value = Cache::rememberForever("cardExpUser{$user}Card{$this->id}", function () {
-            $exp = optional($this->experience)->experience;
+            $exp = optional($this->experience)->experience ?? 0;
             foreach (config('rarities') as $rarityName => $rarityExp) {
                 if ($exp >= $rarityExp) {
                     $rarity = $rarityName;
@@ -87,15 +95,6 @@ class Card extends Model
         });
 
         return $value;
-    }
-
-    public function getTextAttribute()
-    {
-        if ($this->maskedText) {
-            return $this->maskedText;
-        }
-
-        return CardText::parse(json_decode($this->data, true));
     }
 
 }

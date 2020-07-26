@@ -1,0 +1,53 @@
+.deck-panel {
+    position: relative;
+    width: 100%;
+    display: flex;
+    margin-bottom: 1rem;
+    background-color: var(--color-bg-secondary);
+
+    &-preview {
+        position: relative;
+        width: 20%;
+        background-size: cover;
+        background-position: 0 30%;
+    }
+
+    &-info {
+        padding: 1rem;
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+    }
+
+    &-buttons {
+        margin-left: auto;
+        margin-right: 1rem;
+        display: flex;
+        align-items: center;
+
+        .button {
+            margin-left: 1rem;
+        }
+    }
+}
+
+.deck-new {
+    border: .1rem dashed rgba(white, .3);
+    color: rgba(white, .5);
+    transition: all .2s;
+    display: flex;
+    padding: 2rem;
+    font-size: 1.2rem;
+    justify-content: center;
+
+    &:hover {
+        border-color: rgba(white, .5);
+        color: rgba(white, .7);
+    }
+
+    i {
+        margin-right: 1rem;
+    }
+}

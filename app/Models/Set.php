@@ -25,8 +25,8 @@ class Set extends Model
         return $this->belongsTo(Attachment::class);
     }
 
-    public function getIconAttribute()
+    public function icon()
     {
-        return asset("img/set-icons/{$this->code}.svg");
+        return $this->belongsTo(Attachment::class, 'attachment_id');
     }
 }

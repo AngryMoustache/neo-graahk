@@ -29,6 +29,11 @@ return [
 
     'kill' => [
         'self' => 'this kills itself',
-        'dude' => 'this kills a target dude'
+        'dude' => 'this kills a target dude',
+        'all' => 'kill all dudes',
+        'allButSelf' => 'kill all other dudes',
+        'allPlayer' => 'kill all dudes you control',
+        'allButSelfPlayer' => 'kill all other dudes you control',
+        'allOpponent' => 'kill all dudes your opponent controls',
     ],
 ];

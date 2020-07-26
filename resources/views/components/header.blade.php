@@ -6,8 +6,8 @@
             text="Home"
         />
         <x-nav.item
-            route="{{ route('collection.index') }}"
-            text="Collection"
+            route="{{ route('decks.index') }}"
+            text="Decks"
         />
         @if (optional(auth()->user())->admin)
             <x-nav.item

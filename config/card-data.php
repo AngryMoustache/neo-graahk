@@ -38,6 +38,11 @@ return [
             'target' => [
                 'dude',
                 'self',
+                'all',
+                'allButSelf',
+                'allPlayer',
+                'allButSelfPlayer',
+                'allOpponent',
             ]
         ],
     ],
