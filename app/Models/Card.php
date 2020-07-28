@@ -93,10 +93,10 @@ class Card extends Model
         return CardText::parse($this->data);
     }
 
-    public function getRarity()
+    public function getRarity($user = null)
     {
-        $user = optional(auth()->user())->id;
-        if (!$user) { return null;}
+        $user ??= optional(auth()->user())->id;
+        if (!$user) { return null; }
 
         Cache::flush();
         $value = Cache::rememberForever("cardExpUser{$user}Card{$this->id}", function () {

@@ -3,9 +3,15 @@
 @section('content')
     <div class="container">
         <div class="container-body">
-            <deck-builder>
+            <deck-builder :user="{{ optional(auth()->user())->id }}">
                 <template v-slot:default="slot">
-                    @livewire('deck-builder')
+                    <div class="db-livewire">
+                        <div class="db-header">
+                            {{-- Header --}}
+                        </div>
+
+                        <div class="db-content" v-html="slot.content"></div>
+                    </div>
 
                     <div class="db-content-deck-list">
                         <input

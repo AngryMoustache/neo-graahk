@@ -29,4 +29,3 @@ window.resizeCards = function () {
 }
 
 window.resizeCards()
-window.addEventListener('resize', fitCardBuilder())

@@ -1,6 +1,6 @@
 @php
     $set ??= $card->currentSet->first();
-    $rarity ??= $card->getRarity();
+    $rarity ??= $card->getRarity($user ?? null);
     $fullart ??= ($rarity === 'Extraordinary' || $rarity === 'Fabulous');
 @endphp
 <div class="card {{ ($fullart ? 'card-fullart' : '') }} card-{{ $card->type }}">

@@ -11,7 +11,7 @@
 
             <div class="db-content-card-list-cards">
                 @foreach ($cards as $card)
-                    <div class="click-wrapper" v-on:click="slot.test()">
+                    <div class="click-wrapper">
                         <x-game.card :card="$card" />
                     </div>
                 @endforeach
