@@ -12,11 +12,9 @@
         @stack('scripts')
         <livewire:styles>
     </head>
-    <body>
+    <body id="deck-builder" onresize="fitCardBuilder()">
         <div class="wrapper">
-            <x-header />
             <main id="app">@yield('content')</main>
-            <x-footer />
         </div>
         <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
         <livewire:scripts>

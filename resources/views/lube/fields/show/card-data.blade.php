@@ -1,1 +1,1 @@
-{{ \App\CardText::parse(json_decode($field->getValue(), true)) }}
+{{ \App\CardText::parse($field->getValue()) }}

@@ -1,18 +1,24 @@
 <?php
 
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\CheckLogin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', 'StaticController@home')->name('static.home');
-Route::get('/decks', 'DeckController@index')->name('decks.index');
-Route::get('/decks/{deck}', 'DeckController@edit')->name('decks.edit');
-Route::get('/decks/{deck}/duplicate', 'DeckController@duplicate')->name('decks.duplicate');
-Route::get('/decks/{deck}/delete', 'DeckController@delete')->name('decks.delete');
+Auth::routes();
 
-Route::get('/admin', 'AdminController@index')->name('admin.index');
+Route::get('/', 'StaticController@home')->name('static.home');
+
+Route::middleware(CheckLogin::class)->group(function () {
+    Route::get('/decks', 'DeckController@index')->name('decks.index');
+    Route::get('/decks/new', 'DeckController@new')->name('decks.new');
+    Route::get('/decks/{deck}', 'DeckController@edit')->name('decks.edit');
+    Route::get('/decks/{deck}/duplicate', 'DeckController@duplicate')->name('decks.duplicate');
+    Route::get('/decks/{deck}/delete', 'DeckController@delete')->name('decks.delete');
+});
 
 Route::middleware(AdminMiddleware::class)->group(function () {
+    Route::get('/admin', 'AdminController@index')->name('admin.index');
     foreach (config('lube.resources', []) as $resource) {
         $controller = 'Lube\\' . ucfirst($resource) . 'Controller';
         Route::get("/admin/$resource", "$controller@index")->name("lube.$resource.index");
@@ -25,5 +31,3 @@ Route::middleware(AdminMiddleware::class)->group(function () {
         Route::delete("/admin/$resource/{id}/delete", "$controller@deleteCommit")->name("lube.$resource.delete");
     }
 });
-
-Auth::routes();

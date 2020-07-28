@@ -10,16 +10,12 @@ class Card extends Model
     protected $fillable = [
         'name',
         'slug',
-        'data',
-        'stats',
+        'data_json',
+        'stats_json',
         'masked_text',
         'set_id',
         'attachment_id',
-    ];
-
-    public $casts = [
-        'stats' => 'object',
-        'data' => 'object'
+        'animated_attachment_id',
     ];
 
     public $with = [
@@ -29,8 +25,8 @@ class Card extends Model
     public function __get($key)
     {
         return $this->getAttribute($key) ??
-            json_decode($this->stats)->{$key} ??
-            json_decode($this->data)->{$key} ??
+            $this->stats[$key] ??
+            $this->data[$key] ??
             null;
     }
 
@@ -58,9 +54,29 @@ class Card extends Model
         return $this->belongsTo(Attachment::class);
     }
 
+    public function animatedAttachment()
+    {
+        return $this->belongsTo(
+            Attachment::class,
+            'animated_attachment_id',
+            'id',
+            'attachments'
+        );
+    }
+
     public function experience()
     {
         return $this->hasOne(CardUser::class);
+    }
+
+    public function getStatsAttribute()
+    {
+        return json_decode($this->stats_json, true);
+    }
+
+    public function getDataAttribute()
+    {
+        return json_decode($this->data_json, true);
     }
 
     public function getExpAttribute()
@@ -74,7 +90,7 @@ class Card extends Model
             return $this->masked_text;
         }
 
-        return CardText::parse(json_decode($this->data, true));
+        return CardText::parse($this->data);
     }
 
     public function getRarity()

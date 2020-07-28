@@ -6,7 +6,15 @@
 <div class="card {{ ($fullart ? 'card-fullart' : '') }} card-{{ $card->type }}">
     <div class="card-container">
         <div class="card-overlay"></div>
-        <div class="card-image" style="background-image: url({{ $card->attachment->format('card') }})"></div>
+        <div
+            class="card-image"
+            @if ($fullart && $card->animatedAttachment)
+                style="background-image: url({{ $card->animatedAttachment->format('card') }})"
+            @else
+                style="background-image: url({{ $card->attachment->format('card') }})"
+            @endif
+        ></div>
+
         <div class="card-set-logo" style="background-image: url({{ $set->icon->path() }})"></div>
 
         <div class="card-data">

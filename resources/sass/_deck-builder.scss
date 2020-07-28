@@ -1,0 +1,223 @@
+#deck-builder {
+    main, .container {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.db {
+    display: flex;
+
+    &-header {
+        height: 98px;
+        padding: .5rem;
+        background: var(--color-bg-secondary);
+        border-bottom: 1px solid black;
+    }
+
+    &-livewire {
+        width: calc(100% - 400px);
+    }
+
+    &-content {
+        display: flex;
+        width: 100%;
+        height: calc(100vh - 100px);
+        overflow: hidden;
+
+        &-card-list {
+            display: flex;
+            width: 100%;
+
+            &-arrow {
+                display: flex;
+                width: 50px;
+                justify-content: center;
+                align-items: center;
+                font-size: 2rem;
+                cursor: pointer;
+                transition: all .2s;
+
+                &:hover {
+                    font-size: 3rem;
+                }
+            }
+
+            &-cards {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: center;
+                width: calc(100% - 100px);
+
+                .click-wrapper {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 25%;
+                    height: calc(50vh - 50px);
+                    padding: 1rem;
+                    cursor: pointer;
+
+                    .card {
+                        display: inline-block;
+                        max-width: calc((86vh / 2) - 1rem - 100px);
+                        width: 100%;
+                    }
+                }
+            }
+        }
+
+        &-deck-list {
+            width: 400px;
+            border-left: 1px solid black;
+            background: var(--color-bg-secondary);
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+
+            &-title {
+                width: 100%;
+                padding: .6rem 1rem .4rem;
+                font-size: 1.5rem;
+                font-weight: 700;
+                background: var(--color-primary-dark);
+                border-bottom: 1px solid black;
+            }
+
+            &-cards {
+                width: 100%;
+                border-collapse: collapse;
+
+                &-card:last-child {
+                    td {
+                        border: 0 !important;
+                    }
+                }
+
+                &-card {
+                    margin-bottom: .5rem;
+                    cursor: pointer;
+
+                    &:hover {
+                        span {
+                            background: rgba(black, .9);
+                        }
+
+                        .card-amount-controller {
+                            pointer-events: all;
+                            opacity: 1;
+                            left: -86px;
+                        }
+                    }
+
+                    &-amount {
+                        position: relative;
+                        padding-top: .1rem;
+                        width: 40px;
+                        font-size: 1.3rem;
+                        font-weight: 800;
+                        text-align: center;
+                        background: var(--color-bg-secondary);
+                        border-bottom: 1px solid black;
+
+                        .card-amount-controller {
+                            position: absolute;
+                            z-index: 10;
+                            left: -50px;
+                            top: 9px;
+                            opacity: 0;
+                            background: black !important;
+                            height: 40px;
+                            width: 70px;
+                            border: 2px solid black;
+                            transition: all .1s;
+                            pointer-events: none;
+
+                            a {
+                                display: inline-block;
+                                padding: 5px;
+
+                                &:hover {
+                                    color: var(--color-primary);
+                                }
+
+                                i.inactive {
+                                    opacity: .1;
+                                }
+                            }
+
+                            &::before {
+                                content: ' ';
+                                position: absolute;
+                                top: 4px;
+                                right: -16px;
+                                z-index: -1;
+                                background: black;
+                                width: 28px;
+                                height: 28px;
+                                transform: rotate(45deg);
+                            }
+                        }
+                    }
+
+                    &-cost {
+                        padding-top: .3rem;
+                        width: 40px;
+                        font-size: 1.5rem;
+                        font-weight: 800;
+                        text-align: center;
+                        background: var(--color-primary);
+                        border-bottom: 1px solid black;
+                    }
+
+                    &-name {
+                        background-size: cover;
+                        background-position: 0 20%;
+                        border-bottom: 1px solid black;
+
+                        span {
+                            display: inline-block;
+                            width: 100%;
+                            padding: 1rem;
+                            background: rgba(black, .7);
+                            font-weight: 600;
+                        }
+                    }
+                }
+            }
+
+            &-buttons {
+                display: flex;
+                font-size: 1.3rem;
+                border-bottom: 1px solid black;
+
+                &-counter {
+                    width: 50%;
+                    border-right: 1px solid black;
+
+                    h2 {
+                        padding: .5rem 1rem .3rem;
+                        background: var(--color-button-green);
+                        font-weight: 700;
+                        text-align: center;
+
+                        &.red {
+                            background: var(--color-button-red);
+                        }
+                    }
+                }
+
+                &-save {
+                    width: 50%;
+
+                    .button {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -16,7 +16,7 @@ class CardStatsField extends Component
     public function mount($field)
     {
         $this->fieldName = $field->getName();
-        $this->data = (array)json_decode($field->getValue() ?? "{}", true);
+        $this->data = (array)$field->getValue() ?? "{}";
         $this->fields = config('card-stats', []);
         $this->types = array_keys(config('card-stats', []));
     }

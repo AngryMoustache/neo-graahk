@@ -2,7 +2,7 @@
     <input
         type="hidden"
         wire:model="hiddenField"
-        name="{{ $fieldName }}"
+        name="{{ $fieldName }}_json"
     >
 
     <select
@@ -28,7 +28,7 @@
 
                     <input
                         type="text"
-                        wire:model.lazy="data.{{ $field }}"
+                        wire:model="data.{{ $field }}"
                         placeholder="{{ ucfirst($field) }}"
                     >
                 </div>

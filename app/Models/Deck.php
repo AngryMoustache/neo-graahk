@@ -22,6 +22,8 @@ class Deck extends Model
     public function cards()
     {
         return $this->belongsToMany(Card::class)
+            ->orderBy('stats_json->cost', 'asc')
+            ->orderBy('name', 'asc')
             ->withPivot('amount');
     }
 

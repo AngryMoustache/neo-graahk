@@ -31,6 +31,10 @@ class CardForm extends Form
                 ->format('card')
                 ->rules('required'),
 
+            AttachmentField::make('animated_attachment_id')
+                ->label('Card image (animation)')
+                ->hideOnIndex(),
+
             CardStatsField::make('stats'),
 
             CardDataField::make('data')

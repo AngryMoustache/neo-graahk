@@ -48,22 +48,6 @@
         }
     }
 
-    input[type="submit"],
-    .button {
-        display: inline-block;
-        min-width: 100px;
-        text-align: center;
-        margin-left: 0;
-        cursor: pointer;
-        background-color: var(--color-primary-dark);
-        transition: all .2s;
-        padding: .6rem 2rem .4rem;
-
-        &:hover {
-            background-color: var(--color-primary);
-        }
-    }
-
     input[type="submit"] {
         width: 200px;
     }
@@ -187,8 +171,11 @@
     width: 150px !important;
     margin-right: 1rem;
     background-color: var(--color-button-green) !important;
+    border-color: var(--color-button-green) !important;
+
     &:hover {
         background-color: var(--color-button-green-hover) !important;
+        color: var(--color-button-green) !important;
     }
 }
 
@@ -196,7 +183,10 @@
     width: 130px;
     margin-right: 1rem;
     background-color: var(--color-button-red) !important;
+    border-color: var(--color-button-red) !important;
+
     &:hover {
         background-color: var(--color-button-red-hover) !important;
+        color: var(--color-button-red) !important;
     }
 }

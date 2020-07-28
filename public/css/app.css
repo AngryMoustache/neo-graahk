@@ -621,21 +621,26 @@ main {
   padding: 1rem;
 }
 
+main input[type=submit],
 main .button {
   display: inline-block;
   min-width: 100px;
   text-align: center;
   margin-left: 0;
+  font-weight: 600;
   cursor: pointer;
   background-color: var(--color-primary-dark);
-  transition: all 0.2s;
-  padding: 0.6rem 2rem 0.4rem;
+  border: 0.1rem solid var(--color-primary-dark);
+  padding: 0.4rem 1.8rem 0.2rem;
 }
 
+main input[type=submit]:hover,
 main .button:hover {
-  background-color: var(--color-primary);
+  color: var(--color-primary);
+  background-color: var(--color-bg-primary);
 }
 
+main input[type=submit] i,
 main .button i {
   margin-right: 0.5rem;
 }
@@ -1016,7 +1021,8 @@ nav.main-nav ul li a:hover {
   transition: all 0.2s;
   display: flex;
   padding: 2rem;
-  font-size: 1.2rem;
+  font-size: 2rem;
+  font-weight: 600;
   justify-content: center;
 }
 
@@ -1027,6 +1033,225 @@ nav.main-nav ul li a:hover {
 
 .deck-new i {
   margin-right: 1rem;
+  padding-top: 0.4rem;
+}
+
+#deck-builder main, #deck-builder .container {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.db {
+  display: flex;
+}
+
+.db-header {
+  height: 98px;
+  padding: 0.5rem;
+  background: var(--color-bg-secondary);
+  border-bottom: 1px solid black;
+}
+
+.db-livewire {
+  width: calc(100% - 400px);
+}
+
+.db-content {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 100px);
+  overflow: hidden;
+}
+
+.db-content-card-list {
+  display: flex;
+  width: 100%;
+}
+
+.db-content-card-list-arrow {
+  display: flex;
+  width: 50px;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.db-content-card-list-arrow:hover {
+  font-size: 3rem;
+}
+
+.db-content-card-list-cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  width: calc(100% - 100px);
+}
+
+.db-content-card-list-cards .click-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25%;
+  height: calc(50vh - 50px);
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.db-content-card-list-cards .click-wrapper .card {
+  display: inline-block;
+  max-width: calc((86vh / 2) - 1rem - 100px);
+  width: 100%;
+}
+
+.db-content-deck-list {
+  width: 400px;
+  border-left: 1px solid black;
+  background: var(--color-bg-secondary);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.db-content-deck-list-title {
+  width: 100%;
+  padding: 0.6rem 1rem 0.4rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: var(--color-primary-dark);
+  border-bottom: 1px solid black;
+}
+
+.db-content-deck-list-cards {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.db-content-deck-list-cards-card:last-child td {
+  border: 0 !important;
+}
+
+.db-content-deck-list-cards-card {
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+.db-content-deck-list-cards-card:hover span {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.db-content-deck-list-cards-card:hover .card-amount-controller {
+  pointer-events: all;
+  opacity: 1;
+  left: -86px;
+}
+
+.db-content-deck-list-cards-card-amount {
+  position: relative;
+  padding-top: 0.1rem;
+  width: 40px;
+  font-size: 1.3rem;
+  font-weight: 800;
+  text-align: center;
+  background: var(--color-bg-secondary);
+  border-bottom: 1px solid black;
+}
+
+.db-content-deck-list-cards-card-amount .card-amount-controller {
+  position: absolute;
+  z-index: 10;
+  left: -50px;
+  top: 9px;
+  opacity: 0;
+  background: black !important;
+  height: 40px;
+  width: 70px;
+  border: 2px solid black;
+  transition: all 0.1s;
+  pointer-events: none;
+}
+
+.db-content-deck-list-cards-card-amount .card-amount-controller a {
+  display: inline-block;
+  padding: 5px;
+}
+
+.db-content-deck-list-cards-card-amount .card-amount-controller a:hover {
+  color: var(--color-primary);
+}
+
+.db-content-deck-list-cards-card-amount .card-amount-controller a i.inactive {
+  opacity: 0.1;
+}
+
+.db-content-deck-list-cards-card-amount .card-amount-controller::before {
+  content: " ";
+  position: absolute;
+  top: 4px;
+  right: -16px;
+  z-index: -1;
+  background: black;
+  width: 28px;
+  height: 28px;
+  transform: rotate(45deg);
+}
+
+.db-content-deck-list-cards-card-cost {
+  padding-top: 0.3rem;
+  width: 40px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-align: center;
+  background: var(--color-primary);
+  border-bottom: 1px solid black;
+}
+
+.db-content-deck-list-cards-card-name {
+  background-size: cover;
+  background-position: 0 20%;
+  border-bottom: 1px solid black;
+}
+
+.db-content-deck-list-cards-card-name span {
+  display: inline-block;
+  width: 100%;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.7);
+  font-weight: 600;
+}
+
+.db-content-deck-list-buttons {
+  display: flex;
+  font-size: 1.3rem;
+  border-bottom: 1px solid black;
+}
+
+.db-content-deck-list-buttons-counter {
+  width: 50%;
+  border-right: 1px solid black;
+}
+
+.db-content-deck-list-buttons-counter h2 {
+  padding: 0.5rem 1rem 0.3rem;
+  background: var(--color-button-green);
+  font-weight: 700;
+  text-align: center;
+}
+
+.db-content-deck-list-buttons-counter h2.red {
+  background: var(--color-button-red);
+}
+
+.db-content-deck-list-buttons-save {
+  width: 50%;
+}
+
+.db-content-deck-list-buttons-save .button {
+  width: 100%;
 }
 
 .lube ::-moz-placeholder {
@@ -1093,23 +1318,6 @@ nav.main-nav ul li a:hover {
 
 .lube input[type=checkbox] + label {
   width: initial;
-}
-
-.lube input[type=submit],
-.lube .button {
-  display: inline-block;
-  min-width: 100px;
-  text-align: center;
-  margin-left: 0;
-  cursor: pointer;
-  background-color: var(--color-primary-dark);
-  transition: all 0.2s;
-  padding: 0.6rem 2rem 0.4rem;
-}
-
-.lube input[type=submit]:hover,
-.lube .button:hover {
-  background-color: var(--color-primary);
 }
 
 .lube input[type=submit] {
@@ -1222,20 +1430,24 @@ nav.main-nav ul li a:hover {
   width: 150px !important;
   margin-right: 1rem;
   background-color: var(--color-button-green) !important;
+  border-color: var(--color-button-green) !important;
 }
 
 .button-accept:hover {
   background-color: var(--color-button-green-hover) !important;
+  color: var(--color-button-green) !important;
 }
 
 .button-decline {
   width: 130px;
   margin-right: 1rem;
   background-color: var(--color-button-red) !important;
+  border-color: var(--color-button-red) !important;
 }
 
 .button-decline:hover {
   background-color: var(--color-button-red-hover) !important;
+  color: var(--color-button-red) !important;
 }
 
 .attachment-picker {
@@ -1475,6 +1687,10 @@ nav.main-nav ul li a:hover {
   min-width: auto !important;
   padding: 0.6rem 1rem 0.4rem !important;
   margin-right: 0.5rem;
+}
+
+.lube-card-data-picker-list-trigger a i {
+  margin-right: 0;
 }
 
 .lube-card-data-picker-modal h3 {

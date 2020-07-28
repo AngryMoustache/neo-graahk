@@ -6,18 +6,21 @@ main {
     width: calc(100% - 300px);
     padding: 1rem;
 
+    input[type="submit"],
     .button {
         display: inline-block;
         min-width: 100px;
         text-align: center;
         margin-left: 0;
+        font-weight: 600;
         cursor: pointer;
         background-color: var(--color-primary-dark);
-        transition: all .2s;
-        padding: .6rem 2rem .4rem;
+        border: .1rem solid var(--color-primary-dark);
+        padding: .4rem 1.8rem .2rem;
 
         &:hover {
-            background-color: var(--color-primary);
+            color: var(--color-primary);
+            background-color: var(--color-bg-primary);
         }
 
         i {

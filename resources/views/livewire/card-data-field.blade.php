@@ -2,7 +2,7 @@
     <input
         type="hidden"
         wire:model="hiddenField"
-        name="{{ $fieldName }}"
+        name="{{ $fieldName }}_json"
     >
 
     <div class="lube-card-data-picker">
@@ -79,7 +79,7 @@
                                                     @php $type = gettype($parameters[$event['event']][$pKey]) @endphp
                                                     @if ($type === 'array')
                                                         <select
-                                                            wire:model.lazy="data.{{$key}}.events.{{$eKey}}.parameters.{{$pKey}}"
+                                                            wire:model="data.{{$key}}.events.{{$eKey}}.parameters.{{$pKey}}"
                                                             name="{{ "$eKey-$pKey" }}"
                                                             id="{{ "$eKey-$pKey" }}"
                                                         >
@@ -90,7 +90,7 @@
                                                         </select>
                                                     @else
                                                         <input
-                                                            wire:model.lazy="data.{{$key}}.events.{{$eKey}}.parameters.{{$pKey}}"
+                                                            wire:model="data.{{$key}}.events.{{$eKey}}.parameters.{{$pKey}}"
                                                             type="text"
                                                             name="{{ "$eKey-$pKey" }}"
                                                             id="{{ "$eKey-$pKey" }}"

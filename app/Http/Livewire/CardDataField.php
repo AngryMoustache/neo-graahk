@@ -24,7 +24,7 @@ class CardDataField extends Component
         $this->parameters = config('card-data.events', []);
 
         $this->fieldName = $field->getName();
-        $this->data = (array)json_decode($field->getValue() ?? "{}", true);
+        $this->data = (array)$field->getValue() ?? "{}";
     }
 
     public function render()
