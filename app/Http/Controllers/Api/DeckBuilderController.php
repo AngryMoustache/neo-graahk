@@ -22,18 +22,38 @@ class DeckBuilderController extends Controller
             $this->fetchCards();
         }
 
-        return view('api.deck-builder.page', [
-            'cards' => $cards,
-            'user' => $user
-        ]);
+        return [
+            'pagination' => $this->pagination,
+            'view' => view('api.deck-builder.page', [
+                    'cards' => $cards,
+                    'user' => $user
+                ])->render()
+        ];
     }
 
     protected function fetchCards()
     {
-        return Card::orderBy('name')
+        $page = $this->pagination->page;
+        $perPage = $this->pagination->perPage;
+        $total = Card::count();
+        $maxPage = ceil($total / $perPage);
+
+        if ($page <= 0) {
+            $page = $maxPage;
+        }
+
+        if ($page > $maxPage) {
+            $page = 1;
+        }
+
+        $cards = Card::orderBy('name')
             ->with('attachment', 'animatedAttachment', 'sets')
-            ->offset(($this->pagination->page - 1) * 8)
-            ->limit(8)
+            ->offset(($page - 1) * $perPage)
+            ->limit($perPage)
             ->get();
+
+        $this->pagination->page = $page;
+
+        return $cards;
     }
 }

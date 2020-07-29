@@ -10,7 +10,26 @@
                             {{-- Header --}}
                         </div>
 
-                        <div class="db-content" v-html="slot.content"></div>
+                        <div class="db-content">
+                            <div class="db-content-card-list">
+                                <div
+                                    class="db-content-card-list-arrow arrow-left"
+                                    v-on:click="slot.previousPage"
+                                >
+                                    <h2><i class="fas fa-angle-left"></i></h2>
+                                </div>
+
+                                <div class="db-content-card-list-cards">
+                                </div>
+
+                                <div
+                                    class="db-content-card-list-arrow arrow-right"
+                                    v-on:click="slot.nextPage"
+                                >
+                                    <h2><i class="fas fa-angle-right"></i></h2>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="db-content-deck-list">

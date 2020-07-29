@@ -1,6 +1,9 @@
 <template>
   <div class="db">
-    <slot :content="content" />
+    <slot
+        :next-page="nextPage"
+        :previous-page="previousPage"
+    />
   </div>
 </template>
 
@@ -9,7 +12,6 @@
         props: ['user'],
         data () {
             return {
-                content: '',
                 pagination: {
                     page: 1,
                     perPage: 8
@@ -27,10 +29,21 @@
                 }
 
                 await window.axios.post('/api/deck-builder/page', data).then((response) => {
-                    this.content = response.data
+                    document.querySelector('.db-content-card-list-cards').innerHTML = response.data.view
+                    this.pagination = response.data.pagination
                 })
 
                 window.resizeCards()
+
+
+            },
+            async nextPage() {
+                this.pagination.page++
+                this.fetchPage()
+            },
+            async previousPage() {
+                this.pagination.page--
+                this.fetchPage()
             }
         }
     }

@@ -1934,11 +1934,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['user'],
   data: function data() {
     return {
-      content: '',
       pagination: {
         page: 1,
         perPage: 8
@@ -1964,7 +1966,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 };
                 _context.next = 3;
                 return window.axios.post('/api/deck-builder/page', data).then(function (response) {
-                  _this.content = response.data;
+                  document.querySelector('.db-content-card-list-cards').innerHTML = response.data.view;
+                  _this.pagination = response.data.pagination;
                 });
 
               case 3:
@@ -1976,6 +1979,46 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee);
+      }))();
+    },
+    nextPage: function nextPage() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _this2.pagination.page++;
+
+                _this2.fetchPage();
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    previousPage: function previousPage() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _this3.pagination.page--;
+
+                _this3.fetchPage();
+
+              case 2:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
       }))();
     }
   }
@@ -20387,7 +20430,12 @@ var render = function() {
   return _c(
     "div",
     { staticClass: "db" },
-    [_vm._t("default", null, { content: _vm.content })],
+    [
+      _vm._t("default", null, {
+        nextPage: _vm.nextPage,
+        previousPage: _vm.previousPage
+      })
+    ],
     2
   )
 }
