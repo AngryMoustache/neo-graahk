@@ -7,7 +7,8 @@
   --color-bg-container: #1f1c1d;
   --color-white: #EDF2F7;
   --color-placeholder: #504B4D;
-  --color-button-red: #791515;
+  --color-button-red: #801919;
+  --color-button-red-button: #541010;
   --color-button-red-hover: #A61F1F;
   --color-button-green: #49753F;
   --color-button-green-hover: #60B34D;
@@ -645,6 +646,11 @@ main .button i {
   margin-right: 0.5rem;
 }
 
+main input[type=submit].disabled-button,
+main .button.disabled-button {
+  opacity: 0.2;
+}
+
 main .container,
 main .tab-container {
   position: relative;
@@ -1004,6 +1010,11 @@ nav.main-nav ul li a:hover {
   font-weight: 600;
 }
 
+.deck-panel-info-warning i {
+  margin-right: 0.5rem;
+  color: orange;
+}
+
 .deck-panel-buttons {
   margin-left: auto;
   margin-right: 1rem;
@@ -1053,14 +1064,24 @@ nav.main-nav ul li a:hover {
   border-bottom: 1px solid black;
 }
 
-.db-livewire {
+.db-header input {
+  padding: 0.6rem 1rem 0.4rem;
+  color: black;
+}
+
+.db-wrapper {
   width: calc(100% - 400px);
+}
+
+.db .vue-wrapper {
+  display: block;
+  width: 100%;
 }
 
 .db-content {
   display: flex;
   width: 100%;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 98px);
   overflow: hidden;
 }
 
@@ -1103,7 +1124,7 @@ nav.main-nav ul li a:hover {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: calc(100% - 100px);
+  width: 100%;
 }
 
 .db-content-card-list-cards .click-wrapper {
@@ -1123,13 +1144,14 @@ nav.main-nav ul li a:hover {
 }
 
 .db-content-deck-list {
+  position: relative;
   width: 400px;
   border-left: 1px solid black;
   background: var(--color-bg-secondary);
+  user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  user-select: none;
 }
 
 .db-content-deck-list-title {
@@ -1139,6 +1161,27 @@ nav.main-nav ul li a:hover {
   font-weight: 700;
   background: var(--color-primary-dark);
   border-bottom: 1px solid black;
+}
+
+.db-content-deck-list .db-table-scroll-wrapper {
+  height: calc(100vh - 98px - 70px);
+  overflow-y: auto;
+}
+
+.db-content-deck-list .db-table-scroll-wrapper::-webkit-scrollbar {
+  width: 5px;
+}
+
+.db-content-deck-list .db-table-scroll-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.db-content-deck-list .db-table-scroll-wrapper::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+.db-content-deck-list .db-table-scroll-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 .db-content-deck-list-cards {
@@ -1155,8 +1198,12 @@ nav.main-nav ul li a:hover {
   cursor: pointer;
 }
 
-.db-content-deck-list-cards-card:hover span {
+.db-content-deck-list-cards-card:hover span.card-name {
   background: rgba(0, 0, 0, 0.9);
+}
+
+.db-content-deck-list-cards-card:hover .showcase-card {
+  opacity: 1;
 }
 
 .db-content-deck-list-cards-card:hover .card-amount-controller {
@@ -1229,9 +1276,10 @@ nav.main-nav ul li a:hover {
   background-size: cover;
   background-position: 0 20%;
   border-bottom: 1px solid black;
+  position: relative;
 }
 
-.db-content-deck-list-cards-card-name span {
+.db-content-deck-list-cards-card-name span.card-name {
   display: inline-block;
   width: 100%;
   padding: 1rem;
@@ -1239,34 +1287,52 @@ nav.main-nav ul li a:hover {
   font-weight: 600;
 }
 
-.db-content-deck-list-buttons {
-  display: flex;
-  font-size: 1.3rem;
-  border-bottom: 1px solid black;
+.db-content-deck-list-cards-card-name .showcase-card {
+  position: absolute;
+  top: 1.2rem;
+  right: 1rem;
+  opacity: 0;
+  transition: opacity 0.1s;
 }
 
-.db-content-deck-list-buttons-counter {
-  width: 50%;
+.db-content-deck-list-counter {
+  width: 100%;
   border-right: 1px solid black;
 }
 
-.db-content-deck-list-buttons-counter h2 {
+.db-content-deck-list-counter h2 {
   padding: 0.5rem 1rem 0.3rem;
   background: var(--color-button-green);
   font-weight: 700;
+  font-size: 1.3rem;
   text-align: center;
 }
 
-.db-content-deck-list-buttons-counter h2.red {
+.db-content-deck-list-counter h2.red {
   background: var(--color-button-red);
 }
 
-.db-content-deck-list-buttons-save {
+.db-content-deck-list-buttons {
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  font-size: 1.3rem;
+  border-top: 1px solid black;
+  width: 100%;
+}
+
+.db-content-deck-list-buttons-save, .db-content-deck-list-buttons-cancel {
   width: 50%;
 }
 
-.db-content-deck-list-buttons-save .button {
+.db-content-deck-list-buttons-save .button, .db-content-deck-list-buttons-cancel .button {
   width: 100%;
+  height: 70px;
+  padding: 1.2rem 1.8rem 1rem;
+}
+
+.db-content-deck-list-buttons-cancel {
+  border-right: 1px solid black;
 }
 
 .lube ::-moz-placeholder {

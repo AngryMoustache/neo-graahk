@@ -113,4 +113,26 @@ class Card extends Model
         return $value;
     }
 
+    public function getVueInformation($withAmount = false)
+    {
+        $array = [
+            'id' => $this->id,
+            'name' => $this->name,
+            'image' => $this->attachment->format('thumb'),
+            'cost' => $this->cost,
+            'showcase' => $this->getOriginal('pivot_showcase')
+        ];
+
+        if ($withAmount) {
+            $array['amount'] = $this->getOriginal('pivot_amount');
+        }
+
+        return $array;
+    }
+
+    public function getVueInformationWithAmount()
+    {
+        return $this->getVueInformation(true);
+    }
+
 }

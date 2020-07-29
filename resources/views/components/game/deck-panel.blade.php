@@ -6,8 +6,11 @@
 
     <div class="deck-panel-info">
         <h2>{{ $deck->name }}</h2>
-        @if ((optional($deck->cards)->count() < 30))
-            <h3 class="deck-panel-info-warning">Missing cards: {{ $deck->cards->count() }}/30 !</h3>
+        @if ($deck->size !== 30)
+            <h3 class="deck-panel-info-warning">
+                <i class="fa fa-exclamation-triangle"></i>
+                Missing cards: {{ $deck->size }}/30 !
+            </h3>
         @else
             <h3>{{ \Carbon\Carbon::createFromTimeStamp(strtotime($deck->created_at))->diffForHumans() }}</h3>
         @endif

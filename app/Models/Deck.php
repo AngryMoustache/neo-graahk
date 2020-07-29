@@ -24,30 +24,45 @@ class Deck extends Model
         return $this->belongsToMany(Card::class)
             ->orderBy('stats_json->cost', 'asc')
             ->orderBy('name', 'asc')
+            ->withPivot('showcase')
             ->withPivot('amount');
+    }
+
+    public function getSizeAttribute()
+    {
+        $count = 0;
+        $this->cards->each(function ($card) use (&$count) {
+            $count += $card->getOriginal('pivot_amount');
+        });
+
+        return $count;
     }
 
     public function getDisplayCardAttribute()
     {
-        return optional(optional($this->cards)->first())->attachment;
+        $cards = $this->cards;
+        $showcase = optional($cards->where('pivot.showcase')->first())->attachment;
+        return $showcase ?? optional($cards->last())->attachment;
     }
 
     public function duplicate()
     {
         $new = $this->replicate();
-        $new->slug .= '-duplicate';
+        $new->name = $new->name . ' - duplicate';
         $new->push();
 
         $this->relations = [];
         $this->load('cards');
-        foreach ($this->relations as $relationName => $values) {
-            foreach ($values as $item) {
-                $new->{$relationName}()->attach($values, [
-                    'amount' => $item->pivot->getAttributes()['amount']
-                ]);
-            }
+
+        $pivots = [];
+        foreach ($this->cards as $item) {
+            $pivots[] = [
+                'card_id' => $item->id,
+                'amount' => $item->pivot->getAttributes()['amount']
+            ];
         }
 
+        $new->cards()->sync($pivots);
         return $new;
     }
 }

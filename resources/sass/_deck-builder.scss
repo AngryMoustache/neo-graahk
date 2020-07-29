@@ -14,16 +14,30 @@
         padding: .5rem;
         background: var(--color-bg-secondary);
         border-bottom: 1px solid black;
+
+        input {
+            padding: .6rem 1rem .4rem;
+            color: black;
+        }
+
+        &-filter {
+
+        }
     }
 
-    &-livewire {
+    &-wrapper {
         width: calc(100% - 400px);
+    }
+
+    .vue-wrapper {
+        display: block;
+        width: 100%;
     }
 
     &-content {
         display: flex;
         width: 100%;
-        height: calc(100vh - 100px);
+        height: calc(100vh - 98px);
         overflow: hidden;
 
         &-card-list {
@@ -62,7 +76,7 @@
                 display: flex;
                 flex-direction: row;
                 flex-wrap: wrap;
-                width: calc(100% - 100px);
+                width: 100%;
 
                 .click-wrapper {
                     display: flex;
@@ -83,13 +97,14 @@
         }
 
         &-deck-list {
+            position: relative;
             width: 400px;
             border-left: 1px solid black;
             background: var(--color-bg-secondary);
+            user-select: none;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
-            user-select: none;
 
             &-title {
                 width: 100%;
@@ -98,6 +113,16 @@
                 font-weight: 700;
                 background: var(--color-primary-dark);
                 border-bottom: 1px solid black;
+            }
+
+            .db-table-scroll-wrapper {
+                height: calc(100vh - 98px - 70px);
+                overflow-y: auto;
+
+                &::-webkit-scrollbar { width: 5px; }
+                &::-webkit-scrollbar-track { background: #f1f1f1; }
+                &::-webkit-scrollbar-thumb { background: #888; }
+                &::-webkit-scrollbar-thumb:hover { background: #555; }
             }
 
             &-cards {
@@ -115,8 +140,12 @@
                     cursor: pointer;
 
                     &:hover {
-                        span {
+                        span.card-name {
                             background: rgba(black, .9);
+                        }
+
+                        .showcase-card {
+                            opacity: 1;
                         }
 
                         .card-amount-controller {
@@ -190,45 +219,71 @@
                         background-size: cover;
                         background-position: 0 20%;
                         border-bottom: 1px solid black;
+                        position: relative;
 
-                        span {
+                        span.card-name {
                             display: inline-block;
                             width: 100%;
                             padding: 1rem;
                             background: rgba(black, .7);
                             font-weight: 600;
                         }
+
+                        .showcase-card {
+                            position: absolute;
+                            top: 1.2rem;
+                            right: 1rem;
+                            opacity: 0;
+                            transition: opacity .1s;
+                        }
+                    }
+                }
+            }
+
+            &-counter {
+                width: 100%;
+                border-right: 1px solid black;
+
+                h2 {
+                    padding: .5rem 1rem .3rem;
+                    background: var(--color-button-green);
+                    font-weight: 700;
+                    font-size: 1.3rem;
+                    text-align: center;
+
+                    &.red {
+                        background: var(--color-button-red);
                     }
                 }
             }
 
             &-buttons {
                 display: flex;
+                position: absolute;
+                bottom: 0;
                 font-size: 1.3rem;
-                border-bottom: 1px solid black;
+                border-top: 1px solid black;
+                width: 100%;
 
-                &-counter {
-                    width: 50%;
-                    border-right: 1px solid black;
-
-                    h2 {
-                        padding: .5rem 1rem .3rem;
-                        background: var(--color-button-green);
-                        font-weight: 700;
-                        text-align: center;
-
-                        &.red {
-                            background: var(--color-button-red);
-                        }
-                    }
-                }
-
-                &-save {
+                &-save,
+                &-cancel {
                     width: 50%;
 
                     .button {
                         width: 100%;
+                        height: 70px;
+                        padding: 1.2rem 1.8rem 1.0rem;
                     }
+                }
+
+                &-cancel {
+                    border-right: 1px solid black;
+
+                    // .button:hover {
+                    //     background-color: var(--color-button-red-hover) !important;
+                    //     color: var(--color-button-red-button) !important;
+                    //     border-color: var(--color-button-red-button) !important;
+                    // }
                 }
             }
         }

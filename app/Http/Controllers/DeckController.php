@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Card;
 use App\Models\Deck;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -38,8 +39,17 @@ class DeckController extends Controller
             return redirect(route('decks.index'));
         }
 
+        $cards = $deck->cards
+            ->map(fn (Card $card) => $card->getVueInformationWithAmount())
+            ->toArray();
+
         return view('deck.edit', [
-            'deck' => $deck
+            'deckId' => $deck->id,
+            'deck' => [
+                'name' => $deck->name,
+                'cards' => $cards,
+                'amount' => 0,
+            ]
         ]);
     }
 
@@ -65,6 +75,7 @@ class DeckController extends Controller
             return redirect(route('decks.index'));
         }
 
+        $deck->cards()->detach();
         $deck->delete();
 
         return redirect(route('decks.index'));

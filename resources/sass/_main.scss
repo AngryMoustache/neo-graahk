@@ -26,6 +26,10 @@ main {
         i {
             margin-right: .5rem;
         }
+
+        &.disabled-button {
+            opacity: .2;
+        }
     }
 
     .container,
