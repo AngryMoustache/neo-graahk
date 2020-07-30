@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\DeckGraph;
 use App\Http\Controllers\Controller;
 use App\Models\Card;
 use App\Models\Deck;
@@ -19,12 +20,12 @@ class DeckBuilderController extends Controller
         $this->pagination = (object)$request->post('pagination');
         $this->filters = (object)$request->post('filters');
 
-        $cards = $this->fetchCards($request);
+        $this->cards = $this->fetchCards($request);
 
         return [
             'pagination' => $this->pagination,
             'view' => view('api.deck-builder.page', [
-                    'cards' => $cards,
+                    'cards' => $this->cards,
                     'user' => $user
                 ])->render()
         ];
@@ -45,7 +46,7 @@ class DeckBuilderController extends Controller
         collect($request->post('deck')['list']['cards'])
             ->each(function ($card) use (&$pivots) {
                 $pivots[] = [
-                    'showcase' => $card['showcase'] ? 1 : 0,
+                    'showcase' => ($card['showcase'] ?? false) ? 1 : 0,
                     'amount' => $card['amount'],
                     'card_id' => $card['id'],
                 ];
@@ -80,6 +81,7 @@ class DeckBuilderController extends Controller
 
         $cards = $this->applyFilters($cards);
 
+        $this->pagination->arrows = ($total > $this->pagination->perPage);
         $this->pagination->page = $page;
 
         return $cards->get();
@@ -87,6 +89,7 @@ class DeckBuilderController extends Controller
 
     protected function applyFilters($query)
     {
+        // Searchbar
         if (!empty($this->filters->search)) {
             $query = $query->where('name', 'LIKE', "%{$this->filters->search}%")
                 ->orWhere('masked_text', 'LIKE', "%{$this->filters->search}%")
@@ -94,6 +97,23 @@ class DeckBuilderController extends Controller
                 ->orWhere('stats_json->cost', $this->filters->search)
                 ->orWhere('stats_json->type', $this->filters->search)
                 ->orWhere('stats_json->tribe', $this->filters->search);
+        }
+
+        // Set filter
+        if (!empty($this->filters->sets)) {
+            foreach ($this->filters->sets as $set) {
+                $query = $query->orWhereHas('sets', fn ($q) => $q->where('sets.id', $set));
+            }
+        }
+
+        // Format filter
+        if (!empty($this->filters->formats)) {
+            foreach ($this->filters->formats as $format) {
+                $query = $query->orWhereHas('formats', fn ($q) => $q->where('formats.id', $format));
+                $query = $query->orWhereHas('sets', function ($query) use ($format) {
+                    $query->whereHas('formats', fn ($q) => $q->where('formats.id', $format));
+                });
+            }
         }
 
         return $query;

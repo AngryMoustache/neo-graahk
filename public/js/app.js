@@ -1946,13 +1946,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['user', 'deck'],
+  props: ['user', 'deck', 'sets', 'formats'],
   data: function data() {
     return {
       content: '',
       loading: false,
       deckId: null,
+      graph: [],
+      graphOpen: false,
       deckList: {
         name: 'New Deck',
         amount: 0,
@@ -1960,10 +1968,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       pagination: {
         page: 1,
-        perPage: 8
+        perPage: 8,
+        arrows: false
       },
       filters: {
-        search: ''
+        search: '',
+        sets: [],
+        formats: []
       }
     };
   },
@@ -1972,11 +1983,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.deckList = this.deck.deck;
     this.countCards();
     this.fetchPage();
-  },
-  render: function render(h) {
-    return h({
-      content: this.content
-    });
   },
   methods: {
     fetchPage: function fetchPage() {
@@ -2000,9 +2006,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
               case 3:
+                _this.generateGraph();
+
                 window.resizeCards();
 
-              case 4:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -2076,6 +2084,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       this.countCards();
+      this.generateGraph();
       this.$forceUpdate();
     },
     toggleShowcase: function toggleShowcase(key) {
@@ -2094,6 +2103,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       this.countCards();
+      this.generateGraph();
       this.$forceUpdate();
     },
     countCards: function countCards() {
@@ -2138,6 +2148,70 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee4);
       }))();
+    },
+    generateGraph: function generateGraph() {
+      var self = this;
+      this.graph = {
+        0: {
+          amount: 0,
+          height: 0
+        },
+        1: {
+          amount: 0,
+          height: 0
+        },
+        2: {
+          amount: 0,
+          height: 0
+        },
+        3: {
+          amount: 0,
+          height: 0
+        },
+        4: {
+          amount: 0,
+          height: 0
+        },
+        5: {
+          amount: 0,
+          height: 0
+        },
+        6: {
+          amount: 0,
+          height: 0
+        },
+        7: {
+          amount: 0,
+          height: 0
+        },
+        8: {
+          amount: 0,
+          height: 0
+        },
+        9: {
+          amount: 0,
+          height: 0
+        }
+      };
+      Object.values(this.deckList.cards).forEach(function (card) {
+        var cost = card.cost >= 8 ? 9 : card.cost;
+        self.graph[cost].amount += card.amount;
+      });
+      var highest = Math.max.apply(Math, Object.values(this.graph).map(function (o) {
+        return o.amount;
+      })) + 1;
+      Object.values(this.graph).forEach(function (bar, key) {
+        var amount = self.graph[key].amount;
+
+        if (amount !== 0) {
+          self.graph[key].height = 200 / highest * self.graph[key].amount;
+        } else {
+          self.graph[key].height = 0;
+        }
+      });
+    },
+    toggleGraph: function toggleGraph() {
+      this.graphOpen = !this.graphOpen;
     }
   }
 });
@@ -20560,7 +20634,13 @@ var render = function() {
         filter: _vm.filter,
         saveDeck: _vm.saveDeck,
         loading: _vm.loading,
-        toggleShowcase: _vm.toggleShowcase
+        toggleShowcase: _vm.toggleShowcase,
+        sets: _vm.sets,
+        formats: _vm.formats,
+        pagination: _vm.pagination,
+        graph: _vm.graph,
+        graphOpen: _vm.graphOpen,
+        toggleGraph: _vm.toggleGraph
       })
     ],
     2

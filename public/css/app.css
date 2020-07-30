@@ -1164,8 +1164,12 @@ nav.main-nav ul li a:hover {
 }
 
 .db-content-deck-list .db-table-scroll-wrapper {
-  height: calc(100vh - 98px - 70px);
+  height: calc(100vh - 98px - 70px - 226px);
   overflow-y: auto;
+}
+
+.db-content-deck-list .db-table-scroll-wrapper.graph-open-wrapper {
+  height: calc(100vh - 98px - 70px - 28px);
 }
 
 .db-content-deck-list .db-table-scroll-wrapper::-webkit-scrollbar {
@@ -1312,6 +1316,12 @@ nav.main-nav ul li a:hover {
   background: var(--color-button-red);
 }
 
+.db-content-deck-list-graph {
+  width: 100%;
+  height: 200px;
+  border-top: 1px solid black;
+}
+
 .db-content-deck-list-buttons {
   display: flex;
   position: absolute;
@@ -1333,6 +1343,74 @@ nav.main-nav ul li a:hover {
 
 .db-content-deck-list-buttons-cancel {
   border-right: 1px solid black;
+}
+
+.graph-open {
+  height: 30px;
+  overflow: hidden;
+}
+
+.graph {
+  display: flex;
+  width: 100%;
+  height: 170px;
+}
+
+.graph-bar {
+  display: flex;
+  flex-direction: column-reverse;
+  position: relative;
+  width: 10%;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.graph-bar:nth-of-type(2n) {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.graph-bar-bar {
+  margin: 2px 2px 0;
+  background: var(--color-primary-light);
+  transition: all 0.2s;
+}
+
+.graph-bar-number {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  width: 100%;
+}
+
+.graph-legend {
+  display: flex;
+  position: relative;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.1);
+  border-top: 1px solid black;
+}
+
+.graph-legend-item {
+  width: 10%;
+  text-align: center;
+  font-weight: 600;
+  padding: 3px 2px 1px;
+}
+
+.graph-toggle {
+  background: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  text-align: center;
+  padding: 3px 2px 1px;
+  border-bottom: 1px solid black;
+}
+
+.graph-toggle i {
+  margin: 0 5px;
+}
+
+.graph-toggle:hover {
+  background: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .lube ::-moz-placeholder {
@@ -1383,11 +1461,15 @@ nav.main-nav ul li a:hover {
   color: darkred;
 }
 
-.lube input, .lube select {
+.lube input, .lube select, .lube textarea {
   padding: 0.5rem;
   width: calc(100% - 200px - 1rem);
   margin-left: 1rem;
   background: var(--color-bg-secondary);
+}
+
+.lube textarea {
+  min-height: 200px;
 }
 
 .lube input[type=checkbox] {

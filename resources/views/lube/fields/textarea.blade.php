@@ -7,7 +7,7 @@
             id="{{ $field->getName() }}"
             name="{{ $field->getName() }}"
             placeholder="{{ $field->getLabel() }}"
-        ></textarea>
+        >{{ $field->getValue() }}</textarea>
     </div>
 
     @include('lube.fields.error')

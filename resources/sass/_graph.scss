@@ -1,0 +1,67 @@
+.graph-open {
+    height: 30px;
+    overflow: hidden;
+}
+
+.graph {
+    display: flex;
+    width: 100%;
+    height: 170px;
+
+    &-bar {
+        display: flex;
+        flex-direction: column-reverse;
+        position: relative;
+        width: 10%;
+        background: rgba(black, .1);
+
+        &:nth-of-type(2n) {
+            background: rgba(black, .15);
+        }
+
+        &-bar {
+            margin: 2px 2px 0;
+            background: var(--color-primary-light);
+            transition: all .2s;
+        }
+
+        &-number {
+            position: absolute;
+            bottom: 0;
+            text-align: center;
+            width: 100%;
+        }
+    }
+
+    &-legend {
+        display: flex;
+        position: relative;
+        width: 100%;
+        background: rgba(black, .1);
+        border-top: 1px solid black;
+
+        &-item {
+            width: 10%;
+            text-align: center;
+            font-weight: 600;
+            padding: 3px 2px 1px;
+        }
+    }
+
+    &-toggle {
+        background: rgba(black, .2);
+        width: 100%;
+        text-align: center;
+        padding: 3px 2px 1px;
+        border-bottom: 1px solid black;
+
+        i {
+            margin: 0 5px;
+        }
+
+        &:hover {
+            background: rgba(black, .1);
+            cursor: pointer;
+        }
+    }
+}

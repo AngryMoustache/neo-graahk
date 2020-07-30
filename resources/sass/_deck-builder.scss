@@ -116,8 +116,12 @@
             }
 
             .db-table-scroll-wrapper {
-                height: calc(100vh - 98px - 70px);
+                height: calc(100vh - 98px - 70px - 226px);
                 overflow-y: auto;
+
+                &.graph-open-wrapper {
+                    height: calc(100vh - 98px - 70px - 28px);
+                }
 
                 &::-webkit-scrollbar { width: 5px; }
                 &::-webkit-scrollbar-track { background: #f1f1f1; }
@@ -257,6 +261,12 @@
                 }
             }
 
+            &-graph {
+                width: 100%;
+                height: 200px;
+                border-top: 1px solid black;
+            }
+
             &-buttons {
                 display: flex;
                 position: absolute;
@@ -278,12 +288,6 @@
 
                 &-cancel {
                     border-right: 1px solid black;
-
-                    // .button:hover {
-                    //     background-color: var(--color-button-red-hover) !important;
-                    //     color: var(--color-button-red-button) !important;
-                    //     border-color: var(--color-button-red-button) !important;
-                    // }
                 }
             }
         }

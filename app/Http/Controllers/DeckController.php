@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Card;
 use App\Models\Deck;
+use App\Models\Format;
+use App\Models\Set;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -45,6 +47,8 @@ class DeckController extends Controller
 
         return view('deck.edit', [
             'deckId' => $deck->id,
+            'sets' => Set::getForVue(),
+            'formats' => Format::getForVue(),
             'deck' => [
                 'name' => $deck->name,
                 'cards' => $cards,

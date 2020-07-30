@@ -49,6 +49,11 @@ class Card extends Model
         return $this->belongsToMany(Set::class);
     }
 
+    public function formats()
+    {
+        return $this->belongsToMany(Format::class);
+    }
+
     public function attachment()
     {
         return $this->belongsTo(Attachment::class);

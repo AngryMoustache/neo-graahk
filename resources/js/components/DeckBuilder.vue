@@ -1,29 +1,37 @@
 <template>
-  <div class="db">
-    <slot
-        :add-card="addCard"
-        :content="content"
-        :next-page="nextPage"
-        :previous-page="previousPage"
-        :deck-list="deckList"
-        :remove-card="removeCard"
-        :filters="filters"
-        :filter="filter"
-        :save-deck="saveDeck"
-        :loading="loading"
-        :toggle-showcase="toggleShowcase"
-    />
-  </div>
+    <div class="db">
+        <slot
+            :add-card="addCard"
+            :content="content"
+            :next-page="nextPage"
+            :previous-page="previousPage"
+            :deck-list="deckList"
+            :remove-card="removeCard"
+            :filters="filters"
+            :filter="filter"
+            :save-deck="saveDeck"
+            :loading="loading"
+            :toggle-showcase="toggleShowcase"
+            :sets="sets"
+            :formats="formats"
+            :pagination="pagination"
+            :graph="graph"
+            :graph-open="graphOpen"
+            :toggle-graph="toggleGraph"
+        />
+    </div>
 </template>
 
 <script>
     export default {
-        props: ['user', 'deck'],
+        props: ['user', 'deck', 'sets', 'formats'],
         data () {
             return {
                 content: '',
                 loading: false,
                 deckId: null,
+                graph: [],
+                graphOpen: false,
                 deckList: {
                     name: 'New Deck',
                     amount: 0,
@@ -31,21 +39,22 @@
                 },
                 pagination: {
                     page: 1,
-                    perPage: 8
+                    perPage: 8,
+                    arrows: false
                 },
                 filters: {
-                    search: ''
+                    search: '',
+                    sets: [],
+                    formats: []
                 }
             }
         },
         mounted() {
             this.deckId = this.deck.id
             this.deckList = this.deck.deck
+
             this.countCards()
             this.fetchPage()
-        },
-        render(h) {
-        return h({ content: this.content })
         },
         methods: {
             async fetchPage () {
@@ -60,6 +69,7 @@
                     this.pagination = response.data.pagination
                 })
 
+                this.generateGraph()
                 window.resizeCards()
             },
             async nextPage () {
@@ -92,6 +102,7 @@
                 }
 
                 this.countCards()
+                this.generateGraph()
                 this.$forceUpdate()
             },
             toggleShowcase (key) {
@@ -109,6 +120,7 @@
                 }
 
                 this.countCards()
+                this.generateGraph()
                 this.$forceUpdate()
             },
             countCards () {
@@ -138,6 +150,43 @@
                 })
 
                 this.loading = false
+            },
+            generateGraph () {
+                var self = this
+
+                this.graph = {
+                    0: {amount: 0, height: 0},
+                    1: {amount: 0, height: 0},
+                    2: {amount: 0, height: 0},
+                    3: {amount: 0, height: 0},
+                    4: {amount: 0, height: 0},
+                    5: {amount: 0, height: 0},
+                    6: {amount: 0, height: 0},
+                    7: {amount: 0, height: 0},
+                    8: {amount: 0, height: 0},
+                    9: {amount: 0, height: 0}
+                }
+
+                Object.values(this.deckList.cards).forEach(card => {
+                    var cost = (card.cost >= 8 ? 9 : card.cost)
+                    self.graph[cost].amount += card.amount
+                })
+
+                var highest = Math.max.apply(
+                        Math, Object.values(this.graph).map(function(o) { return o.amount })
+                    ) + 1
+
+                Object.values(this.graph).forEach((bar, key) => {
+                    var amount = self.graph[key].amount
+                    if (amount !== 0) {
+                        self.graph[key].height = ((200 / highest) * self.graph[key].amount)
+                    } else {
+                        self.graph[key].height = 0
+                    }
+                })
+            },
+            toggleGraph () {
+                this.graphOpen = !this.graphOpen
             }
         }
     }

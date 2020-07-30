@@ -6,5 +6,6 @@ return [
         'cards',
         'sets',
         'users',
+        'formats',
     ]
 ];

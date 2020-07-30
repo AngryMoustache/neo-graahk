@@ -7,8 +7,10 @@
                 :user="{{ optional(auth()->user())->id }}"
                 :deck="{{ json_encode([
                     'id' => $deckId,
-                    'deck' => $deck
+                    'deck' => $deck,
                 ]) }}"
+                :sets="{{ json_encode($sets) }}"
+                :formats="{{ json_encode($formats) }}"
             >
                 <template v-slot:default="slot">
                     <div class="db-wrapper">
@@ -21,6 +23,50 @@
                                     v-on:change="slot.filter"
                                 >
                             </div>
+
+                            <div class="db-header-filter checkboxes">
+                                <div
+                                    class="checkbox"
+                                    v-for="format in slot.formats"
+                                    :key="format.id"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        placeholder="Search"
+                                        v-model="slot.filters.formats"
+                                        v-on:change="slot.filter"
+                                        :id="'format_' + format.id"
+                                        :value="format.id"
+                                    >
+
+                                    <label
+                                        :for="'format_' + format.id"
+                                        v-html="format.name"
+                                    ></label>
+                                </div>
+                            </div>
+
+                            <div class="db-header-filter checkboxes">
+                                <div
+                                    class="checkbox"
+                                    v-for="set in slot.sets"
+                                    :key="set.id"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        placeholder="Search"
+                                        v-model="slot.filters.sets"
+                                        v-on:change="slot.filter"
+                                        :id="'set_' + set.id"
+                                        :value="set.id"
+                                    >
+
+                                    <label
+                                        :for="'set_' + set.id"
+                                        v-html="set.name"
+                                    ></label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="db-content">
@@ -29,7 +75,9 @@
                                     class="db-content-card-list-arrow arrow-left"
                                     v-on:click="slot.previousPage"
                                 >
-                                    <h2><i class="fas fa-angle-left"></i></h2>
+                                    <h2 v-if="slot.pagination.arrows">
+                                        <i class="fas fa-angle-left"></i>
+                                    </h2>
                                 </div>
 
                                 <div class="vue-wrapper">
@@ -43,7 +91,9 @@
                                     class="db-content-card-list-arrow arrow-right"
                                     v-on:click="slot.nextPage"
                                 >
-                                    <h2><i class="fas fa-angle-right"></i></h2>
+                                    <h2 v-if="slot.pagination.arrows">
+                                        <i class="fas fa-angle-right"></i>
+                                    </h2>
                                 </div>
                             </div>
                         </div>
@@ -61,7 +111,7 @@
                             </h2>
                         </div>
 
-                        <div class="db-table-scroll-wrapper">
+                        <div :class="'db-table-scroll-wrapper ' + (!slot.graphOpen ? 'graph-open-wrapper' : '')">
                             <table class="db-content-deck-list-cards" cellpadding="0" cellspacing="1">
                                 <tr
                                     class="db-content-deck-list-cards-card"
@@ -99,6 +149,47 @@
                                     </td>
                                 </tr>
                             </table>
+                        </div>
+
+                        <div :class="'db-content-deck-list-graph ' + (!slot.graphOpen ? 'graph-open' : '')">
+                            <div class="graph-toggle">
+                                <h4
+                                    v-if="slot.graphOpen"
+                                    v-on:click="slot.toggleGraph"
+                                >
+                                    <i class="fa fa-sort-down"></i>
+                                    Close graph
+                                    <i class="fa fa-sort-down"></i>
+                                </h4>
+                                <h4
+                                    v-if="!slot.graphOpen"
+                                    v-on:click="slot.toggleGraph"
+                                >
+                                    <i class="fa fa-sort-up"></i>
+                                    Open graph
+                                    <i class="fa fa-sort-up"></i>
+                                </h4>
+                            </div>
+
+                            <div class="graph-wrapper graph">
+                                <div
+                                    v-for="(bar, key) in slot.graph"
+                                    :key="key"
+                                    class="graph-bar"
+                                >
+                                    <div class="graph-bar-bar" :style="'height:'+bar.height+'px'"></div>
+                                    {{-- <div class="graph-bar-number" v-html="bar.amount"></div> --}}
+                                </div>
+                            </div>
+
+                            <div class="graph-legend">
+                                <div
+                                    v-for="(bar, key) in slot.graph"
+                                    :key="key"
+                                    class="graph-legend-item"
+                                    v-html="(key == 9 ? '8+' : key)"
+                                ></div>
+                            </div>
                         </div>
 
                         <div class="db-content-deck-list-buttons">

@@ -29,13 +29,15 @@ class CardForm extends Form
             AttachmentField::make('attachment_id')
                 ->label('Card image')
                 ->format('card')
-                ->rules('required'),
+                ->rules('required')
+                ->hideOnIndex(),
 
             AttachmentField::make('animated_attachment_id')
                 ->label('Card image (animation)')
                 ->hideOnIndex(),
 
-            CardStatsField::make('stats'),
+            CardStatsField::make('stats')
+                ->hideOnIndex(),
 
             CardDataField::make('data')
                 ->hideOnIndex(),
@@ -47,7 +49,8 @@ class CardForm extends Form
             HabtmField::make('sets')
                 ->relatedItems(Set::get())
                 ->label('Sets')
-                ->itemLabelKey('name'),
+                ->itemLabelKey('name')
+                ->hideOnIndex(),
 
             Button::make('Submit')
         ];
