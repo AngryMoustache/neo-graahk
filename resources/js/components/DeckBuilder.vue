@@ -15,9 +15,6 @@
             :sets="sets"
             :formats="formats"
             :pagination="pagination"
-            :graph="graph"
-            :graph-open="graphOpen"
-            :toggle-graph="toggleGraph"
         />
     </div>
 </template>
@@ -150,43 +147,6 @@
                 })
 
                 this.loading = false
-            },
-            generateGraph () {
-                var self = this
-
-                this.graph = {
-                    0: {amount: 0, height: 0},
-                    1: {amount: 0, height: 0},
-                    2: {amount: 0, height: 0},
-                    3: {amount: 0, height: 0},
-                    4: {amount: 0, height: 0},
-                    5: {amount: 0, height: 0},
-                    6: {amount: 0, height: 0},
-                    7: {amount: 0, height: 0},
-                    8: {amount: 0, height: 0},
-                    9: {amount: 0, height: 0}
-                }
-
-                Object.values(this.deckList.cards).forEach(card => {
-                    var cost = (card.cost >= 8 ? 9 : card.cost)
-                    self.graph[cost].amount += card.amount
-                })
-
-                var highest = Math.max.apply(
-                        Math, Object.values(this.graph).map(function(o) { return o.amount })
-                    ) + 1
-
-                Object.values(this.graph).forEach((bar, key) => {
-                    var amount = self.graph[key].amount
-                    if (amount !== 0) {
-                        self.graph[key].height = ((200 / highest) * self.graph[key].amount)
-                    } else {
-                        self.graph[key].height = 0
-                    }
-                })
-            },
-            toggleGraph () {
-                this.graphOpen = !this.graphOpen
             }
         }
     }

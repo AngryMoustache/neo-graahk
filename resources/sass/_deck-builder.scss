@@ -116,12 +116,8 @@
             }
 
             .db-table-scroll-wrapper {
-                height: calc(100vh - 98px - 70px - 226px);
+                height: calc(100vh - 98px - 70px);
                 overflow-y: auto;
-
-                &.graph-open-wrapper {
-                    height: calc(100vh - 98px - 70px - 28px);
-                }
 
                 &::-webkit-scrollbar { width: 5px; }
                 &::-webkit-scrollbar-track { background: #f1f1f1; }

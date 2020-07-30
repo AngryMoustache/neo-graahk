@@ -111,7 +111,7 @@
                             </h2>
                         </div>
 
-                        <div :class="'db-table-scroll-wrapper ' + (!slot.graphOpen ? 'graph-open-wrapper' : '')">
+                        <div class="db-table-scroll-wrapper">
                             <table class="db-content-deck-list-cards" cellpadding="0" cellspacing="1">
                                 <tr
                                     class="db-content-deck-list-cards-card"
@@ -149,47 +149,6 @@
                                     </td>
                                 </tr>
                             </table>
-                        </div>
-
-                        <div :class="'db-content-deck-list-graph ' + (!slot.graphOpen ? 'graph-open' : '')">
-                            <div class="graph-toggle">
-                                <h4
-                                    v-if="slot.graphOpen"
-                                    v-on:click="slot.toggleGraph"
-                                >
-                                    <i class="fa fa-sort-down"></i>
-                                    Close graph
-                                    <i class="fa fa-sort-down"></i>
-                                </h4>
-                                <h4
-                                    v-if="!slot.graphOpen"
-                                    v-on:click="slot.toggleGraph"
-                                >
-                                    <i class="fa fa-sort-up"></i>
-                                    Open graph
-                                    <i class="fa fa-sort-up"></i>
-                                </h4>
-                            </div>
-
-                            <div class="graph-wrapper graph">
-                                <div
-                                    v-for="(bar, key) in slot.graph"
-                                    :key="key"
-                                    class="graph-bar"
-                                >
-                                    <div class="graph-bar-bar" :style="'height:'+bar.height+'px'"></div>
-                                    {{-- <div class="graph-bar-number" v-html="bar.amount"></div> --}}
-                                </div>
-                            </div>
-
-                            <div class="graph-legend">
-                                <div
-                                    v-for="(bar, key) in slot.graph"
-                                    :key="key"
-                                    class="graph-legend-item"
-                                    v-html="(key == 9 ? '8+' : key)"
-                                ></div>
-                            </div>
                         </div>
 
                         <div class="db-content-deck-list-buttons">
