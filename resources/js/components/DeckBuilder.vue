@@ -91,14 +91,6 @@
                     }
                 }
 
-                this.deckList.cards = Object.values(this.deckList.cards).sort(function (a, b) {
-                    if (a.cost - b.cost !== 0) return a.cost - b.cost
-                    if (b.cost - a.cost !== 0) return b.cost - a.cost
-                    if (a.name < b.name) return -1
-                    if (a.name > b.name) return 1
-                    return 1
-                })
-
                 this.countCards()
                 this.$forceUpdate()
             },
@@ -124,6 +116,14 @@
                 this.deckList.amount = 0
                 Object.values(this.deckList.cards).forEach(card => {
                     self.deckList.amount += card.amount
+                })
+
+                this.deckList.cards = Object.values(this.deckList.cards).sort(function (a, b) {
+                    if (a.cost - b.cost !== 0) return a.cost - b.cost
+                    if (b.cost - a.cost !== 0) return b.cost - a.cost
+                    if (a.name < b.name) return -1
+                    if (a.name > b.name) return 1
+                    return 1
                 })
             },
             async saveDeck () {
