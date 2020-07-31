@@ -27,8 +27,6 @@
                 content: '',
                 loading: false,
                 deckId: null,
-                graph: [],
-                graphOpen: false,
                 deckList: {
                     name: 'New Deck',
                     amount: 0,
@@ -66,7 +64,6 @@
                     this.pagination = response.data.pagination
                 })
 
-                this.generateGraph()
                 window.resizeCards()
             },
             async nextPage () {
