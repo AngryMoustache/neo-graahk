@@ -8,7 +8,7 @@
             id="{{ $field->getName() }}"
             name="{{ $field->getName() }}"
             placeholder="{{ $field->getLabel() }}"
-            value="{{ $field->getValue() }}"
+            value="{{ (old($field->getName()) ?? $field->getValue()) }}"
         >
     </div>
 

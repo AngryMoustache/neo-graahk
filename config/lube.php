@@ -7,5 +7,7 @@ return [
         'sets',
         'users',
         'formats',
+        'news',
+        'tags',
     ]
 ];

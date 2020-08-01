@@ -15,10 +15,19 @@ class HabtmField extends Component
     {
         $this->fieldName = $field->getName();
 
-        if ($field->getValue()) {
-            $this->selected = $field->getValue()
-                ->pluck($field->itemLabelKey ?? 'id', 'id')
-                ->toArray();
+        $value = (old($field->getName()) ?? $field->getValue());
+        if ($value) {
+            if (gettype($value) === 'string') {
+                $selected = json_decode($value);
+                $this->selected = $field->relatedItems
+                    ->pluck($field->itemLabelKey ?? 'id', 'id')
+                    ->filter(fn ($value, $key) => in_array($key, $selected))
+                    ->toArray();
+            } else {
+                $this->selected = $value
+                    ->pluck($field->itemLabelKey ?? 'id', 'id')
+                    ->toArray();
+            }
         }
 
         $this->unselected = $field->relatedItems

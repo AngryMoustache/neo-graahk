@@ -1,1 +1,1 @@
-<img src="{{ optional($attachment)->format($field->format ?? 'thumbs') }}">
+<img src="{{ optional($attachment)->format($field->format ?? 'thumb') }}">

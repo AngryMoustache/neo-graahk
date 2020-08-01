@@ -23,14 +23,15 @@ Route::middleware(CheckLogin::class)->group(function () {
 Route::middleware(AdminMiddleware::class)->group(function () {
     Route::get('/admin', 'AdminController@index')->name('admin.index');
     foreach (config('lube.resources', []) as $resource) {
-        $controller = 'Lube\\' . ucfirst($resource) . 'Controller';
-        Route::get("/admin/$resource", "$controller@index")->name("lube.$resource.index");
-        Route::get("/admin/$resource/create", "$controller@create")->name("lube.$resource.create");
-        Route::get("/admin/$resource/{id}", "$controller@show")->name("lube.$resource.show");
-        Route::get("/admin/$resource/{id}/edit", "$controller@edit")->name("lube.$resource.edit");
-        Route::post("/admin/$resource/store", "$controller@store")->name("lube.$resource.store");
-        Route::patch("/admin/$resource/{id}", "$controller@update")->name("lube.$resource.update");
-        Route::get("/admin/$resource/{id}/delete", "$controller@delete")->name("lube.$resource.delete");
-        Route::delete("/admin/$resource/{id}/delete", "$controller@deleteCommit")->name("lube.$resource.delete");
+        $route = \Str::kebab($resource);
+        $controller = 'Lube\\' . ucfirst(\Str::camel($resource)) . 'Controller';
+        Route::get("/admin/$route", "$controller@index")->name("lube.$route.index");
+        Route::get("/admin/$route/create", "$controller@create")->name("lube.$route.create");
+        Route::get("/admin/$route/{id}", "$controller@show")->name("lube.$route.show");
+        Route::get("/admin/$route/{id}/edit", "$controller@edit")->name("lube.$route.edit");
+        Route::post("/admin/$route/store", "$controller@store")->name("lube.$route.store");
+        Route::patch("/admin/$route/{id}", "$controller@update")->name("lube.$route.update");
+        Route::get("/admin/$route/{id}/delete", "$controller@delete")->name("lube.$route.delete");
+        Route::delete("/admin/$route/{id}/delete", "$controller@deleteCommit")->name("lube.$route.delete");
     }
 });

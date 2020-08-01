@@ -4,7 +4,7 @@
             type="hidden"
             name="{{ $field->getName() }}"
             id="_{{ $field->getName() }}"
-            value="{{ $field->getValue() ? 1 : 0 }}"
+            value="{{ (old($field->getName()) ?? $field->getValue()) ? 1 : 0 }}"
         >
 
         <input
@@ -12,7 +12,7 @@
             class="{{ $field->class }}"
             id="{{ $field->getName() }}"
             onchange="document.getElementById('_{{ $field->getName() }}').value = (this.checked ? 1 : 0)"
-            @if ($field->getValue())
+            @if ((old($field->getName()) ?? $field->getValue()))
                 checked
             @endif
         >
