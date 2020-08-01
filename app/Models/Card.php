@@ -71,7 +71,8 @@ class Card extends Model
 
     public function experience()
     {
-        return $this->hasOne(CardUser::class);
+        return $this->hasOne(CardUser::class)
+            ->where('user_id', optional(auth()->user())->id);
     }
 
     public function getStatsAttribute()
@@ -104,8 +105,12 @@ class Card extends Model
         if (!$user) { return null; }
 
         Cache::flush();
-        $value = Cache::rememberForever("cardExpUser{$user}Card{$this->id}", function () {
-            $exp = optional($this->experience)->experience ?? 0;
+        $value = Cache::rememberForever("cardExpUser{$user}Card{$this->id}", function () use ($user) {
+            $pivot = CardUser::where('card_id', $this->id)
+                ->where('user_id', $user)
+                ->first();
+
+            $exp = optional($pivot)->experience ?? 0;
             foreach (config('rarities') as $rarityName => $rarityExp) {
                 if ($exp >= $rarityExp) {
                     $rarity = $rarityName;
@@ -118,14 +123,20 @@ class Card extends Model
         return $value;
     }
 
-    public function getVueInformation($withAmount = false)
+    public function getVueInformation($withAmount = false, $user = null)
     {
         $array = [
             'id' => $this->id,
             'name' => $this->name,
-            'image' => $this->attachment->format('thumb'),
+            'image' => $this->attachment->format('card'),
             'cost' => $this->cost,
-            'showcase' => $this->getOriginal('pivot_showcase')
+            'showcase' => $this->getOriginal('pivot_showcase'),
+            'data' => $this->data,
+            'stats' => $this->stats,
+            'rarity' => $this->getRarity($user),
+            'text' => !empty($this->masked_text)
+                ? $this->masked_text
+                : CardText::parse($this->data)
         ];
 
         if ($withAmount) {

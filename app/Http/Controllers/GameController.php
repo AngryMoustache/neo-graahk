@@ -21,7 +21,7 @@ class GameController extends Controller
         $user = false;
         if (Auth::user()->id === $game->userOne->id) { $user = $game->userOne->id; }
         if (Auth::user()->id === $game->userOne->id) { $user = $game->userOne->id; }
-dd(Deck::first()->cards->pluck('id'));
+
         return view('game.game', [
             'game' => $game,
             'user' => $user,

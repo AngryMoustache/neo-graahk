@@ -65,4 +65,20 @@ class Deck extends Model
         $new->cards()->sync($pivots);
         return $new;
     }
+
+    public function getDeckListIds($shuffle = false)
+    {
+        $list = [];
+        $this->cards->each(function ($card) use (&$list) {
+            for ($i = 0; $i < $card->getOriginal('pivot_amount'); $i++) {
+                $list[] = $card->id;
+            }
+        });
+
+        if ($shuffle) {
+            shuffle($list);
+        }
+
+        return $list;
+    }
 }
