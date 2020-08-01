@@ -16,7 +16,8 @@ Route::middleware(CheckLogin::class)->group(function () {
     Route::get('/decks/{deck}/duplicate', 'DeckController@duplicate')->name('decks.duplicate');
     Route::get('/decks/{deck}/delete', 'DeckController@delete')->name('decks.delete');
 
-    Route::get('/game', 'GameController')->name('game.game');
+    Route::get('/game/browser', 'GameController@browser')->name('game.browser');
+    Route::get('/game/{game}', 'GameController@game')->name('game.game');
 });
 
 Route::middleware(AdminMiddleware::class)->group(function () {

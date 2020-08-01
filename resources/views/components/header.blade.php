@@ -5,10 +5,18 @@
             route="{{ route('static.home') }}"
             text="Home"
         />
-        <x-nav.item
-            route="{{ route('decks.index') }}"
-            text="Decks"
-        />
+        @auth
+            <x-nav.item
+                route="{{ route('decks.index') }}"
+                text="Decks"
+            />
+
+            <x-nav.item
+                route="{{ route('game.browser') }}"
+                text="Browser"
+            />
+        @endauth
+
         @if (optional(auth()->user())->admin)
             <x-nav.item
                 route="{{ route('admin.index') }}"
