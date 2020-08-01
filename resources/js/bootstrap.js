@@ -12,8 +12,10 @@ window.compiler = require('vue-template-compiler')
 
 Vue.use(VueAxios, axios)
 window.Vue = require('vue')
+
 Vue.component('deck-builder', require('./components/DeckBuilder.vue').default)
 Vue.component('render-deck-builder-cards', require('./components/RenderDeckBuilderCards.js').default)
+Vue.component('game', require('./components/game/Game.vue').default)
 require('./components/RenderDeckBuilderCards');
 
 const app = new Vue({ el: '#app' })
