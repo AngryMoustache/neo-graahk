@@ -17,22 +17,22 @@ class CreateNewsTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug');
-            $table->foreignId('attachment_id')->constrained();
+            $table->foreignId('attachment_id')->constrained()->onDelete('cascade');
             $table->longText('body');
             $table->timestamps();
         });
 
-        Schema::create('news_tags', function (Blueprint $table) {
+        Schema::create('tags', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('slug');
             $table->timestamps();
         });
 
-        Schema::create('news_news_tag', function (Blueprint $table) {
+        Schema::create('news_tag', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('news_id')->constrained();
-            $table->foreignId('news_tag_id')->constrained();
+            $table->foreignId('news_id')->constrained()->onDelete('cascade');
+            $table->foreignId('tag_id')->constrained()->onDelete('cascade');
         });
     }
 
@@ -43,8 +43,8 @@ class CreateNewsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('news_news_tag');
-        Schema::dropIfExists('news_tags');
+        Schema::dropIfExists('news_tag');
+        Schema::dropIfExists('tags');
         Schema::dropIfExists('news');
     }
 }

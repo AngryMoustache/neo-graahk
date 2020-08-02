@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div :class="cardClass">
+    <div
+      :class="cardClass"
+      v-on:click="playCard(index, card)"
+    >
       <div class="card-container">
         <div class="card-overlay"></div>
         <div
@@ -27,7 +30,7 @@
 
 <script>
   export default {
-    props: ['card'],
+    props: ['index', 'card', 'playCard'],
     data () {
       return {
         cardClass: 'card '

@@ -16,7 +16,7 @@ class News extends Model
         return $this->belongsTo(Attachment::class);
     }
 
-    public function newsTags()
+    public function tags()
     {
         return $this->belongsToMany(Tag::class);
     }

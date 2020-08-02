@@ -17,8 +17,8 @@ class CreateCardsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug');
-            $table->foreignId('attachment_id')->constrained();
-            $table->foreignId('set_id')->constrained();
+            $table->foreignId('attachment_id')->constrained()->onDelete('cascade');
+            $table->foreignId('set_id')->constrained()->onDelete('cascade');
             $table->longText('data')->nullable();
             $table->timestamps();
         });

@@ -15,8 +15,8 @@ class CreateCardSetTable extends Migration
     {
         Schema::create('card_set', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('card_id')->constrained();
-            $table->foreignId('set_id')->constrained();
+            $table->foreignId('card_id')->constrained()->onDelete('cascade');
+            $table->foreignId('set_id')->constrained()->onDelete('cascade');
             $table->boolean('reprint')->default(0);
         });
 
@@ -36,7 +36,7 @@ class CreateCardSetTable extends Migration
         Schema::dropIfExists('card_set');
 
         Schema::table('cards', function (Blueprint $table) {
-            $table->foreignId('set_id')->constrained();
+            $table->foreignId('set_id')->constrained()->onDelete('cascade');
         });
     }
 }

@@ -19,6 +19,10 @@ Vue.component('deck-builder', require('./components/DeckBuilder.vue').default)
 Vue.component('render-deck-builder-cards', require('./components/RenderDeckBuilderCards.js').default)
 Vue.component('game', require('./components/game/Game.vue').default)
 Vue.component('card', require('./components/game/Card.vue').default)
+Vue.component('hidden-card', require('./components/game/HiddenCard.vue').default)
+Vue.component('player-info', require('./components/game/PlayerInfo.vue').default)
+Vue.component('game-board', require('./components/game/GameBoard.vue').default)
+Vue.component('dude', require('./components/game/Dude.vue').default)
 require('./components/RenderDeckBuilderCards');
 
 const app = new Vue({ el: '#app' })

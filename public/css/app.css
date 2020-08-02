@@ -1409,6 +1409,259 @@ nav.main-nav ul li a:hover {
   cursor: pointer;
 }
 
+#game .game {
+  display: grid;
+  overflow: hidden;
+  height: 100vh;
+  width: 100%;
+  grid-template-columns: 100%;
+  grid-template-rows: 50px 150px auto 150px 150px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+#game .game-hand, #game .game-opponent-hand {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 0 20%;
+}
+
+#game .game-hand-card, #game .game-opponent-hand-card {
+  width: 250px;
+  margin: 10px -150px 0;
+  transition: margin 0.2s;
+  z-index: 50;
+}
+
+#game .game-hand-card:hover, #game .game-opponent-hand-card:hover {
+  margin: -145px -150px;
+  cursor: pointer;
+}
+
+#game .game-hand-card .card, #game .game-opponent-hand-card .card {
+  width: 100%;
+}
+
+#game .game-opponent-hand-card {
+  margin: 0 -150px 30px;
+  transform: rotate(180deg);
+}
+
+#game .game-opponent-hand-card:hover {
+  margin: 0 -150px 30px;
+  cursor: cursor;
+}
+
+#game .game-player-info .player-info, #game .game-opponent-info .player-info {
+  position: relative;
+  display: flex;
+}
+
+#game .game-player-info .player-info-frame, #game .game-opponent-info .player-info-frame {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  top: -5px;
+  text-align: center;
+  width: 370px;
+  z-index: 8;
+}
+
+#game .game-player-info .player-info-right, #game .game-player-info .player-info-left, #game .game-opponent-info .player-info-right, #game .game-opponent-info .player-info-left {
+  width: calc(50% - 75px);
+  display: flex;
+  flex-flow: wrap-reverse;
+  padding-bottom: 20px;
+}
+
+#game .game-player-info .player-info-right-icon, #game .game-player-info .player-info-left-icon, #game .game-opponent-info .player-info-right-icon, #game .game-opponent-info .player-info-left-icon {
+  position: relative;
+  text-align: center;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  width: 50px;
+  height: 50px;
+  margin: 0 10px;
+}
+
+#game .game-player-info .player-info-right-icon .energy-basic i, #game .game-player-info .player-info-left-icon .energy-basic i, #game .game-opponent-info .player-info-right-icon .energy-basic i, #game .game-opponent-info .player-info-left-icon .energy-basic i {
+  color: rgba(255, 255, 0, 0.2);
+}
+
+#game .game-player-info .player-info-right-icon .energy-red i, #game .game-player-info .player-info-left-icon .energy-red i, #game .game-opponent-info .player-info-right-icon .energy-red i, #game .game-opponent-info .player-info-left-icon .energy-red i {
+  color: rgba(255, 0, 0, 0.2);
+}
+
+#game .game-player-info .player-info-right-icon .energy-blue i, #game .game-player-info .player-info-left-icon .energy-blue i, #game .game-opponent-info .player-info-right-icon .energy-blue i, #game .game-opponent-info .player-info-left-icon .energy-blue i {
+  color: rgba(0, 0, 255, 0.2);
+}
+
+#game .game-player-info .player-info-right-icon span, #game .game-player-info .player-info-left-icon span, #game .game-opponent-info .player-info-right-icon span, #game .game-opponent-info .player-info-left-icon span {
+  position: relative;
+  z-index: 10;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: black;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+  display: inline-block;
+  width: 100%;
+  width: 50px;
+  padding-top: 0;
+}
+
+#game .game-player-info .player-info-right-icon i, #game .game-player-info .player-info-left-icon i, #game .game-opponent-info .player-info-right-icon i, #game .game-opponent-info .player-info-left-icon i {
+  position: absolute;
+  z-index: 9;
+  font-size: 3rem;
+  color: rgba(0, 0, 0, 0.3);
+  width: 50px;
+  display: inline-block;
+  left: 0;
+  padding-top: 10px;
+}
+
+#game .game-player-info .player-info-left, #game .game-opponent-info .player-info-left {
+  justify-content: flex-end;
+}
+
+#game .game-player-info .player-info-middle, #game .game-opponent-info .player-info-middle {
+  position: relative;
+  width: 150px;
+}
+
+#game .game-player-info .player-info-middle .current-player, #game .game-opponent-info .player-info-middle .current-player {
+  position: absolute;
+  top: -53px;
+  bottom: -85px;
+  right: 12px;
+  left: 11px;
+  transform: rotate(-29deg) skew(45deg);
+  z-index: -100;
+  background: white;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 50%);
+}
+
+#game .game-player-info .player-info-middle-avatar, #game .game-opponent-info .player-info-middle-avatar {
+  height: 100px;
+  width: 100px;
+  margin: 0 25px;
+  background-size: cover;
+  background-position: center;
+  border-top-right-radius: 30%;
+  border-top-left-radius: 30%;
+}
+
+#game .game-player-info .player-info-middle-avatar-power, #game .game-opponent-info .player-info-middle-avatar-power {
+  font-size: 2rem;
+  font-weight: 800;
+  color: black;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+  width: 100%;
+  position: absolute;
+  display: block;
+  text-align: center;
+  left: 0;
+  top: 82px;
+  z-index: 10;
+}
+
+#game .board {
+  height: calc(100% - 1vh);
+  width: 100%;
+}
+
+#game .board-dudes {
+  display: grid;
+  grid-template-columns: 100px auto 100px;
+  grid-template-rows: 50% 50%;
+  height: 100%;
+  width: 100%;
+}
+
+#game .board-dudes-opponent, #game .board-dudes-player {
+  grid-column: 2;
+  display: flex;
+  justify-content: space-evenly;
+  margin: auto 0;
+}
+
+#game .board-background {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -100;
+  background: #211e20;
+}
+
+#game .board-background-opponent.current, #game .board-background-player.current {
+  background: #262425;
+}
+
+#game .board-background-opponent {
+  position: absolute;
+  top: 0;
+  bottom: 55vh;
+  left: 0;
+  right: 0;
+  border-bottom: 1px solid black;
+}
+
+#game .board-background-player {
+  position: absolute;
+  top: 45vh;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+#game .dude {
+  position: relative;
+  min-width: 150px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+#game .dude-image {
+  position: absolute;
+  top: 0;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  z-index: 8;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+}
+
+#game .dude-frame {
+  position: relative;
+  z-index: 9;
+}
+
+#game .dude-power {
+  position: absolute;
+  width: 100%;
+  bottom: -12px;
+  z-index: 10;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: black;
+}
+
+#game .dude-power span {
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+}
+
 .lube ::-moz-placeholder {
   color: var(--color-placeholder);
 }

@@ -1,0 +1,163 @@
+.game {
+    display: grid;
+    overflow: hidden;
+    height: 100vh;
+    width: 100%;
+    grid-template-columns: 100%;
+    grid-template-rows:
+        50px  // Opponent hand
+        150px  // Opponent info
+        auto   // Board/Fields
+        150px  // Player info
+        150px; // Player hand
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    &-hand,
+    &-opponent-hand {
+        display: flex;
+        justify-content: space-evenly;
+        padding: 0 20%;
+
+        &-card {
+            width: 250px;
+            margin: 10px -150px 0;
+            transition: margin .2s;
+            z-index: 50;
+
+            &:hover {
+                margin: -145px -150px;
+                cursor: pointer;
+            }
+
+            .card {
+                width: 100%;
+            }
+        }
+    }
+
+    &-opponent-hand {
+        &-card {
+            margin: 0 -150px 30px;
+            transform: rotate(180deg);
+
+            &:hover {
+                margin: 0 -150px 30px;
+                cursor: cursor;
+            }
+        }
+    }
+
+    &-player-info,
+    &-opponent-info {
+        .player-info {
+            position: relative;
+            display: flex;
+
+            &-frame {
+                position: absolute;
+                margin-left: auto;
+                margin-right: auto;
+                left: 0; right: 0;
+                top: -5px;
+                text-align: center;
+                width: 370px;
+                z-index: 8;
+            }
+
+            &-right,
+            &-left {
+                width: calc(50% - 75px);
+                display: flex;
+                flex-flow: wrap-reverse;
+                padding-bottom: 20px;
+
+                &-icon {
+                    position: relative;
+                    text-align: center;
+                    height: fit-content;
+                    width: 50px;
+                    height: 50px;
+                    margin: 0 10px;
+
+                    .energy-basic i { color: rgba(yellow, .2); }
+                    .energy-red i { color: rgba(red, .2); }
+                    .energy-blue i { color: rgba(blue, .2); }
+
+                    span {
+                        position: relative;
+                        z-index: 10;
+                        font-size: 1.5rem;
+                        font-weight: 800;
+                        color: black;
+                        text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+                        display: inline-block;
+                        width: 100%;
+                        width: 50px;
+                        padding-top: 0;
+                    }
+
+                    i {
+                        position: absolute;
+                        z-index: 9;
+                        font-size: 3rem;
+                        color: rgba(black, .3);
+                        width: 50px;
+                        display: inline-block;
+                        left: 0;
+                        padding-top: 10px;
+                    }
+                }
+            }
+
+            &-left {
+                justify-content: flex-end;
+            }
+
+            &-middle {
+                position: relative;
+                width: 150px;
+
+                .current-player {
+                    // TEMP
+                    position: absolute;
+                    top: -53px;
+                    bottom: -85px;
+                    right: 12px;
+                    left: 11px;
+                    transform: rotate(-29deg) skew(45deg);
+                    z-index: -100;
+                    background: rgb(255,255,255);
+                    background: radial-gradient(circle, rgba(255,255,255,.5) 0%, rgba(255,255,255,0) 50%);
+                }
+
+                &-avatar {
+                    height: 100px;
+                    width: 100px;
+                    margin: 0 25px;
+                    background-size: cover;
+                    background-position: center;
+                    border-top-right-radius: 30%;
+                    border-top-left-radius: 30%;
+
+                    &-power {
+                        font-size: 2rem;
+                        font-weight: 800;
+                        color: black;
+                        text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+                        width: 100%;
+                        position: absolute;
+                        display: block;
+                        text-align: center;
+                        left: 0;
+                        top: 82px;
+                        z-index: 10;
+                    }
+                }
+            }
+        }
+    }
+}

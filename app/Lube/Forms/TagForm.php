@@ -6,7 +6,7 @@ use App\Lube\Fields\Button;
 use App\Lube\Fields\IdField;
 use App\Lube\Fields\TextField;
 
-class NewsTagForm extends Form
+class TagForm extends Form
 {
     public function fields()
     {

@@ -34,7 +34,7 @@ class NewsForm extends Form
                 ->rules('required')
                 ->hideOnIndex(),
 
-            HabtmField::make('newsTags')
+            HabtmField::make('tags')
                 ->relatedItems(Tag::get())
                 ->label('Tags')
                 ->itemLabelKey('name'),

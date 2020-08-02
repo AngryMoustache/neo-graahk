@@ -35,6 +35,13 @@ body {
 @import 'deck-builder';
 @import 'graph';
 
+// GAME
+#game {
+    @import 'game/main';
+    @import 'game/board';
+    @import 'game/dude';
+}
+
 // CMS
 @import 'lube';
 @import 'picker';

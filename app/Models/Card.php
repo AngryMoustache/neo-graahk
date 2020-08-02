@@ -125,15 +125,16 @@ class Card extends Model
 
     public function getVueInformation($withAmount = false, $user = null)
     {
+        $rarity = $this->getRarity($user);
         $array = [
             'id' => $this->id,
             'name' => $this->name,
-            'image' => $this->attachment->format('card'),
+            'image' => $this->getRarityAttachment($rarity)->format('card'),
             'cost' => $this->cost,
             'showcase' => $this->getOriginal('pivot_showcase'),
             'data' => $this->data,
             'stats' => $this->stats,
-            'rarity' => $this->getRarity($user),
+            'rarity' => $rarity,
             'text' => !empty($this->masked_text)
                 ? $this->masked_text
                 : CardText::parse($this->data)
@@ -149,6 +150,16 @@ class Card extends Model
     public function getVueInformationWithAmount()
     {
         return $this->getVueInformation(true);
+    }
+
+    public function getRarityAttachment($rarity = null)
+    {
+        $rarity ??= $this->getRarity();
+        if ($rarity === 'Fabulous' || $rarity === 'Extraordinary') {
+            return $this->animatedAttachment ?? $this->attachment;
+        }
+
+        return $this->attachment;
     }
 
 }

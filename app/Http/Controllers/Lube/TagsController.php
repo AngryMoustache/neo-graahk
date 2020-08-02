@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Lube;
 
-use App\Lube\Forms\NewsTagForm;
+use App\Lube\Forms\TagForm;
 use App\Models\Tag;
 
-class NewsTagsController extends LubeController
+class TagsController extends LubeController
 {
     public $model = Tag::class;
-    public $form = NewsTagForm::class;
+    public $form = TagForm::class;
     public $routeBase = 'tags';
 
     public $label = 'News Tag';

@@ -13,6 +13,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'attachment_id',
         'password',
         'admin'
     ];
@@ -26,11 +27,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function avatar()
+    {
+        return $this->belongsTo(Attachment::class, 'attachment_id');
+    }
+
     public function getVueInformation()
     {
         return [
             'id' => $this->id,
-            'name' => $this->name
+            'name' => $this->name,
+            'avatar' => optional($this->avatar)->format('thumb'),
         ];
     }
 }

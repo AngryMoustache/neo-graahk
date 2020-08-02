@@ -15,7 +15,7 @@ class CreateDecksTable extends Migration
     {
         Schema::create('decks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->string('slug');
             $table->timestamps();
@@ -23,8 +23,8 @@ class CreateDecksTable extends Migration
 
         Schema::create('card_deck', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('card_id')->constrained();
-            $table->foreignId('deck_id')->constrained();
+            $table->foreignId('card_id')->constrained()->onDelete('cascade');
+            $table->foreignId('deck_id')->constrained()->onDelete('cascade');
             $table->integer('amount');
         });
     }

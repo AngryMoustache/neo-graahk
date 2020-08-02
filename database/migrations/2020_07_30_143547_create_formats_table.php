@@ -23,14 +23,14 @@ class CreateFormatsTable extends Migration
 
         Schema::create('format_set', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('format_id')->constrained();
-            $table->foreignId('set_id')->constrained();
+            $table->foreignId('format_id')->constrained()->onDelete('cascade');
+            $table->foreignId('set_id')->constrained()->onDelete('cascade');
         });
 
         Schema::create('card_format', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('card_id')->constrained();
-            $table->foreignId('format_id')->constrained();
+            $table->foreignId('card_id')->constrained()->onDelete('cascade');
+            $table->foreignId('format_id')->constrained()->onDelete('cascade');
         });
     }
 

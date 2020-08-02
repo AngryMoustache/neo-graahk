@@ -24,6 +24,6 @@ class NewsController extends LubeController
     ];
 
     public $habtms = [
-        'newsTags'
+        'tags'
     ];
 }

@@ -1,0 +1,46 @@
+.board {
+    height: calc(100% - 1vh);
+    width: 100%;
+
+    &-dudes {
+        display: grid;
+        grid-template-columns: 100px auto 100px;
+        grid-template-rows: 50% 50%;
+        height: 100%;
+        width: 100%;
+
+        &-opponent,
+        &-player {
+            grid-column: 2;
+            display: flex;
+            justify-content: space-evenly;
+            margin: auto 0;
+        }
+    }
+
+    &-background {
+        position: absolute;
+        top: 0; bottom: 0;
+        left: 0; right: 0;
+        z-index: -100;
+        background: #211e20;
+
+        &-opponent, &-player {
+            &.current { background: #262425; }
+        }
+
+        &-opponent {
+            position: absolute;
+            top: 0; bottom: 55vh;
+            left: 0; right: 0;
+            border-bottom: 1px solid black;
+        }
+
+        &-player {
+            position: absolute;
+            top: 45vh; bottom: 0;
+            left: 0; right: 0;
+        }
+
+    }
+}

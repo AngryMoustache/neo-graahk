@@ -18,7 +18,7 @@ class CreateSetsTable extends Migration
             $table->string('name');
             $table->string('slug');
             $table->string('code');
-            $table->foreignId('attachment_id')->constrained();
+            $table->foreignId('attachment_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
