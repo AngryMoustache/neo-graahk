@@ -212,12 +212,15 @@
                         || (card.stats.power === search)
 
                     // Set search
-                    var setSearch = false
-                    Object.keys(card.sets).forEach(function (set) {
-                        if (Object.values(sets).includes(parseInt(set))) {
-                            setSearch = true
-                        }
-                    })
+                    var setSearch = true
+                    if (sets.length !== 0) {
+                        setSearch = false
+                        Object.keys(card.sets).forEach(function (set) {
+                            if (Object.values(sets).includes(parseInt(set))) {
+                                setSearch = true
+                            }
+                        })
+                    }
 
                     return textSearch && setSearch
                 })
