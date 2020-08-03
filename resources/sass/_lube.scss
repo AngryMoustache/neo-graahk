@@ -1,9 +1,11 @@
-.lube {
+.lube,
+.new-deck-form {
     ::placeholder { color: var(--color-placeholder); }
     :-ms-input-placeholder { color: var(--color-placeholder); }
     ::-ms-input-placeholder { color: var(--color-placeholder); }
 
-    &-form {
+    &-form,
+    .form {
         .form-row {
             padding-bottom: 1rem;
             margin-bottom: 1rem;
@@ -17,7 +19,7 @@
 
             .form-input {
                 width: 100%;
-            display: flex;
+                display: flex;
             }
 
             .form-error {
@@ -35,10 +37,17 @@
         width: calc(100% - 200px - 1rem);
         margin-left: 1rem;
         background: var(--color-bg-secondary);
+        outline: none;
     }
 
     textarea {
         min-height: 200px;
+    }
+
+    input[type="color"] {
+        padding: 0;
+        width: 100px;
+        margin: .5rem 1rem;
     }
 
     input[type="checkbox"] {

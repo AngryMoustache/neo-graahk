@@ -12,9 +12,6 @@
             @endforeach
         </div>
 
-        <a href="{{ route('decks.new') }}" class="deck-new">
-            <i class="fas fa-plus"></i>
-            Create new deck
-        </a>
+        @livewire('new-deck')
     </div>
 @endsection

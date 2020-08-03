@@ -20,28 +20,26 @@ class DeckController extends Controller
         ]);
     }
 
-    public function new()
-    {
-        $deck = Deck::create([
-            'user_id' => auth()->user()->id,
-            'name' => 'New deck',
-            'slug' => ''
-        ]);
-
-        $slug = Str::slug($deck->name);
-        $deck->slug = "{$deck->id}-{$slug}";
-        $deck->save();
-
-        return redirect(route('decks.edit', $deck));
-    }
-
     public function edit(Deck $deck)
     {
         if (!(Auth::user()->id === $deck->user->id)) {
             return redirect(route('decks.index'));
         }
 
-        $cards = $deck->cards
+        $deckCards = $deck->cards
+            ->map(fn (Card $card) => $card->getVueInformationWithAmount())
+            ->toArray();
+
+        $format = $deck->format_id;
+        $cards = Card::whereHas('formats', function ($q) use ($format) {
+                $q->where('format_id', $format);
+            })
+            ->orWhereHas('sets', function ($q) use ($format) {
+                $q->whereHas('formats', function ($q) use ($format) {
+                    $q->where('format_id', $format);
+                });
+            })
+            ->get()
             ->map(fn (Card $card) => $card->getVueInformationWithAmount())
             ->toArray();
 
@@ -49,9 +47,10 @@ class DeckController extends Controller
             'deckId' => $deck->id,
             'sets' => Set::getForVue(),
             'formats' => Format::getForVue(),
+            'cards' => $cards,
             'deck' => [
                 'name' => $deck->name,
-                'cards' => $cards,
+                'cards' => $deckCards,
                 'amount' => 0,
             ]
         ]);

@@ -4,6 +4,7 @@ namespace App\Lube\Forms;
 
 use App\Lube\Fields\AttachmentField;
 use App\Lube\Fields\Button;
+use App\Lube\Fields\ColorField;
 use App\Lube\Fields\HabtmField;
 use App\Lube\Fields\IdField;
 use App\Lube\Fields\TextareaField;
@@ -25,6 +26,9 @@ class FormatForm extends Form
 
             TextareaField::make('description')
                 ->hideOnIndex(),
+
+            ColorField::make('color')
+                ->rules('required'),
 
             HabtmField::make('sets')
                 ->relatedItems(Set::get())

@@ -11,7 +11,6 @@ Route::get('/', 'StaticController@home')->name('static.home');
 
 Route::middleware(CheckLogin::class)->group(function () {
     Route::get('/decks', 'DeckController@index')->name('decks.index');
-    Route::get('/decks/new', 'DeckController@new')->name('decks.new');
     Route::get('/decks/{deck}', 'DeckController@edit')->name('decks.edit');
     Route::get('/decks/{deck}/duplicate', 'DeckController@duplicate')->name('decks.duplicate');
     Route::get('/decks/{deck}/delete', 'DeckController@delete')->name('decks.delete');

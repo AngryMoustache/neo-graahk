@@ -1,5 +1,8 @@
 @extends('layout')
 
 @section('content')
-    <x-game.card :card="$cards[0]" />
+    @guest
+        <x-login />
+        <x-register />
+    @endguest
 @endsection

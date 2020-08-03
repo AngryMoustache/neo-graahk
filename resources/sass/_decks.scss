@@ -20,6 +20,10 @@
             font-weight: 600;
         }
 
+        .tag-label {
+            margin: .4rem 0 .6rem;
+        }
+
         &-warning i {
             margin-right: .5rem;
             color: orange;
@@ -56,5 +60,19 @@
     i {
         margin-right: 1rem;
         padding-top: .4rem;
+    }
+}
+
+.new-deck-form {
+    input[type=text],
+    select {
+        background: var(--color-bg-container) !important;
+    }
+
+    .form {
+        &-row  {
+            margin-bottom: 0 !important;
+            border-bottom: 0 !important;
+        }
     }
 }

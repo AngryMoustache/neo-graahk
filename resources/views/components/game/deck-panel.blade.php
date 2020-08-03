@@ -6,13 +6,15 @@
 
     <div class="deck-panel-info">
         <h2>{{ $deck->name }}</h2>
+        <x-tag :tag="$deck->format" />
+
         @if ($deck->size !== 30)
             <h3 class="deck-panel-info-warning">
                 <i class="fa fa-exclamation-triangle"></i>
                 Missing cards: {{ $deck->size }}/30 !
             </h3>
         @else
-            <h3>{{ \Carbon\Carbon::createFromTimeStamp(strtotime($deck->created_at))->diffForHumans() }}</h3>
+            <h3>{{ \Carbon\Carbon::createFromTimeStamp(strtotime($deck->created_at))->format('d M Y') }}</h3>
         @endif
     </div>
 

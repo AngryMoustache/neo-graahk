@@ -6,6 +6,7 @@ class Deck extends Model
 {
     protected $fillable = [
         'user_id',
+        'format_id',
         'name',
         'slug',
     ];
@@ -13,6 +14,11 @@ class Deck extends Model
     public $with = [
         'cards'
     ];
+
+    public function format()
+    {
+        return $this->belongsTo(Format::class);
+    }
 
     public function user()
     {

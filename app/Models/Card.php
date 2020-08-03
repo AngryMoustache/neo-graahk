@@ -130,11 +130,13 @@ class Card extends Model
             'id' => $this->id,
             'name' => $this->name,
             'image' => $this->getRarityAttachment($rarity)->format('card'),
+            'setIcon' => $this->currentSet->first()->icon->format('thumb'),
             'cost' => $this->cost,
             'showcase' => $this->getOriginal('pivot_showcase'),
             'data' => $this->data,
             'stats' => $this->stats,
             'rarity' => $rarity,
+            'sets' => $this->sets->pluck('name', 'id')->toArray(),
             'text' => !empty($this->masked_text)
                 ? $this->masked_text
                 : CardText::parse($this->data)
