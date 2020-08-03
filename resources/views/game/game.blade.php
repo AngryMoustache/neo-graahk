@@ -2,7 +2,7 @@
 
 @section('content')
     <game
-        :game="{{ json_encode($game->toArray()) }}"
+        :_game="{{ json_encode($game->toArray()) }}"
         :user="{{ optional(auth()->user())->id }}"
     />
 @endsection

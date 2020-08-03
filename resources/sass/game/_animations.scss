@@ -1,0 +1,11 @@
+.animation {
+    position: absolute;
+    max-width: fit-content;
+    z-index: 100;
+
+    &-gain-energy {
+        width: 200px;
+        top: -85px;
+        left: -75px;
+    }
+}

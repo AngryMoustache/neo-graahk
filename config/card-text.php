@@ -2,6 +2,9 @@
 
 return [
     // Triggers
+    'startTurn' => 'At the start of your turn ',
+    'endTurn' => 'At the end of your turn ',
+
     'enterField' => 'When this dude enters the field, ',
     'leaveField' => 'When this dude leaves the field, ',
 

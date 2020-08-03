@@ -14,7 +14,7 @@ class BoardUpdate implements ShouldBroadcastNow
     public $message;
     public $channel;
 
-    public function __construct($message, $gameId)
+    public function __construct($gameId, $message)
     {
         $this->message = $message;
         $this->channel = "graahk-game-$gameId";

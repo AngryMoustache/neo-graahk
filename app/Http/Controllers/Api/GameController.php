@@ -10,9 +10,25 @@ use App\Models\Game;
 use App\Models\PusherMessage;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class GameController extends Controller
 {
+    public $eventNamespace = 'App\\Http\\GameEvents\\';
+
+    public function fireEvent(Request $request)
+    {
+        /** @var \App\Http\GameEvents\Event */
+        $event = $this->eventNamespace . Str::studly($request->post('name'));
+        $event = new $event(
+            $request->post('gameId'),
+            $request->post('name'),
+            $request->post('params')
+        );
+
+        $event->send();
+    }
+
     public function start(Request $request)
     {
         $game = Game::find($request->post('id'));
@@ -49,15 +65,18 @@ class GameController extends Controller
         $gameData['starting_player'] = $gameData['current'];
 
         $game->update(['game_data' => $gameData]);
-        $pusherMessage = PusherMessage::create(['message' => $gameData]);
-        event(new BoardUpdate($pusherMessage->id, $request->post('id')));
+
+        return $gameData;
     }
 
-    public function updateBoard(Request $request)
+    public function updateData(Request $request)
     {
-        $gameData = $request->post('game_data');
-        $pusherMessage = PusherMessage::create(['message' => $gameData]);
-        Game::find($request->post('id'))->update(['game_data' => $gameData]);
-        event(new BoardUpdate($pusherMessage->id, $request->post('id')));
+        $data = $request->post('game_data');
+        Game::find($request->post('id'))->update(['game_data' => $data]);
+
+        if ($request->post('refresh')) {
+            $pusherMessage = PusherMessage::create(['message' => $data]);
+            event(new BoardUpdate($request->post('id'), $pusherMessage->id));
+        }
     }
 }

@@ -1453,7 +1453,7 @@ nav.main-nav ul li a:hover {
   width: 250px;
   margin: 10px -150px 0;
   transition: margin 0.2s;
-  z-index: 50;
+  z-index: 20000;
 }
 
 #game .game-hand-card:hover, #game .game-opponent-hand-card:hover {
@@ -1524,7 +1524,7 @@ nav.main-nav ul li a:hover {
 
 #game .game-player-info .player-info-right-icon span, #game .game-player-info .player-info-left-icon span, #game .game-opponent-info .player-info-right-icon span, #game .game-opponent-info .player-info-left-icon span {
   position: relative;
-  z-index: 10;
+  z-index: 10000;
   font-size: 1.5rem;
   font-weight: 800;
   color: black;
@@ -1588,7 +1588,7 @@ nav.main-nav ul li a:hover {
   text-align: center;
   left: 0;
   top: 82px;
-  z-index: 10;
+  z-index: 1000;
 }
 
 #game .board {
@@ -1681,6 +1681,20 @@ nav.main-nav ul li a:hover {
   display: inline-block;
   text-align: center;
   width: 100%;
+}
+
+#game .animation {
+  position: absolute;
+  max-width: -webkit-fit-content;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  z-index: 100;
+}
+
+#game .animation-gain-energy {
+  width: 200px;
+  top: -85px;
+  left: -75px;
 }
 
 .lube ::-moz-placeholder, .new-deck-form ::-moz-placeholder {

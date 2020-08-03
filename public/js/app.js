@@ -2371,6 +2371,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _events_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./events.js */ "./resources/js/components/game/events.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -2432,16 +2433,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['user', 'game'],
+  props: ['user', '_game'],
   data: function data() {
     return {
       loaded: false,
       player: null,
       opponent: null,
-      currentPlayer: null,
-      gameData: null,
-      animations: []
+      currentPlayerId: null,
+      currentOpponentId: null,
+      events: [],
+      eventRunning: false
     };
   },
   mounted: function mounted() {
@@ -2452,28 +2455,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _this.setupPusher(); // No phase? Game just started
+              _this.game = _this._game;
 
+              _this.setupPusher();
 
-              if (!(_this.game.game_data.state === undefined)) {
-                _context.next = 6;
-                break;
+              _this.loadPlayers();
+
+              _this.loaded = true; // Check if it's the first turn
+
+              if (_this.game.game_data.state === 'started' && _this.isCurrentPlayer()) {
+                _this.game.game_data.state = 'main-phase';
+
+                _this.startFirstTurn();
+
+                _this.trigger('startTurn');
               }
 
-              _context.next = 4;
-              return _this.startGame();
-
-            case 4:
-              _context.next = 9;
-              break;
+              console.log(_this.game);
 
             case 6:
-              _this.gameData = _this.game.game_data;
-              _this.loaded = true;
-
-              _this.parseNewBoardData();
-
-            case 9:
             case "end":
               return _context.stop();
           }
@@ -2487,56 +2487,130 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      * GAME METHODS
      *
      */
-    event: function event(name) {
-      if (name === 'startGame') {
-        this.gainEnergy(this.currentPlayer, 2);
-        this.drawCards(this.currentPlayer, 3);
-        this.drawCards(this.currentPlayerOpponent, 4);
-      }
-
-      if (name === 'startTurn') {
-        this.gainEnergy(this.currentPlayer, 3);
-        this.drawCards(this.currentPlayer, 1);
-      }
-
-      this.updateBoard();
+    loadPlayers: function loadPlayers() {
+      var playerId = this.user;
+      var opponentId = this.game.user_1_id === playerId ? this.game.user_2_id : this.game.user_1_id;
+      this.player = this.game.game_data.players[playerId];
+      this.opponent = this.game.game_data.players[opponentId];
+      this.currentPlayerId = this.game.game_data.current;
+      this.currentOpponentId = this.game.user_1_id === this.game.game_data.current ? this.game.user_2_id : this.game.user_1_id;
     },
-    isPlayerTurn: function isPlayerTurn() {
-      return this.currentPlayer.user.id === this.player.user.id;
+    getPlayer: function getPlayer(id) {
+      return this.player.user.id === id ? this.player : this.opponent;
+    },
+    fireEvent: function fireEvent(name) {
+      var _arguments = arguments,
+          _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var _len, params, _key;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                for (_len = _arguments.length, params = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+                  params[_key - 1] = _arguments[_key];
+                }
+
+                if (params.length === 1) {
+                  params = params[0];
+                }
+
+                _context2.next = 4;
+                return window.axios.post('/api/game/fire-event', {
+                  gameId: _this2.game.id,
+                  name: name,
+                  params: params
+                });
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    isCurrentPlayer: function isCurrentPlayer() {
+      return this.currentPlayerId === this.player.user.id;
+    },
+    trigger: function trigger(name) {
+      console.log('CHECKING TRIGGER', name);
     },
     playCard: function playCard(index, card) {
-      if (!this.isPlayerTurn()) {
+      if (!this.isCurrentPlayer()) {
+        return;
+      } // if (this.player.energy.basic >= card.cost) {
+
+
+      this.fireEvent('playCardEvent', {
+        card: card,
+        index: index,
+        player: this.player.user.id
+      }); // }
+    },
+    endTurn: function endTurn() {
+      if (!this.isCurrentPlayer()) {
         return;
       }
 
-      if (this.player.energy.basic >= card.cost) {
-        this.player.energy.basic -= card.cost;
-        this.player.board.push(card);
-        this.$delete(this.player.hand, index);
-      }
+      this.trigger('endTurn');
+      this.game.game_data.current = this.currentOpponentId;
+      this.game.game_data.state = 'startTurn';
+      this.saveBoard(true);
+    },
+    saveBoard: function saveBoard() {
+      var refresh = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+      var data = this.game;
+      data.game_data.players[this.player.user.id] = this.player;
+      data.game_data.players[this.opponent.user.id] = this.opponent;
+      data.refresh = refresh;
+      window.axios.post('/api/game/update-data', data);
     },
 
     /**
      *
-     * GAME EVENTS
+     * ANIMATION METHODS
      *
      */
-    drawCards: function drawCards(target, amount) {
-      for (var i = 0; i < amount; i++) {
-        target.hand.push(target.deck.pop());
-      }
-    },
-    gainEnergy: function gainEnergy(target, amount) {
-      target.energy.basic += amount;
-    },
-    endTurn: function endTurn() {
-      if (!this.isPlayerTurn()) {
-        return;
-      }
+    handleNextEvent: function handleNextEvent(key) {
+      var event = this.events[key];
 
-      this.gameData.currentPlayer = this.opponent.user.id;
-      this.gameData.event = 'startTurn';
-      this.updateBoard();
+      if (!this.eventRunning && event !== undefined) {
+        var self = this;
+        this.eventRunning = true; // v ACTUAL EVENT HERE v
+
+        if (this[event.name] !== undefined) {
+          console.log('FIRING EVENT', event);
+          this[event.name](event);
+        } // ^ ACTUAL EVENT HERE ^
+
+
+        window.setTimeout(function () {
+          self.eventRunning = false;
+          self.cleanAnimations();
+          self.handleNextEvent(key + 1);
+        }, event.animation.duration);
+      } else {
+        // Save the board if you are the active player
+        if (this.isCurrentPlayer()) {
+          this.saveBoard();
+        }
+      }
+    },
+    cleanAnimations: function cleanAnimations() {
+      var animations = document.querySelectorAll('.animation');
+
+      for (var i = 0; i < animations.length; i++) {
+        animations[i].remove();
+      }
+    },
+    createAnimation: function createAnimation(target, name) {
+      var image = document.createElement('img');
+      image.setAttribute('class', 'animation animation-gain-energy');
+      image.setAttribute('src', '/../img/game/animations/' + name + '.png');
+      document.querySelector(target).appendChild(image);
     },
 
     /**
@@ -2545,82 +2619,44 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      *
      */
     setupPusher: function setupPusher() {
-      var _this2 = this;
+      var _this3 = this;
 
+      var self = this;
       var pusher = new Pusher('9bb12fbb6aa54329b713', {
         cluster: 'eu'
       });
       var channel = pusher.subscribe('graahk-game-' + this.game.id);
       channel.bind('board-update', function (data) {
-        window.axios.get('/api/pusher-message/' + data.message).then(function (response) {
-          _this2.gameData = response.data;
+        if (typeof data.message === 'number') {
+          // Signals end of turn
+          window.axios.get('/api/pusher-message/' + data.message).then(function (response) {
+            _this3.game.game_data = response.data;
 
-          _this2.parseNewBoardData();
-        });
-      });
-    },
-    startGame: function startGame() {
-      var _this3 = this;
+            _this3.loadPlayers();
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return window.axios.post('/api/game/start', _this3.game);
-
-              case 2:
-              case "end":
-                return _context2.stop();
+            if (_this3.isCurrentPlayer() && _this3[_this3.game.game_data.state]) {
+              _this3[_this3.game.game_data.state]();
             }
-          }
-        }, _callee2);
-      }))();
-    },
-    updateBoard: function updateBoard() {
-      // Make sure the correct data is sent
-      this.gameData.players[this.player.user.id] = this.player;
-      this.gameData.players[this.opponent.user.id] = this.opponent;
-      window.axios.post('/api/game/update-board', {
-        id: this.game.id,
-        game_data: this.gameData
+          });
+        } else {
+          // Normal event
+          _this3.events.push(data.message);
+
+          _this3.handleNextEvent(_this3.events.length - 1);
+        }
       });
     },
-    parseNewBoardData: function parseNewBoardData() {
-      var _this4 = this;
 
-      var id = Object.keys(this.gameData.players).filter(function (key) {
-        return key != _this4.user;
-      })[0];
-      this.opponent = this.gameData.players[id];
-      this.player = this.gameData.players[this.user];
-
-      if (this.player.user.id === this.gameData.currentPlayer) {
-        this.currentPlayer = this.player;
-        this.currentPlayerOpponent = this.opponent;
-      } else {
-        this.currentPlayer = this.opponent;
-        this.currentPlayerOpponent = this.player;
-      }
-
-      this.loaded = true;
-
-      if (this.gameData.state === 'started') {
-        this.gameData.state = 'playing';
-        this.event('startGame');
-      }
-
-      if (this.gameData.event) {
-        this.event(this.gameData.event);
-        this.$delete(this.gameData, 'event');
-      }
-
-      this.$forceUpdate();
-      this.$nextTick(function () {
-        window.resizeCards();
-      });
-    }
+    /**
+     *
+     * EVENTS
+     *
+     */
+    drawCards: _events_js__WEBPACK_IMPORTED_MODULE_1__["drawCards"],
+    gainEnergy: _events_js__WEBPACK_IMPORTED_MODULE_1__["gainEnergy"],
+    startFirstTurn: _events_js__WEBPACK_IMPORTED_MODULE_1__["startFirstTurn"],
+    startTurn: _events_js__WEBPACK_IMPORTED_MODULE_1__["startTurn"],
+    playCardEvent: _events_js__WEBPACK_IMPORTED_MODULE_1__["playCardEvent"]
   }
 });
 
@@ -2663,7 +2699,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['gameData', 'player', 'opponent', 'currentPlayer'],
+  props: ['player', 'opponent', 'currentPlayerId'],
   data: function data() {
     return {};
   },
@@ -2753,8 +2789,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['endTurn', 'player', 'currentPlayer'],
+  props: ['endTurn', 'player', 'currentPlayerId'],
   data: function data() {
     return {};
   },
@@ -21603,8 +21640,8 @@ var render = function() {
           {
             class:
               "game" +
-              (_vm.currentPlayer.user.id === _vm.player.user.id
-                ? " current-player"
+              (_vm.currentPlayerId === _vm.player.user.id
+                ? " current-player-id"
                 : "")
           },
           [
@@ -21629,7 +21666,7 @@ var render = function() {
                 _c("player-info", {
                   attrs: {
                     player: _vm.opponent,
-                    "current-player": _vm.currentPlayer
+                    "current-player-id": _vm.currentPlayerId
                   }
                 })
               ],
@@ -21642,10 +21679,9 @@ var render = function() {
               [
                 _c("game-board", {
                   attrs: {
-                    "game-data": _vm.gameData,
                     player: _vm.player,
                     opponent: _vm.opponent,
-                    "current-player": _vm.currentPlayer
+                    "current-player-id": _vm.currentPlayerId
                   }
                 })
               ],
@@ -21659,8 +21695,8 @@ var render = function() {
                 _c("player-info", {
                   attrs: {
                     player: _vm.player,
-                    "end-turn": _vm.endTurn,
-                    "current-player": _vm.currentPlayer
+                    "current-player-id": _vm.currentPlayerId,
+                    "end-turn": _vm.endTurn
                   }
                 })
               ],
@@ -21720,13 +21756,13 @@ var render = function() {
       _c("div", {
         class:
           "board-background-opponent" +
-          (_vm.currentPlayer.user.id === _vm.opponent.user.id ? " current" : "")
+          (_vm.currentPlayerId === _vm.opponent.user.id ? " current" : "")
       }),
       _vm._v(" "),
       _c("div", {
         class:
           "board-background-player" +
-          (_vm.currentPlayer.user.id === _vm.player.user.id ? " current" : "")
+          (_vm.currentPlayerId === _vm.player.user.id ? " current" : "")
       })
     ]),
     _vm._v(" "),
@@ -21851,8 +21887,8 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
-      _vm.player.user.id === _vm.currentPlayer.user.id
-        ? _c("div", { staticClass: "current-player" })
+      _vm.player.user.id === _vm.currentPlayerId
+        ? _c("div", { staticClass: "current-player-id" })
         : _vm._e()
     ]),
     _vm._v(" "),
@@ -40363,6 +40399,108 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PlayerInfo_vue_vue_type_template_id_6aa39011___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PlayerInfo_vue_vue_type_template_id_6aa39011___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/game/events.js":
+/*!************************************************!*\
+  !*** ./resources/js/components/game/events.js ***!
+  \************************************************/
+/*! exports provided: drawCards, gainEnergy, startFirstTurn, startTurn, playCardEvent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "drawCards", function() { return drawCards; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "gainEnergy", function() { return gainEnergy; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "startFirstTurn", function() { return startFirstTurn; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "startTurn", function() { return startTurn; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "playCardEvent", function() { return playCardEvent; });
+/**
+ *
+ * DRAW CARD
+ *
+ */
+function drawCards(event) {
+  var player = this.getPlayer(event.target);
+
+  for (var i = 0; i < event.amount; i++) {
+    player.hand.push(player.deck.pop());
+  }
+}
+/**
+ *
+ * GAIN ENERGY
+ *
+ */
+
+
+function gainEnergy(event) {
+  var player = this.getPlayer(event.target);
+  player.energy.basic += event.amount;
+
+  if (player.user.id === this.player.user.id) {
+    this.createAnimation('.game-player-info .energy-basic', event.animation.name);
+  } else {
+    this.createAnimation('.game-opponent-info .energy-basic', event.animation.name);
+  }
+}
+
+function playCardEvent(event) {
+  var card = event.params.card;
+  var index = event.params.index;
+  var player = this.getPlayer(event.params.player);
+  player.energy.basic -= card.cost;
+  player.board.push(card);
+  this.$delete(player.hand, index);
+  this.trigger('startTurn');
+}
+/**
+ *
+ * START FIRST TURN
+ *
+ */
+
+
+function startFirstTurn() {
+  this.fireEvent('drawCards', {
+    amount: 5,
+    target: this.currentPlayerId
+  });
+  this.fireEvent('drawCards', {
+    amount: 4,
+    target: this.currentOpponentId
+  });
+  this.fireEvent('gainEnergy', {
+    amount: 2,
+    target: this.currentPlayerId
+  });
+}
+/**
+ *
+ * START TURN
+ *
+ */
+
+
+function startTurn() {
+  this.fireEvent('drawCards', {
+    amount: 1,
+    target: this.currentPlayerId
+  });
+  this.fireEvent('gainEnergy', {
+    amount: 3,
+    target: this.currentPlayerId
+  });
+}
+/**
+ *
+ * EXPORT
+ *
+ */
+
 
 
 

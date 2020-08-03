@@ -1,8 +1,8 @@
 <template>
   <div class="board">
     <div class="board-background">
-      <div :class="'board-background-opponent' + (currentPlayer.user.id === opponent.user.id ? ' current' : '')"></div>
-      <div :class="'board-background-player' + (currentPlayer.user.id === player.user.id ? ' current' : '')"></div>
+      <div :class="'board-background-opponent' + (currentPlayerId === opponent.user.id ? ' current' : '')"></div>
+      <div :class="'board-background-player' + (currentPlayerId === player.user.id ? ' current' : '')"></div>
     </div>
 
     <div class="board-dudes">
@@ -27,7 +27,7 @@
 
 <script>
   export default {
-    props: ['gameData', 'player', 'opponent', 'currentPlayer'],
+    props: ['player', 'opponent', 'currentPlayerId'],
     data () {
       return {
 

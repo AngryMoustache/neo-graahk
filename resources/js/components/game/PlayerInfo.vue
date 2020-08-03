@@ -29,7 +29,7 @@
       >
         <span class="player-info-middle-avatar-power">{{ player.power }}</span>
       </div>
-      <div v-if="player.user.id === currentPlayer.user.id" class="current-player"></div>
+      <div v-if="player.user.id === currentPlayerId" class="current-player-id"></div>
     </div>
 
     <div class="player-info-right">
@@ -43,6 +43,7 @@
           <i class="fas fa-bolt"></i>
         </div>
       </div>
+
       <button v-if="endTurn" v-on:click="endTurn">END TURN</button>
     </div>
   </div>
@@ -50,7 +51,7 @@
 
 <script>
   export default {
-    props: ['endTurn', 'player', 'currentPlayer'],
+    props: ['endTurn', 'player', 'currentPlayerId'],
     data () {
       return {
       }

@@ -3,6 +3,8 @@
 return [
     // Triggers
     'triggers' => [
+        'startTurn',
+        'endTurn',
         'enterField',
         'leaveField',
         'anyDudeEnterField',
