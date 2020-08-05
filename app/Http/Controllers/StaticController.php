@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Events\TestEvent;
-use App\Models\Card;
+use App\Models\News;
 
 class StaticController extends Controller
 {
     public function home()
     {
-        $cards = Card::get();
+        $news = News::limit(3)
+            ->orderBy('id', 'desc')
+            ->get();
+
         return view('static.home', [
-            'cards' => $cards
+            'news' => $news
         ]);
     }
 }

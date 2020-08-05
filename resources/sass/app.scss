@@ -49,6 +49,7 @@ body {
 @import 'habtm';
 @import 'card-data';
 @import 'card-stats';
+@import 'news';
 
 input:invalid, textarea:invalid, select:invalid {
     box-shadow: none;

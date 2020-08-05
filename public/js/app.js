@@ -2432,7 +2432,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['user', '_game'],
@@ -2461,7 +2460,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               _this.loadPlayers();
 
-              _this.loaded = true; // Check if it's the first turn
+              _this.loaded = true;
+              window.setInterval(function () {
+                _this.$nextTick(function () {
+                  return _this.handleNextEvent(0);
+                });
+              }, 500); // Check if it's the first turn
 
               if (_this.game.game_data.state === 'started' && _this.isCurrentPlayer()) {
                 _this.game.game_data.state = 'main-phase';
@@ -2470,8 +2474,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _this.trigger('startTurn');
               }
-
-              console.log(_this.game);
 
             case 6:
             case "end":
@@ -2499,38 +2501,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return this.player.user.id === id ? this.player : this.opponent;
     },
     fireEvent: function fireEvent(name) {
-      var _arguments = arguments,
-          _this2 = this;
+      for (var _len = arguments.length, params = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        params[_key - 1] = arguments[_key];
+      }
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var _len, params, _key;
+      if (params.length === 1) {
+        params = params[0];
+      }
 
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                for (_len = _arguments.length, params = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-                  params[_key - 1] = _arguments[_key];
-                }
+      if (this.isCurrentPlayer()) {
+        params.name = name;
+        this.events.push(Object.assign(params, this.getEventAnimation(name)));
+        this.handleNextEvent();
+      }
 
-                if (params.length === 1) {
-                  params = params[0];
-                }
-
-                _context2.next = 4;
-                return window.axios.post('/api/game/fire-event', {
-                  gameId: _this2.game.id,
-                  name: name,
-                  params: params
-                });
-
-              case 4:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
+      window.axios.post('/api/game/fire-event', {
+        gameId: this.game.id,
+        name: name,
+        params: params
+      });
     },
     isCurrentPlayer: function isCurrentPlayer() {
       return this.currentPlayerId === this.player.user.id;
@@ -2539,16 +2528,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       console.log('CHECKING TRIGGER', name);
     },
     playCard: function playCard(index, card) {
-      if (!this.isCurrentPlayer()) {
+      if (!this.isCurrentPlayer() && !this.eventRunning) {
         return;
-      } // if (this.player.energy.basic >= card.cost) {
+      }
 
-
-      this.fireEvent('playCardEvent', {
-        card: card,
-        index: index,
-        player: this.player.user.id
-      }); // }
+      if (this.player.energy.basic >= card.cost) {
+        this.fireEvent('playCardEvent', {
+          card: card,
+          index: index,
+          player: this.player.user.id
+        });
+      }
     },
     endTurn: function endTurn() {
       if (!this.isCurrentPlayer()) {
@@ -2574,28 +2564,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      * ANIMATION METHODS
      *
      */
-    handleNextEvent: function handleNextEvent(key) {
-      var event = this.events[key];
+    handleNextEvent: function handleNextEvent() {
+      var _this2 = this;
+
+      var event = this.events[0];
 
       if (!this.eventRunning && event !== undefined) {
-        var self = this;
         this.eventRunning = true; // v ACTUAL EVENT HERE v
 
         if (this[event.name] !== undefined) {
-          console.log('FIRING EVENT', event);
           this[event.name](event);
         } // ^ ACTUAL EVENT HERE ^
 
 
+        this.$delete(this.events, 0);
         window.setTimeout(function () {
-          self.eventRunning = false;
-          self.cleanAnimations();
-          self.handleNextEvent(key + 1);
+          _this2.eventRunning = false;
+
+          _this2.cleanAnimations();
+
+          _this2.$nextTick(function () {
+            return _this2.handleNextEvent();
+          });
         }, event.animation.duration);
       } else {
         // Save the board if you are the active player
-        if (this.isCurrentPlayer()) {
-          this.saveBoard();
+        if (this.events.length === 0 && this.isCurrentPlayer()) {// this.saveBoard()
         }
       }
     },
@@ -2639,10 +2633,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           });
         } else {
-          // Normal event
-          _this3.events.push(data.message);
+          if (!_this3.isCurrentPlayer()) {
+            _this3.events.push(data.message);
 
-          _this3.handleNextEvent(_this3.events.length - 1);
+            _this3.handleNextEvent();
+          }
         }
       });
     },
@@ -2656,7 +2651,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     gainEnergy: _events_js__WEBPACK_IMPORTED_MODULE_1__["gainEnergy"],
     startFirstTurn: _events_js__WEBPACK_IMPORTED_MODULE_1__["startFirstTurn"],
     startTurn: _events_js__WEBPACK_IMPORTED_MODULE_1__["startTurn"],
-    playCardEvent: _events_js__WEBPACK_IMPORTED_MODULE_1__["playCardEvent"]
+    playCardEvent: _events_js__WEBPACK_IMPORTED_MODULE_1__["playCardEvent"],
+    getEventAnimation: _events_js__WEBPACK_IMPORTED_MODULE_1__["getEventAnimation"]
   }
 });
 
@@ -21709,7 +21705,7 @@ var render = function() {
               _vm._l(_vm.player.hand, function(card, index) {
                 return _c(
                   "div",
-                  { key: index, staticClass: "game-hand-card" },
+                  { key: card.uniqid, staticClass: "game-hand-card" },
                   [
                     _c("card", {
                       attrs: {
@@ -40408,7 +40404,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!************************************************!*\
   !*** ./resources/js/components/game/events.js ***!
   \************************************************/
-/*! exports provided: drawCards, gainEnergy, startFirstTurn, startTurn, playCardEvent */
+/*! exports provided: drawCards, gainEnergy, startFirstTurn, startTurn, playCardEvent, getEventAnimation */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -40418,6 +40414,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "startFirstTurn", function() { return startFirstTurn; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "startTurn", function() { return startTurn; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "playCardEvent", function() { return playCardEvent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getEventAnimation", function() { return getEventAnimation; });
 /**
  *
  * DRAW CARD
@@ -40449,13 +40446,15 @@ function gainEnergy(event) {
 }
 
 function playCardEvent(event) {
-  var card = event.params.card;
-  var index = event.params.index;
-  var player = this.getPlayer(event.params.player);
+  var card = event.card;
+  var index = event.index;
+  var player = this.getPlayer(event.player);
   player.energy.basic -= card.cost;
   player.board.push(card);
-  this.$delete(player.hand, index);
-  this.trigger('startTurn');
+  player.hand.splice(index, 1); // this.trigger('enterField')
+  // this.trigger('anyDudeEnterField')
+  // this.trigger('selfDudeEnterField')
+  // this.trigger('opponentDudeEnterField')
 }
 /**
  *
@@ -40494,6 +40493,31 @@ function startTurn() {
     amount: 3,
     target: this.currentPlayerId
   });
+}
+/**
+ *
+ * EVENT ANIMATIONS LIST
+ *
+ */
+
+
+var eventAnimations = {
+  gainEnergy: {
+    name: 'gain-energy',
+    duration: 1000
+  },
+  drawCards: {
+    duration: 1
+  },
+  playCardEvent: {
+    duration: 1000
+  }
+};
+
+function getEventAnimation(name) {
+  return {
+    animation: eventAnimations[name]
+  };
 }
 /**
  *

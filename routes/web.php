@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', 'StaticController@home')->name('static.home');
+Route::get('/news', 'NewsController@index')->name('news.index');
+Route::get('/news/{news}', 'NewsController@show')->name('news.show');
 
 Route::middleware(CheckLogin::class)->group(function () {
     Route::get('/decks', 'DeckController@index')->name('decks.index');

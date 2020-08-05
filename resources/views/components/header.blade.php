@@ -18,6 +18,11 @@
             /> --}}
         @endauth
 
+        <x-nav.item
+            route="{{ route('news.index') }}"
+            text="News"
+        />
+
         @if (optional(auth()->user())->admin)
             <x-nav.item
                 route="{{ route('admin.index') }}"

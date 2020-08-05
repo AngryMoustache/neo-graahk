@@ -38,10 +38,9 @@
             <div class="game-hand">
                 <div
                     v-for="(card, index) in player.hand"
-                    :key="index"
+                    :key="card.uniqid"
                     class="game-hand-card"
                 >
-
                     <card
                         :index="index"
                         :card="card"
@@ -54,7 +53,7 @@
 </template>
 
 <script>
-    import { gainEnergy, drawCards, startFirstTurn, playCardEvent, startTurn } from './events.js'
+    import { gainEnergy, drawCards, startFirstTurn, playCardEvent, startTurn, getEventAnimation } from './events.js'
 
     export default {
         props: ['user', '_game'],
@@ -77,14 +76,16 @@
             this.loadPlayers()
             this.loaded = true
 
+            window.setInterval(() => {
+                this.$nextTick(() => this.handleNextEvent(0))
+            }, 500)
+
             // Check if it's the first turn
             if (this.game.game_data.state === 'started' && this.isCurrentPlayer()) {
                 this.game.game_data.state = 'main-phase'
                 this.startFirstTurn()
                 this.trigger('startTurn')
             }
-
-            console.log(this.game)
         },
         methods: {
             /**
@@ -112,12 +113,18 @@
                     : this.opponent
             },
 
-            async fireEvent (name, ...params) {
+            fireEvent (name, ...params) {
                 if (params.length === 1) {
                     params = params[0]
                 }
 
-                await window.axios.post('/api/game/fire-event', {
+                if (this.isCurrentPlayer()) {
+                    params.name = name
+                    this.events.push(Object.assign(params, this.getEventAnimation(name)))
+                    this.handleNextEvent()
+                }
+
+                window.axios.post('/api/game/fire-event', {
                     gameId: this.game.id,
                     name: name,
                     params: params
@@ -133,17 +140,17 @@
             },
 
             playCard (index, card) {
-                if (!this.isCurrentPlayer()) {
+                if (!this.isCurrentPlayer() && !this.eventRunning) {
                     return;
                 }
 
-                // if (this.player.energy.basic >= card.cost) {
+                if (this.player.energy.basic >= card.cost) {
                     this.fireEvent('playCardEvent', {
                         card: card,
                         index: index,
                         player: this.player.user.id
                     })
-                // }
+                }
             },
 
             endTurn () {
@@ -170,28 +177,27 @@
              * ANIMATION METHODS
              *
              */
-            handleNextEvent (key) {
-                var event = this.events[key]
+            handleNextEvent () {
+                var event = this.events[0]
                 if (!this.eventRunning && event !== undefined) {
-                    var self = this
                     this.eventRunning = true
 
                     // v ACTUAL EVENT HERE v
                     if (this[event.name] !== undefined) {
-                        console.log('FIRING EVENT', event)
                         this[event.name](event)
                     }
                     // ^ ACTUAL EVENT HERE ^
 
-                    window.setTimeout(function () {
-                        self.eventRunning = false
-                        self.cleanAnimations()
-                        self.handleNextEvent(key + 1)
+                    this.$delete(this.events, 0)
+                    window.setTimeout(() => {
+                        this.eventRunning = false
+                        this.cleanAnimations()
+                        this.$nextTick(() => this.handleNextEvent())
                     }, event.animation.duration)
                 } else {
                     // Save the board if you are the active player
-                    if (this.isCurrentPlayer()) {
-                        this.saveBoard()
+                    if (this.events.length === 0 && this.isCurrentPlayer()) {
+                        // this.saveBoard()
                     }
                 }
             },
@@ -231,9 +237,10 @@
                             }
                         })
                     } else {
-                        // Normal event
-                        this.events.push(data.message)
-                        this.handleNextEvent(this.events.length - 1)
+                        if (!this.isCurrentPlayer()) {
+                            this.events.push(data.message)
+                            this.handleNextEvent()
+                        }
                     }
                 })
             },
@@ -248,6 +255,8 @@
             startFirstTurn,
             startTurn,
             playCardEvent,
+
+            getEventAnimation,
         }
     }
 </script>

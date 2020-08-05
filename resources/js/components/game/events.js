@@ -27,15 +27,18 @@ function gainEnergy (event) {
 }
 
 function playCardEvent (event) {
-  var card = event.params.card
-  var index = event.params.index
-  var player = this.getPlayer(event.params.player)
+  var card = event.card
+  var index = event.index
+  var player = this.getPlayer(event.player)
 
   player.energy.basic -= card.cost
   player.board.push(card)
-  this.$delete(player.hand, index)
+  player.hand.splice(index, 1)
 
-  this.trigger('startTurn')
+  // this.trigger('enterField')
+  // this.trigger('anyDudeEnterField')
+  // this.trigger('selfDudeEnterField')
+  // this.trigger('opponentDudeEnterField')
 }
 
 /**
@@ -77,6 +80,27 @@ function startTurn () {
   })
 }
 
+/**
+ *
+ * EVENT ANIMATIONS LIST
+ *
+ */
+const eventAnimations = {
+    gainEnergy: {
+        name: 'gain-energy',
+        duration: 1000,
+    },
+    drawCards: {
+        duration: 1,
+    },
+    playCardEvent: {
+        duration: 1000,
+    }
+}
+
+function getEventAnimation (name) {
+  return { animation: eventAnimations[name] }
+}
 
 /**
  *
@@ -89,4 +113,5 @@ export {
   startFirstTurn,
   startTurn,
   playCardEvent,
+  getEventAnimation,
 }

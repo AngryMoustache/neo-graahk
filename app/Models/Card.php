@@ -128,6 +128,7 @@ class Card extends Model
         $rarity = $this->getRarity($user);
         $array = [
             'id' => $this->id,
+            'uniqid' => uniqid(),
             'name' => $this->name,
             'image' => $this->getRarityAttachment($rarity)->format('card'),
             'setIcon' => $this->currentSet->first()->icon->format('thumb'),

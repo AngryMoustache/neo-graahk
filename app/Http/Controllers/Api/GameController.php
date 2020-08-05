@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Events\BoardUpdate;
+use App\Http\GameEvents\Event;
 use App\Models\Card;
 use App\Models\Deck;
 use App\Models\Game;
@@ -19,8 +20,7 @@ class GameController extends Controller
     public function fireEvent(Request $request)
     {
         /** @var \App\Http\GameEvents\Event */
-        $event = $this->eventNamespace . Str::studly($request->post('name'));
-        $event = new $event(
+        $event = new Event(
             $request->post('gameId'),
             $request->post('name'),
             $request->post('params')

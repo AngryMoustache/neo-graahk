@@ -72,6 +72,21 @@ main {
             margin-top: 1rem;
             border-top: 1px solid rgba(white, .2);
         }
+
+        &-body {
+            overflow: auto;
+
+            &-image {
+                float: left;
+            }
+
+            &-text {
+                float: left;
+                width: 50%;
+                margin-left: 1rem;
+                line-height: 180%;
+            }
+        }
     }
 
     .tab-container {
