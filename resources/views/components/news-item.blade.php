@@ -13,6 +13,9 @@
         </div>
 
         <p> {!! nl2br(\Str::limit($item->body, 200)) !!}</p>
-        <a href="{{ route('news.show', $item) }}" class="button">Read more >></a>
+
+        <div class="news-item-button">
+            <a href="{{ route('news.show', $item) }}" class="button">Read more >></a>
+        </div>
     </div>
 </div>

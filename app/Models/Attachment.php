@@ -31,8 +31,9 @@ class Attachment extends Model
     public function format($format)
     {
         $path = $this->getPath();
-        $formatPath = $this->getPath($format);
         $formatClass = 'App\\Formats\\' . ucfirst($format);
+        $format = Str::kebab($format);
+        $formatPath = $this->getPath($format);
 
         if (in_array(Str::afterLast($path, '.'), ['svg', 'gif'])) {
             $url = $this->id . '/' . $this->original_name;

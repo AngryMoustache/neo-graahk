@@ -7,7 +7,7 @@
     &-item {
         display: flex;
         min-height: 250px;
-        width: calc(30% - 1rem);
+        width: calc(100%);
         margin-top: 5rem;
 
         &-title {
@@ -18,8 +18,8 @@
         }
 
         &-image {
-            width: 40%;
-            background-position: center;
+            width: 300px;
+            background-position: top center;
             background-size: cover;
             margin-right: 1rem;
         }
